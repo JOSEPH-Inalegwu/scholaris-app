@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PasswordInput from './PasswordInput';
 
 const LoginForm = ({
@@ -76,7 +77,7 @@ const LoginForm = ({
           </form>
 
           <p className="mt-10 font-medium text-center text-gray-400">
-            Don&#x27;t have an account yet? <a href="#" className="text-[#0b9b70] focus:outline-none focus:underline hover:underline">Sign up</a>.
+            Don&#x27;t have an account yet? <Link to={'/signup'} className="text-[#0b9b70] focus:outline-none focus:underline hover:underline">Sign up</Link>.
           </p>
         </div>
       </div>

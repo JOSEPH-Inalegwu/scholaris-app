@@ -6,12 +6,14 @@ import Layout from '../Layout'
 import Dashboard from './Pages/Dashboard'
 import Home from './Pages/Home'
 import Login from './Features/Auth/Pages/Login'
+import Signup from './Features/Auth/Pages/Signup'
 
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
   { path: '/', element: <Login /> },
+  { path: 'signup', element: <Signup /> },
 
   {
     path: '/dashboard',

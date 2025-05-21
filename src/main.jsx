@@ -4,6 +4,7 @@ import './index.css'
 
 import Layout from '../Layout'
 import Dashboard from './Pages/Dashboard'
+import Home from './Pages/Home'
 import Login from './Features/Auth/Pages/Login'
 
 

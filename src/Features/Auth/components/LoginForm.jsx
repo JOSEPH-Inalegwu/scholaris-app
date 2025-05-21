@@ -16,7 +16,9 @@ const LoginForm = ({ userID, password, onUserIDChange, onPasswordChange, onSubmi
             <div className="relative mb-6">
               <label htmlFor="email" className="block mb-2 text-sm text-gray-400 text-end mx-3">User ID</label>
               <div className="flex items-center border border-gray-300 rounded-lg focus-within:border-[#066649] focus-within:ring-1 focus-within:ring-[#066649]">
-                
+                <img src="src/assets/icons/user.svg" alt="" 
+                  className='w-5 h-5 mx-3'
+                />
                 <input
                   type="text"
                   name="email"

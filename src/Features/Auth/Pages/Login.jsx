@@ -1,14 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 
 const Login = () => {
   const [userID, setUserID] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Example login logic: replace with actual auth API call
     if (!userID || !password) {
       alert('Please fill in all fields');
       return;
@@ -16,7 +17,15 @@ const Login = () => {
 
     console.log('Logging in with:', { userID, password });
 
-    // TODO: call login API, handle errors, redirect, etc.
+    // 🔐 TODO: Replace this mock check with actual API logic
+    const isAuthenticated = true;
+
+    if (isAuthenticated) {
+      // ✅ Redirect to dashboard after successful login
+      navigate('/dashboard');
+    } else {
+      alert('Invalid credentials');
+    }
   };
 
   return (
@@ -30,6 +39,6 @@ const Login = () => {
       />
     </div>
   );
-}
+};
 
 export default Login;

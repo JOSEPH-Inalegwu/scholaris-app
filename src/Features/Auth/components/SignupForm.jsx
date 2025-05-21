@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PasswordInput from './PasswordInput'; 
+import PasswordInput from './PasswordInput';
 
-
-const SignupForm = () => {
+const SignupForm = ({ onSwitchToLogin }) => {
   const [step, setStep] = useState(1);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +14,6 @@ const SignupForm = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const navigate = useNavigate();
   const isStep1Valid = fullName && email && studentID;
 
   const handleSignup = async (e) => {
@@ -39,15 +36,20 @@ const SignupForm = () => {
     setErrors({});
     setLoading(true);
 
+    // Simulate async signup process
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => navigate('/'), 1500);
-    }, 400);
+      // After success, switch to login form
+      setTimeout(() => {
+        setSuccess(false);
+        onSwitchToLogin();
+      }, 1500);
+    }, 1000);
   };
 
   return (
-    <div className="h-screen container justify-center flex items-center px-6 w-full py-12 md:py-0 mt-5 md:mt-0 mx-4 md:mx-auto lg:w-3/8">
+    <div className="h-screen container justify-center flex items-center px-2 md:px-8 w-full py-20 my-2 md:my-0 md:py-0">
       <div className="w-full max-w-lg">
         {success ? (
           <div className="text-center">
@@ -75,11 +77,13 @@ const SignupForm = () => {
                   </button>
                   <p className="text-sm text-center mt-4 text-gray-600">
                     Already have an account?{' '}
-                    <a href="/"
+                    <button
+                      onClick={onSwitchToLogin}
+                      type="button"
                       className="text-[#0b9b70] hover:underline focus:outline-none"
                     >
                       Login
-                    </a>
+                    </button>
                   </p>
                 </>
               )}
@@ -135,7 +139,13 @@ const SignupForm = () => {
 
                   <p className="text-sm text-center mt-4 text-gray-600">
                     Already have an account?{' '}
-                    <button onClick={() => navigate('/')} type="button" className="text-[#0b9b70] hover:underline focus:outline-none">Login</button>
+                    <button
+                      onClick={onSwitchToLogin}
+                      type="button"
+                      className="text-[#0b9b70] hover:underline focus:outline-none"
+                    >
+                      Login
+                    </button>
                   </p>
                 </>
               )}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 
-const Login = () => {
+const Login = ({ onSwitchToSignup }) => {
   const [userID, setUserID] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errors, setErrors] = React.useState({});
@@ -54,18 +54,21 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <LoginForm 
-        userID={userID}
-        password={password}
-        onUserIDChange={setUserID}
-        onPasswordChange={setPassword}
-        onSubmit={handleSubmit}
-        errors={errors}
-        shakeUserID={shakeUserID}
-        shakePassword={shakePassword}
-      />
-    </div>
+  <div className='w-full h-full flex items-center justify-center'>
+  <div className="w-full">
+    <LoginForm 
+      userID={userID}
+      password={password}
+      onUserIDChange={setUserID}
+      onPasswordChange={setPassword}
+      onSubmit={handleSubmit}
+      errors={errors}
+      shakeUserID={shakeUserID}
+      shakePassword={shakePassword}
+      onSwitchToSignup={onSwitchToSignup}
+    />
+  </div>
+</div>
   );
 };
 

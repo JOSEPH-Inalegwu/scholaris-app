@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PasswordInput from './PasswordInput';
 
 const LoginForm = ({
+  onSwitchToSignup,
   userID,
   password,
   onUserIDChange,
@@ -13,10 +13,10 @@ const LoginForm = ({
   shakePassword = false
 }) => {
   return (
-    <div className="flex items-center px-6 w-full py-12 md:py-0 mt-5 md:mt-0 mx-4 md:mx-auto lg:w-3/8">
+    <div className="h-screen container justify-center flex items-center px-2 md:px-8 w-full py-20 my-2 md:my-0 md:py-0">
       <div className="flex-1">
         <div className="text-center md:text-left">
-          <h3 className="mt-0 text-4xl md:text-4xl font-semibold md:font-bold text-[#066649]">Welcome Back!</h3>
+          <h3 className="mt-0 text-3xl md:text-4xl font-semibold md:font-bold text-[#066649]">Welcome Back!</h3>
           <p className='text-gray-500 mt-2'>Please login to continue</p>
         </div>
 
@@ -77,7 +77,14 @@ const LoginForm = ({
           </form>
 
           <p className="mt-10 font-medium text-center text-gray-400">
-            Don&#x27;t have an account yet? <Link to={'/signup'} className="text-[#0b9b70] focus:outline-none focus:underline hover:underline">Sign up</Link>.
+            Don&#x27;t have an account yet?{' '}
+            <button
+              type="button"
+              onClick={onSwitchToSignup}
+              className="text-[#0b9b70] focus:outline-none focus:underline hover:underline"
+            >
+              Sign up
+            </button>.
           </p>
         </div>
       </div>

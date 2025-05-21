@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SignupForm from '../components/SignupForm';
 
-const Signup = () => {
+const Signup = ({ onSwitchToLogin }) => {
   const [step, setStep] = useState(1);
 
   // Form fields
@@ -83,6 +83,7 @@ const Signup = () => {
       passwordMatchError={passwordMatchError}
       termsError={termsError}
       handleSignup={handleSignup}
+      onSwitchToLogin={onSwitchToLogin}
     />
   );
 };

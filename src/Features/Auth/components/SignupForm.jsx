@@ -54,11 +54,11 @@ const SignupForm = ({ onSwitchToLogin }) => {
         {success ? (
           <div className="text-center">
             <h2 className="text-3xl font-bold text-green-600 mb-4">🎉 Account Created!</h2>
-            <p className="text-gray-600">Redirecting to login page...</p>
+            <p className="text-gray-800">Redirecting to login page...</p>
           </div>
         ) : (
           <>
-            <h2 className="text-4xl font-semibold text-center mb-10 text-[#066649]">Create a new account</h2>
+            <h2 className="text-4xl font-semibold text-center mb-10 text-[#222831]">Create a new account</h2>
             <form onSubmit={handleSignup}>
               {step === 1 && (
                 <>
@@ -70,17 +70,17 @@ const SignupForm = ({ onSwitchToLogin }) => {
                     onClick={() => setStep(2)}
                     disabled={!isStep1Valid}
                     className={`w-full px-4 py-3 mt-4 text-white rounded-lg font-semibold transition ${
-                      isStep1Valid ? 'bg-[#066649] hover:bg-[#386155]' : 'bg-gray-400 cursor-not-allowed'
+                      isStep1Valid ? 'bg-[#222831] hover:bg-[#393E46]' : 'bg-gray-400 cursor-not-allowed'
                     }`}
                   >
                     Next
                   </button>
-                  <p className="text-sm text-center mt-4 text-gray-600">
+                  <p className="text-sm md:text-md text-center mt-5 text-gray-600">
                     Already have an account?{' '}
                     <button
                       onClick={onSwitchToLogin}
                       type="button"
-                      className="text-[#0b9b70] hover:underline focus:outline-none"
+                      className="text-blue-500 font-medium  hover:underline focus:outline-none"
                     >
                       Login
                     </button>
@@ -132,17 +132,17 @@ const SignupForm = ({ onSwitchToLogin }) => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full px-4 py-3 text-white bg-[#066649] rounded-lg hover:bg-[#386155] font-semibold flex justify-center items-center"
+                    className="w-full px-4 py-3 text-white bg-[#222831] rounded-lg hover:bg-[#393E46] font-semibold flex justify-center items-center"
                   >
                     {loading ? <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span> : 'Register'}
                   </button>
 
-                  <p className="text-sm text-center mt-4 text-gray-600">
+                  <p className="text-sm md:text-md text-center mt-5 text-gray-600">
                     Already have an account?{' '}
                     <button
                       onClick={onSwitchToLogin}
                       type="button"
-                      className="text-[#0b9b70] hover:underline focus:outline-none"
+                      className="text-blue-500 font-medium hover:underline focus:outline-none"
                     >
                       Login
                     </button>
@@ -160,7 +160,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
 const InputField = ({ label, value, onChange, type = "text", placeholder, className = "" }) => (
   <div className="mb-6">
     <label className="block text-sm font-medium mb-1">{label}</label>
-    <div className="border border-gray-300 rounded-lg focus-within:border-[#066649] focus-within:ring-1 focus-within:ring-[#066649]">
+    <div className="border border-gray-300 rounded-lg focus-within:border-[#948979] focus-within:ring-1 focus-within:ring-[#222831]">
       <input
         type={type}
         value={value}

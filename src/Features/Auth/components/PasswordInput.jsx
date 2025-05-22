@@ -5,7 +5,7 @@ const PasswordInput = ({ value, onChange, placeholder, id, error }) => {
   const toggleShow = () => setShowPassword(prev => !prev);
 
   return (
-    <div className={`flex items-center border rounded-lg ${error ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300 focus-within:border-[#066649] focus-within:ring-1 focus-within:ring-[#066649]'}`}>
+    <div className={`flex items-center border rounded-lg ${error ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300 focus-within:border-[#948979] focus-within:ring-1 focus-within:ring-[#222831]'}`}>
       <img src="src/assets/icons/lock.svg" alt="" className='w-5 h-5 mx-3' />
       <input
         type={showPassword ? 'text' : 'password'}
@@ -18,7 +18,7 @@ const PasswordInput = ({ value, onChange, placeholder, id, error }) => {
       <button
         type="button"
         onClick={toggleShow}
-        className="px-3 text-gray-500 focus:outline-none cursor-pointer"
+        className="px-3 text-gray-800 focus:outline-none cursor-pointer"
         aria-label={showPassword ? 'Hide password' : 'Show password'}
       >
         <img

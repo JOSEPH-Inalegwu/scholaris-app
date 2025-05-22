@@ -15,13 +15,14 @@ const AuthPage = () => {
         {/* Image Section */}
         <div className="hidden bg-cover lg:block lg:w-2/4 h-screen">
           <div className="relative flex items-center h-full px-20 overflow-hidden">
-            <div className="absolute inset-0 bg-[url('src/assets/images/pexels-kalmshoota-1184580.jpg')] bg-cover bg-center filter blur-sm" />
-            <div className="absolute inset-0 bg-[#027451] opacity-50" />
+            {/* Left section background image */}
+            <div className="absolute inset-0 bg-[url('src/assets/images/gown5.jpg')] bg-cover bg-center filter blur-sm" />
+            <div className="absolute inset-0 bg-[#393E46] opacity-50" />
             <div className="space-y-14 relative z-10">
-              <div className="max-w-2xl px-8 py-7 bg-white rounded-lg shadow-md dark:bg-[#066649]">
+              <div className="max-w-2xl px-8 py-7 rounded-lg shadow-md bg-[#222831]">
                 <div className="mt-2 space-y-3">
                   <img src="src/assets/icons/graduation-cap.svg" alt="" className="w-15 h-15 mx-auto" />
-                  <h4 className="text-2xl font-bold text-gray-700 dark:text-white">Welcome to the Scholaris Portal</h4>
+                  <h4 className="text-2xl font-bold text-white">Welcome to the Scholaris Portal</h4>
                   <p className="text-gray-500 dark:text-gray-300 text-sm">
                     Empowering students at <b>Nasarawa State University</b> to excel in their studies.
                     Access a comprehensive collection of past questions to enhance your learning experience.
@@ -29,10 +30,10 @@ const AuthPage = () => {
                 </div>
               </div>
 
-              <div className="max-w-2xl px-8 py-6 bg-white rounded-lg shadow-md dark:bg-[#066649]">
+              <div className="max-w-2xl px-8 py-6 rounded-lg shadow-md bg-[#222831]">
                 <div className="mt-2">
                   <img src="src/assets/icons/quote-open-editor-svgrepo-com.svg" alt="" className="w-5 h-5 mx-auto text-white" />
-                  <h2 className="font-semibold italic text-center text-gray-700 dark:text-white">Practice, Progress, Succeed.</h2>
+                  <h2 className="font-semibold italic text-center text-white">Practice, Progress, Succeed.</h2>
                 </div>
               </div>
             </div>

@@ -4,9 +4,9 @@ import './index.css'
 
 import Layout from '../Layout'
 import AuthPage from './Features/Auth/Pages/AuthPage'
-import Dashboard from './Pages/Dashboard'
+// import Dashboard from './Pages/Dashboard'
 import Home from './Pages/Home'
-import Login from './Features/Auth/Pages/Login'
+// import Login from './Features/Auth/Pages/Login'
 import Signup from './Features/Auth/Pages/Signup'
 
 
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: <Layout />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { index: true, element: <Home /> },
     ]
   }
 ])

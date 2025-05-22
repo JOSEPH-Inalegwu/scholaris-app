@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PasswordInput from './PasswordInput';
 
 const SignupForm = ({ onSwitchToLogin }) => {
@@ -14,13 +14,35 @@ const SignupForm = ({ onSwitchToLogin }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  // Refs for scrolling to fields
+  const departmentRef = useRef(null);
+  const passwordRef = useRef(null);
+  const confirmRef = useRef(null);
+  const termsRef = useRef(null);
+
   const isStep1Valid = fullName && email && studentID;
 
   const handleSignup = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
-    if (password !== confirmPassword) {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (!department) {
+      newErrors.department = 'Department is required';
+    }
+
+    if (!password) {
+      newErrors.passwordEmpty = 'Password cannot be empty';
+    } else if (!passwordRegex.test(password)) {
+      newErrors.passwordInvalid = 'Must contain 1 uppercase, 1 number, and 8+ characters';
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPasswordEmpty = 'Please confirm your password';
+    }
+
+    if (password && confirmPassword && password !== confirmPassword) {
       newErrors.passwordMatch = 'Passwords do not match';
     }
 
@@ -30,17 +52,22 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+
+      // Auto-scroll to first error
+      if (newErrors.department) departmentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      else if (newErrors.passwordEmpty || newErrors.passwordInvalid) passwordRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      else if (newErrors.confirmPasswordEmpty || newErrors.passwordMatch) confirmRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      else if (newErrors.acceptedTerms) termsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
       return;
     }
 
     setErrors({});
     setLoading(true);
 
-    // Simulate async signup process
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
-      // After success, switch to login form
       setTimeout(() => {
         setSuccess(false);
         onSwitchToLogin();
@@ -90,33 +117,42 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
               {step === 2 && (
                 <>
-                  <InputField label="Department *" value={department} onChange={setDepartment} placeholder="Computer Science" />
+                  <div ref={departmentRef}>
+                    <InputField
+                      label="Department *"
+                      value={department}
+                      onChange={setDepartment}
+                      placeholder="Computer Science"
+                    />
+                    {errors.department && <p className="text-sm text-red-600 mt-1">{errors.department}</p>}
+                  </div>
 
-                  <div className="mb-6">
+                  <div className="mb-6" ref={passwordRef}>
                     <label className="block text-sm font-medium mb-1">Password *</label>
                     <PasswordInput
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      required
                       minLength={8}
-                      className={errors.passwordMatch ? 'border-red-500' : ''}
+                      className={(errors.passwordEmpty || errors.passwordInvalid || errors.passwordMatch) ? 'border-red-500' : ''}
                     />
                     <p className="text-xs text-gray-500 mt-1">Must contain 1 uppercase, 1 number, 8+ characters.</p>
+                    {errors.passwordEmpty && <p className="text-sm text-red-600 mt-1">{errors.passwordEmpty}</p>}
+                    {errors.passwordInvalid && <p className="text-sm text-red-600 mt-1">{errors.passwordInvalid}</p>}
+                    {errors.passwordMatch && <p className="text-sm text-red-600 mt-1">{errors.passwordMatch}</p>}
                   </div>
 
-                  <div className="mb-6">
+                  <div className="mb-6" ref={confirmRef}>
                     <label className="block text-sm font-medium mb-1">Confirm Password *</label>
                     <PasswordInput
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       minLength={8}
-                      required
-                      className={errors.passwordMatch ? 'border-red-500' : ''}
+                      className={(errors.confirmPasswordEmpty || errors.passwordMatch) ? 'border-red-500' : ''}
                     />
-                    {errors.passwordMatch && <p className="text-sm text-red-600 mt-1">{errors.passwordMatch}</p>}
+                    {errors.confirmPasswordEmpty && <p className="text-sm text-red-600 mt-1">{errors.confirmPasswordEmpty}</p>}
                   </div>
 
-                  <div className="mb-4 flex items-center">
+                  <div className="mb-4 flex items-center" ref={termsRef}>
                     <input
                       type="checkbox"
                       checked={acceptedTerms}
@@ -124,7 +160,8 @@ const SignupForm = ({ onSwitchToLogin }) => {
                       className="mr-2"
                     />
                     <span className="text-sm text-gray-600">
-                      I agree to Scholari's <a href="#" className="text-blue-500 hover:underline">Terms and Conditions</a>.
+                      I agree to Scholari's{' '}
+                      <a href="#" className="text-blue-500 hover:underline">Terms and Conditions</a>.
                     </span>
                   </div>
                   {errors.acceptedTerms && <p className="text-sm text-red-600 mt-1">{errors.acceptedTerms}</p>}
@@ -134,7 +171,11 @@ const SignupForm = ({ onSwitchToLogin }) => {
                     disabled={loading}
                     className="w-full px-4 py-3 text-white bg-[#222831] rounded-lg hover:bg-[#393E46] font-semibold flex justify-center items-center"
                   >
-                    {loading ? <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span> : 'Register'}
+                    {loading ? (
+                      <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                    ) : (
+                      'Register'
+                    )}
                   </button>
 
                   <p className="text-sm md:text-md text-center mt-5 text-gray-600">

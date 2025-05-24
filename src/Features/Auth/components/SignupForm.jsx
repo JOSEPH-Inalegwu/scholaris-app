@@ -138,7 +138,6 @@ const SignupForm = ({ onSwitchToLogin }) => {
                     <p className="text-xs text-gray-500 mt-1">Must contain 1 uppercase, 1 number, 8+ characters.</p>
                     {errors.passwordEmpty && <p className="text-sm text-red-600 mt-1">{errors.passwordEmpty}</p>}
                     {errors.passwordInvalid && <p className="text-sm text-red-600 mt-1">{errors.passwordInvalid}</p>}
-                    {errors.passwordMatch && <p className="text-sm text-red-600 mt-1">{errors.passwordMatch}</p>}
                   </div>
 
                   <div className="mb-6" ref={confirmRef}>
@@ -150,6 +149,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
                       className={(errors.confirmPasswordEmpty || errors.passwordMatch) ? 'border-red-500' : ''}
                     />
                     {errors.confirmPasswordEmpty && <p className="text-sm text-red-600 mt-1">{errors.confirmPasswordEmpty}</p>}
+                    {errors.passwordMatch && <p className="text-sm text-red-600 mt-1">{errors.passwordMatch}</p>}
                   </div>
 
                   <div className="mb-4 flex items-center" ref={termsRef}>

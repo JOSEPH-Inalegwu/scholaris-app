@@ -4,8 +4,7 @@ import './index.css'
 
 import Layout from '../Layout'
 import AuthPage from './Features/Auth/Pages/AuthPage'
-import Dashboard from './Pages/Dashboard'
-// import Home from './Pages/Home'
+import Dashboard from './Features/Dashboard/components/Dashboard'
 import Signup from './Features/Auth/Pages/Signup'
 
 

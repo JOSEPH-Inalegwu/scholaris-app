@@ -4,7 +4,7 @@ import Header from './src/Components/Header';
 import Sidebar from './src/Components/Sidebar';
 
 const Layout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleSidebarToggle = () => setIsSidebarOpen(prev => !prev);
   const handleCloseSidebar = () => setIsSidebarOpen(false);

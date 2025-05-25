@@ -21,3 +21,17 @@ animation: shake 0.4s ease;
   .animate-fade-in {
     animation: fadeIn 0.3s ease-in-out;
   }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }

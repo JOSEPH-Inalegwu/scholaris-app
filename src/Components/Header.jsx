@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = ({ handleSidebarToggle, isSidebarOpen }) => {
   return (
-    <nav id="navbar" className="fixed top-0 z-40 flex w-full flex-row justify-between bg-[#222831] px-4 border border-x-0 border-t-0 border-b-gray-500">
+    <nav id="navbar" className="fixed top-0 z-40 flex w-full flex-row justify-between bg-[#222831] px-4 md:px-6 border border-x-0 border-t-0 border-b-gray-500">
       <ul className="breadcrumb flex flex-row items-center justify-between py-4 space-x-3 text-lg text-[#222831] sm:flex">
         <li className="inline">
           <a 

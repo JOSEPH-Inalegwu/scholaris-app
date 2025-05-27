@@ -1,5 +1,49 @@
 @import "tailwindcss";
 
+/* Color Definition */
+:root {
+  --color-dark: #222831;         /* Background */
+  --color-amber: #f59e0b;        /* Primary accent */
+
+  --color-amber-dark: #b45309;   /* Darker amber (for hover) */
+  --color-sky-dark: #0ea5e9;     /* Hover for sky */
+  --color-slate: #64748b;        /* Muted gray-blue for secondary buttons */
+  --color-slate-dark: #475569;  /* Darker slate for hover */
+  --color-error: #ef4444;        
+  --color-success: #22c55e;      
+}
+
+.bg-dark {
+  background-color: var(--color-dark);
+}
+
+.bg-amber {
+  background-color: var(--color-amber);
+}
+
+.bg-amber-dark {
+  background-color: var(--color-amber-dark);
+}
+.hover\:bg-amber-dark:hover {
+  background-color: var(--color-amber-dark);
+}
+
+.bg-button {
+  background-color: var(--color-sky-dark);
+  color: white;
+}
+
+.success {
+  color: var(--color-success);
+}
+.bg-success {
+  background-color: var(--color-success);
+}
+
+.error {
+  color: var(--color-error);
+}
+
 /* index.css */
 @keyframes shake {
     0% { transform: translateX(0); }
@@ -35,3 +79,16 @@ animation: shake 0.4s ease;
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
+
+  @keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate-slow {
+  animation: spin-slow 7s linear infinite;
+}

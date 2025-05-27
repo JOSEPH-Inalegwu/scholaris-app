@@ -1,9 +1,47 @@
 import { useState } from 'react';
 
+const STORAGE_FIRST_SEMESTER_RESULT_KEY = 'firstSemesterGPAResult';
+const STORAGE_SECOND_SEMESTER_RESULT_KEY = 'secondSemesterGPAResult';
+const STORAGE_COMBINED_GPA_RESULT_KEY = 'combinedGPAResult';
+const STORAGE_FIRST_SEMESTER_KEY = 'firstSemesterCourses';
+const STORAGE_SECOND_SEMESTER_KEY = 'secondSemesterCourses';
+
 export const useGPA = () => {
-  const [firstSemester, setFirstSemester] = useState([{ code: '', unit: '', grade: '' }]);
-  const [secondSemester, setSecondSemester] = useState([{ code: '', unit: '', grade: '' }]);
-  const [result, setResult] = useState(null);
+  // Load saved result from localStorage for a specific key
+  const loadSavedResult = (key) => {
+    try {
+      const savedResult = JSON.parse(localStorage.getItem(key));
+      return savedResult || null;
+    } catch (error) {
+      console.error(`Error loading saved result for ${key}:`, error);
+      return null;
+    }
+  };
+
+  // Load saved semesters from localStorage
+  const loadSavedSemesters = (key, defaultValue) => {
+    try {
+      const savedData = JSON.parse(localStorage.getItem(key));
+      return savedData && Array.isArray(savedData) && savedData.length > 0
+        ? savedData
+        : defaultValue;
+    } catch (error) {
+      console.error(`Error loading ${key}:`, error);
+      return defaultValue;
+    }
+  };
+
+  const [firstSemester, setFirstSemester] = useState(
+    loadSavedSemesters(STORAGE_FIRST_SEMESTER_KEY, [{ code: '', unit: '', grade: '' }])
+  );
+  const [secondSemester, setSecondSemester] = useState(
+    loadSavedSemesters(STORAGE_SECOND_SEMESTER_KEY, [{ code: '', unit: '', grade: '' }])
+  );
+  const [result, setResult] = useState({
+    firstSemester: loadSavedResult(STORAGE_FIRST_SEMESTER_RESULT_KEY),
+    secondSemester: loadSavedResult(STORAGE_SECOND_SEMESTER_RESULT_KEY),
+    combined: loadSavedResult(STORAGE_COMBINED_GPA_RESULT_KEY),
+  });
 
   const handleCourseChange = (semesterKey, index, field, value) => {
     const setter = semesterKey === 'firstSemester' ? setFirstSemester : setSecondSemester;
@@ -11,12 +49,21 @@ export const useGPA = () => {
     const updated = [...semester];
     updated[index][field] = value;
     setter(updated);
+    localStorage.setItem(
+      semesterKey === 'firstSemester' ? STORAGE_FIRST_SEMESTER_KEY : STORAGE_SECOND_SEMESTER_KEY,
+      JSON.stringify(updated)
+    );
   };
 
   const addCourse = (semesterKey) => {
     const setter = semesterKey === 'firstSemester' ? setFirstSemester : setSecondSemester;
     const semester = semesterKey === 'firstSemester' ? firstSemester : secondSemester;
-    setter([...semester, { code: '', unit: '', grade: '' }]);
+    const updated = [...semester, { code: '', unit: '', grade: '' }];
+    setter(updated);
+    localStorage.setItem(
+      semesterKey === 'firstSemester' ? STORAGE_FIRST_SEMESTER_KEY : STORAGE_SECOND_SEMESTER_KEY,
+      JSON.stringify(updated)
+    );
   };
 
   const removeCourse = (semesterKey, index) => {
@@ -25,23 +72,37 @@ export const useGPA = () => {
     const updated = [...semester];
     updated.splice(index, 1);
     setter(updated);
-  };
-
-  // Calculate CGPA for both semesters combined
-  const calculate = () => {
-    const allCourses = [...firstSemester, ...secondSemester].filter(
-      (course) =>
-        course.code.trim() !== '' &&
-        course.unit &&
-        course.grade &&
-        !isNaN(course.unit)
+    localStorage.setItem(
+      semesterKey === 'firstSemester' ? STORAGE_FIRST_SEMESTER_KEY : STORAGE_SECOND_SEMESTER_KEY,
+      JSON.stringify(updated)
     );
-    if (allCourses.length === 0) return null;
-
-    return calculateGPA(allCourses);
   };
 
-  // Calculate GPA for a single semester
+  const calculateSemesterGPA = (semesterKey) => {
+    const semesterCourses = semesterKey === 'firstSemester' ? firstSemester : secondSemester;
+    const calcResult = calculateGPA(semesterCourses);
+    if (calcResult) {
+      setResult((prev) => ({ ...prev, [semesterKey]: calcResult }));
+      localStorage.setItem(
+        semesterKey === 'firstSemester'
+          ? STORAGE_FIRST_SEMESTER_RESULT_KEY
+          : STORAGE_SECOND_SEMESTER_RESULT_KEY,
+        JSON.stringify(calcResult)
+      );
+    }
+    return calcResult;
+  };
+
+  const calculateCombinedGPA = () => {
+    const allCourses = [...firstSemester, ...secondSemester];
+    const calcResult = calculateGPA(allCourses);
+    if (calcResult) {
+      setResult((prev) => ({ ...prev, combined: calcResult }));
+      localStorage.setItem(STORAGE_COMBINED_GPA_RESULT_KEY, JSON.stringify(calcResult));
+    }
+    return calcResult;
+  };
+
   const calculateGPA = (courses) => {
     const filteredCourses = courses.filter(
       (course) =>
@@ -85,6 +146,28 @@ export const useGPA = () => {
     };
   };
 
+  const clearResult = (semesterKey) => {
+    setResult((prev) => ({ ...prev, [semesterKey]: null }));
+    localStorage.removeItem(
+      semesterKey === 'firstSemester'
+        ? STORAGE_FIRST_SEMESTER_RESULT_KEY
+        : semesterKey === 'secondSemester'
+        ? STORAGE_SECOND_SEMESTER_RESULT_KEY
+        : STORAGE_COMBINED_GPA_RESULT_KEY
+    );
+  };
+
+  const clearAllData = () => {
+    setResult({ firstSemester: null, secondSemester: null, combined: null });
+    setFirstSemester([{ code: '', unit: '', grade: '' }]);
+    setSecondSemester([{ code: '', unit: '', grade: '' }]);
+    localStorage.removeItem(STORAGE_FIRST_SEMESTER_RESULT_KEY);
+    localStorage.removeItem(STORAGE_SECOND_SEMESTER_RESULT_KEY);
+    localStorage.removeItem(STORAGE_COMBINED_GPA_RESULT_KEY);
+    localStorage.removeItem(STORAGE_FIRST_SEMESTER_KEY);
+    localStorage.removeItem(STORAGE_SECOND_SEMESTER_KEY);
+  };
+
   return {
     firstSemester,
     secondSemester,
@@ -93,7 +176,10 @@ export const useGPA = () => {
     handleCourseChange,
     addCourse,
     removeCourse,
-    calculate,
-    calculateGPA, // export new function
+    calculateSemesterGPA,
+    calculateCombinedGPA,
+    calculateGPA,
+    clearResult,
+    clearAllData,
   };
 };

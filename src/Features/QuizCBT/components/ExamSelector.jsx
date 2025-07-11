@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // Import your JSON files
 import csc101Questions from '../json/cs101-questions.json';
-// Add more imports as needed
+import mth211Questions from '../json/mth211-questions.json'
 // import cs201Questions from '../json/cs201-questions.json';
 // import mth101Questions from '../json/mth101-questions.json';
 // import phy101Questions from '../json/phy101-questions.json';
@@ -10,6 +10,7 @@ import csc101Questions from '../json/cs101-questions.json';
 // Question files mapping
 const questionFiles = {
   'CS101': csc101Questions,
+  'MTH211': mth211Questions,
   // Add more courses as you import them
   // 'CS201': cs201Questions,
   // 'MTH101': mth101Questions,
@@ -21,7 +22,7 @@ const mockData = {
   courses: [
     { department: 'Computer Science', course_code: 'CS101', level: 100, question_count: 50, default_time: 35 },
     { department: 'Computer Science', course_code: 'CS201', level: 200, question_count: 40, default_time: 25 },
-    { department: 'Mathematics', course_code: 'MTH101', level: 100, question_count: 45, default_time: 35 },
+    { department: 'Computer Science', course_code: 'MTH211', level: 200, question_count: 40, default_time: 35 },
     { department: 'Physics', course_code: 'PHY101', level: 100, question_count: 30, default_time: 25 },
   ]
 };

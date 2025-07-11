@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ExamSelector from './components/ExamSelector';
 import ExamInterface from './components/ExamInterface';
+import { NavigationContext } from '../../Context/NavigationContext';
 
 // Stub component for ExamSubmission
 const ExamSubmissionStub = ({ answers, onComplete }) => (
@@ -39,6 +40,9 @@ const ExamResultsStub = ({ results }) => (
 );
 
 const QuizCBT = () => {
+  // ✅ Access navigation context
+  const { setIsNavigationDisabled } = useContext(NavigationContext);
+
   // State for managing flow
   const [stage, setStage] = useState('selection');
   const [examData, setExamData] = useState(null);
@@ -49,11 +53,13 @@ const QuizCBT = () => {
   const handleStartExam = (data) => {
     setExamData(data);
     setStage('exam');
+    setIsNavigationDisabled(true); // ✅ Disable navigation
   };
 
   const handleGoBack = () => {
     setStage('selection');
     setExamData(null);
+    setIsNavigationDisabled(false); // ✅ Re-enable navigation if going back before submitting
   };
 
   const handleSubmitExam = (submittedAnswers) => {
@@ -64,6 +70,7 @@ const QuizCBT = () => {
   const handleSubmissionComplete = (examResults) => {
     setResults(examResults);
     setStage('results');
+    setIsNavigationDisabled(false); // ✅ Re-enable navigation after submission
   };
 
   return (

@@ -5,9 +5,17 @@ import SidebarLink from './SidebarLinks';
 import plus from '../assets/icons/plus.svg';
 import minus from '../assets/icons/minus.svg';
 
-
-const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => {
+const Sidebar = ({ 
+  isSidebarOpen, 
+  handleSidebarToggle, 
+  handleCloseSidebar, 
+  isNavigationDisabled = false 
+}) => {
   const handleLogout = () => {
+    if (isNavigationDisabled) {
+      alert('Navigation is disabled during the exam. Please complete or submit your exam first.');
+      return;
+    }
     // Placeholder for logout logic (e.g., clear auth token, redirect to login)
     console.log('User logged out');
     // Example: window.location.href = '/login';
@@ -17,9 +25,37 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => 
   const [isCourseOutlineOpen, setIsCourseOutlineOpen] = useState(false);
   const [isPastQuestionsOpen, setIsPastQuestionsOpen] = useState(false);
 
+  const handleDropdownToggle = (dropdownType) => {
+    if (isNavigationDisabled) {
+      alert('Navigation is disabled during the exam. Please complete or submit your exam first.');
+      return;
+    }
+    
+    if (dropdownType === 'courseOutline') {
+      setIsCourseOutlineOpen(!isCourseOutlineOpen);
+    } else if (dropdownType === 'pastQuestions') {
+      setIsPastQuestionsOpen(!isPastQuestionsOpen);
+    }
+  };
+
+  const handleSidebarLinkClick = (originalOnClick) => {
+    if (isNavigationDisabled) {
+      alert('Navigation is disabled during the exam. Please complete or submit your exam first.');
+      return;
+    }
+    if (originalOnClick) {
+      originalOnClick();
+    }
+  };
+
   return (
     <>
-      <Header handleSidebarToggle={handleSidebarToggle} isSidebarOpen={isSidebarOpen} />
+      <Header 
+        handleSidebarToggle={handleSidebarToggle} 
+        isSidebarOpen={isSidebarOpen} 
+        isNavigationDisabled={isNavigationDisabled}
+        showExamWarning={isNavigationDisabled}
+      />
 
       {/* Sidebar */}
       <div id="containerSidebar" className="z-30">
@@ -30,18 +66,44 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => 
               isSidebarOpen ? 'translate-x-0' : ''
             }`}
           >
+            {/* Exam Warning in Sidebar */}
+            {isNavigationDisabled && (
+              <div className="px-4 mb-4 mx-2 py-3 bg-red-900 bg-opacity-50 border border-red-500 rounded-lg">
+                <div className="flex items-center">
+                  <svg className="w-4 h-4 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                  <p className="text-xs text-red-300">
+                    Navigation disabled during exam
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Links Section */}
             <div className="px-2 pb-6 border-b border-[#213448] flex-1">
               <ul className="mb-8 text-white text-sm font-medium space-y-4">
                 <li>
-                  <SidebarLink to="/dashboard" onClick={handleCloseSidebar} className="block py-1 transition-colors">
+                  <SidebarLink 
+                    to="/dashboard" 
+                    onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                    className={`block py-1 transition-colors ${
+                      isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                    }`}
+                    disabled={isNavigationDisabled}
+                  >
                     Dashboard
                   </SidebarLink>
                 </li>
                 <li>
                   <button
-                    onClick={() => setIsCourseOutlineOpen(!isCourseOutlineOpen)}
-                    className="text-white font-bold py-2 px-4 w-full text-left transition-colors focus:outline-none flex items-center justify-between"
+                    onClick={() => handleDropdownToggle('courseOutline')}
+                    className={`font-bold py-2 px-4 w-full text-left transition-colors focus:outline-none flex items-center justify-between ${
+                      isNavigationDisabled 
+                        ? 'text-gray-400 cursor-not-allowed' 
+                        : 'text-white'
+                    }`}
+                    disabled={isNavigationDisabled}
                   >
                     <span>Course Outlines</span>
                     {isCourseOutlineOpen ? (
@@ -53,22 +115,50 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => 
                   {isCourseOutlineOpen && (
                     <ul className="pl-4 space-y-2 mt-2 animate-fade-in text-gray-500">
                       <li>
-                        <SidebarLink to="/dashboard/course-outline/100" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/course-outline/100" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           100 Level
                         </SidebarLink>
                       </li>
                       <li>
-                        <SidebarLink to="/dashboard/course-outline/200" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/course-outline/200" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           200 Level
                         </SidebarLink>
                       </li>
                       <li>
-                        <SidebarLink to="/dashboard/course-outline/300" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/course-outline/300" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           300 Level
                         </SidebarLink>
                       </li>
                       <li>
-                        <SidebarLink to="/dashboard/course-outline/400" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/course-outline/400" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           400 Level
                         </SidebarLink>
                       </li>
@@ -77,8 +167,13 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => 
                 </li>
                 <li>
                   <button
-                    onClick={() => setIsPastQuestionsOpen(!isPastQuestionsOpen)}
-                    className="text-white font-bold py-2 px-4 w-full text-left transition-colors focus:outline-none flex items-center justify-between"
+                    onClick={() => handleDropdownToggle('pastQuestions')}
+                    className={`font-bold py-2 px-4 w-full text-left transition-colors focus:outline-none flex items-center justify-between ${
+                      isNavigationDisabled 
+                        ? 'text-gray-400 cursor-not-allowed' 
+                        : 'text-white'
+                    }`}
+                    disabled={isNavigationDisabled}
                   >
                     <span>Past Questions</span>
                     {isPastQuestionsOpen ? (
@@ -90,22 +185,50 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => 
                   {isPastQuestionsOpen && (
                     <ul className="pl-4 space-y-2 mt-2 animate-fade-in text-gray-500">
                       <li>
-                        <SidebarLink to="/dashboard/past-question/100" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/past-question/100" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           100 Level
                         </SidebarLink>
                       </li>
                       <li>
-                        <SidebarLink to="/dashboard/past-question/200" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/past-question/200" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           200 Level
                         </SidebarLink>
                       </li>
                       <li>
-                        <SidebarLink to="/dashboard/past-question/300" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/past-question/300" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           300 Level
                         </SidebarLink>
                       </li>
                       <li>
-                        <SidebarLink to="/dashboard/past-question/400" onClick={handleCloseSidebar} className="block py-1 transition-colors text-sm">
+                        <SidebarLink 
+                          to="/dashboard/past-question/400" 
+                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                          className={`block py-1 transition-colors text-sm ${
+                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                          }`}
+                          disabled={isNavigationDisabled}
+                        >
                           400 Level
                         </SidebarLink>
                       </li>
@@ -113,12 +236,26 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => 
                   )}
                 </li>
                 <li>
-                  <SidebarLink to="/dashboard/exam-mode" onClick={handleCloseSidebar} className="block py-1 transition-colors">
+                  <SidebarLink 
+                    to="/dashboard/exam-mode" 
+                    onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                    className={`block py-1 transition-colors ${
+                      isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                    }`}
+                    disabled={isNavigationDisabled}
+                  >
                     Exam Mode
                   </SidebarLink>
                 </li>
                 <li>
-                  <SidebarLink to="/dashboard/cgpa-calculator" onClick={handleCloseSidebar} className="block py-1 transition-colors">
+                  <SidebarLink 
+                    to="/dashboard/cgpa-calculator" 
+                    onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                    className={`block py-1 transition-colors ${
+                      isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
+                    }`}
+                    disabled={isNavigationDisabled}
+                  >
                     CGPA Calculator
                   </SidebarLink>
                 </li>
@@ -131,13 +268,22 @@ const Sidebar = ({ isSidebarOpen, handleSidebarToggle, handleCloseSidebar }) => 
                 <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-white font-semibold">
                   JD
                 </div>
-                <span className="text-white text-sm">John Doe</span>
+                <span className={`text-sm ${
+                  isNavigationDisabled ? 'text-gray-400' : 'text-white'
+                }`}>
+                  John Doe
+                </span>
               </div>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="w-full bg-red-500 text-white hover:bg-red-700 px-3 py-3 rounded-md transition duration-300 text-sm"
+                className={`w-full px-3 py-3 rounded-md transition duration-300 text-sm ${
+                  isNavigationDisabled 
+                    ? 'bg-gray-500 text-gray-300 cursor-not-allowed' 
+                    : 'bg-red-500 text-white hover:bg-red-700'
+                }`}
                 aria-label="Logout"
+                disabled={isNavigationDisabled}
               >
                 Logout
               </button>

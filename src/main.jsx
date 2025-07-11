@@ -10,6 +10,7 @@ import QuizCBT from './Features/QuizCBT/QuizCBT'
 import GPACalculator from './Features/GPA/GPACalculator'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { NavigationProvider } from './Context/NavigationContext'
 
 const router = createBrowserRouter([
   { path: '/', element: <AuthPage /> },
@@ -20,14 +21,16 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Dashboard /> },
-      {  path: 'exam-mode', element: <QuizCBT /> },
-      {  path: 'cgpa-calculator', element: <GPACalculator /> },
+      { path: 'exam-mode', element: <QuizCBT /> },
+      { path: 'cgpa-calculator', element: <GPACalculator /> },
     ]
   }
-])
+]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
-)
+    <NavigationProvider> 
+      <RouterProvider router={router} />
+    </NavigationProvider>
+  </StrictMode>
+);

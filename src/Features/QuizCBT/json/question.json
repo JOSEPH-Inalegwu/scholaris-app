@@ -1,0 +1,613 @@
+{
+    "courses": [
+      {
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_count": 40,
+        "default_time": 30,
+        "department": "Computer Science"
+      }
+    ],
+    "questions": [
+      {
+        "id": 1,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the primary goal of software engineering?",
+        "options": [
+          "Writing code quickly",
+          "Developing high-quality software systematically",
+          "Testing hardware",
+          "Designing databases"
+        ],
+        "correct_answer": "Developing high-quality software systematically",
+        "topic": "Software Engineering Basics",
+        "explanation": "Software engineering applies systematic, disciplined approaches to develop reliable and efficient software."
+      },
+      {
+        "id": 2,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "Which model follows a sequential approach in software development?",
+        "options": [
+          "Agile Model",
+          "Waterfall Model",
+          "Spiral Model",
+          "Iterative Model"
+        ],
+        "correct_answer": "Waterfall Model",
+        "topic": "Development Models",
+        "explanation": "The Waterfall Model follows a linear, sequential approach where each phase is completed before the next begins."
+      },
+      {
+        "id": 3,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a use case in software engineering?",
+        "options": [
+          "A programming language",
+          "A description of system interactions with users",
+          "A testing framework",
+          "A database schema"
+        ],
+        "correct_answer": "A description of system interactions with users",
+        "topic": "Requirements Analysis",
+        "explanation": "A use case describes how a user interacts with a system to achieve a specific goal."
+      },
+      {
+        "id": 4,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What does UML stand for?",
+        "options": [
+          "Unified Modeling Language",
+          "Universal Management Layer",
+          "Unitary Modeling Logic",
+          "Unified Method Language"
+        ],
+        "correct_answer": "Unified Modeling Language",
+        "topic": "Design Tools",
+        "explanation": "UML is a standardized modeling language used to visualize and document software system designs."
+      },
+      {
+        "id": 5,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "Which testing verifies individual components of a system?",
+        "options": [
+          "Integration Testing",
+          "System Testing",
+          "Unit Testing",
+          "Acceptance Testing"
+        ],
+        "correct_answer": "Unit Testing",
+        "topic": "Software Testing",
+        "explanation": "Unit Testing verifies the functionality of individual components or modules in isolation."
+      },
+      {
+        "id": 6,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of a software requirements specification (SRS)?",
+        "options": [
+          "To design the system architecture",
+          "To document user and system requirements",
+          "To test the software",
+          "To deploy the software"
+        ],
+        "correct_answer": "To document user and system requirements",
+        "topic": "Requirements Analysis",
+        "explanation": "An SRS outlines the functional and non-functional requirements of a software system."
+      },
+      {
+        "id": 7,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "Which phase of the SDLC involves coding the software?",
+        "options": [
+          "Requirements Analysis",
+          "Design",
+          "Implementation",
+          "Maintenance"
+        ],
+        "correct_answer": "Implementation",
+        "topic": "SDLC",
+        "explanation": "The Implementation phase involves writing and compiling the code based on the design specifications."
+      },
+      {
+        "id": 8,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a key characteristic of the Agile methodology?",
+        "options": [
+          "Fixed requirements",
+          "Sequential phases",
+          "Iterative development",
+          "No user feedback"
+        ],
+        "correct_answer": "Iterative development",
+        "topic": "Development Models",
+        "explanation": "Agile emphasizes iterative development with frequent feedback and adaptability to changes."
+      },
+      {
+        "id": 9,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of a class diagram in UML?",
+        "options": [
+          "To show user interactions",
+          "To represent system architecture",
+          "To model static structure of classes",
+          "To sequence events"
+        ],
+        "correct_answer": "To model static structure of classes",
+        "topic": "Design Tools",
+        "explanation": "A class diagram shows the classes, their attributes, and relationships in a system."
+      },
+      {
+        "id": 10,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What does the term 'technical debt' refer to?",
+        "options": [
+          "Financial loans for software projects",
+          "Shortcuts taken in development that require future fixes",
+          "Cost of software licenses",
+          "Time spent on testing"
+        ],
+        "correct_answer": "Shortcuts taken in development that require future fixes",
+        "topic": "Software Maintenance",
+        "explanation": "Technical debt refers to the cost of fixing shortcuts or suboptimal code in future development."
+      },
+      {
+        "id": 11,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "Which testing ensures components work together?",
+        "options": [
+          "Unit Testing",
+          "Integration Testing",
+          "System Testing",
+          "Regression Testing"
+        ],
+        "correct_answer": "Integration Testing",
+        "topic": "Software Testing",
+        "explanation": "Integration Testing verifies that different modules or components work together correctly."
+      },
+      {
+        "id": 12,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a prototype in software engineering?",
+        "options": [
+          "A final product",
+          "A preliminary model of the system",
+          "A testing tool",
+          "A deployment strategy"
+        ],
+        "correct_answer": "A preliminary model of the system",
+        "topic": "Prototyping",
+        "explanation": "A prototype is an early model built to test concepts or gather feedback."
+      },
+      {
+        "id": 13,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of version control systems?",
+        "options": [
+          "To design software",
+          "To manage code changes",
+          "To test software",
+          "To deploy applications"
+        ],
+        "correct_answer": "To manage code changes",
+        "topic": "Version Control",
+        "explanation": "Version control systems track and manage changes to source code over time."
+      },
+      {
+        "id": 14,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "Which document defines the scope of a project?",
+        "options": [
+          "Test Plan",
+          "Project Charter",
+          "Design Document",
+          "User Manual"
+        ],
+        "correct_answer": "Project Charter",
+        "topic": "Project Management",
+        "explanation": "The Project Charter outlines the project’s scope, objectives, and stakeholders."
+      },
+      {
+        "id": 15,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a non-functional requirement?",
+        "options": [
+          "What the system does",
+          "How the system performs",
+          "User interface design",
+          "Code structure"
+        ],
+        "correct_answer": "How the system performs",
+        "topic": "Requirements Analysis",
+        "explanation": "Non-functional requirements specify performance criteria like speed, security, or scalability."
+      },
+      {
+        "id": 16,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the Spiral Model best suited for?",
+        "options": [
+          "Small projects",
+          "Low-risk projects",
+          "Large, complex projects",
+          "Fixed-requirement projects"
+        ],
+        "correct_answer": "Large, complex projects",
+        "topic": "Development Models",
+        "explanation": "The Spiral Model is ideal for large, complex projects with risk management focus."
+      },
+      {
+        "id": 17,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What does a sequence diagram show?",
+        "options": [
+          "Static class structure",
+          "Dynamic interactions over time",
+          "Database schema",
+          "User interface layout"
+        ],
+        "correct_answer": "Dynamic interactions over time",
+        "topic": "Design Tools",
+        "explanation": "Sequence diagrams illustrate how objects interact in a time-based sequence."
+      },
+      {
+        "id": 18,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of code reviews?",
+        "options": [
+          "To write new code",
+          "To find bugs and improve quality",
+          "To deploy software",
+          "To document requirements"
+        ],
+        "correct_answer": "To find bugs and improve quality",
+        "topic": "Software Quality",
+        "explanation": "Code reviews help identify defects and ensure code quality."
+      },
+      {
+        "id": 19,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is software maintenance?",
+        "options": [
+          "Writing initial code",
+          "Updating and fixing software post-deployment",
+          "Designing the system",
+          "Testing the prototype"
+        ],
+        "correct_answer": "Updating and fixing software post-deployment",
+        "topic": "Software Maintenance",
+        "explanation": "Maintenance involves updating and fixing software after deployment."
+      },
+      {
+        "id": 20,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "Which methodology emphasizes customer collaboration?",
+        "options": [
+          "Waterfall",
+          "Agile",
+          "V-Model",
+          "Spiral"
+        ],
+        "correct_answer": "Agile",
+        "topic": "Development Models",
+        "explanation": "Agile emphasizes close collaboration with customers throughout development."
+      },
+      {
+        "id": 21,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a software architecture?",
+        "options": [
+          "A programming language",
+          "The structure of a system’s components",
+          "A testing strategy",
+          "A user interface design"
+        ],
+        "correct_answer": "The structure of a system’s components",
+        "topic": "Software Design",
+        "explanation": "Software architecture defines the structure and organization of a system’s components."
+      },
+      {
+        "id": 22,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is regression testing?",
+        "options": [
+          "Testing new features",
+          "Retesting to ensure existing features work",
+          "Testing hardware",
+          "Testing user interfaces"
+        ],
+        "correct_answer": "Retesting to ensure existing features work",
+        "topic": "Software Testing",
+        "explanation": "Regression testing ensures that new changes haven’t broken existing functionality."
+      },
+      {
+        "id": 23,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a stakeholder in software engineering?",
+        "options": [
+          "A programmer",
+          "Anyone with an interest in the project",
+          "A testing tool",
+          "A database manager"
+        ],
+        "correct_answer": "Anyone with an interest in the project",
+        "topic": "Project Management",
+        "explanation": "Stakeholders include anyone affected by or interested in the software project."
+      },
+      {
+        "id": 24,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of a data flow diagram?",
+        "options": [
+          "To show user interactions",
+          "To model data movement in a system",
+          "To design the user interface",
+          "To test software"
+        ],
+        "correct_answer": "To model data movement in a system",
+        "topic": "Design Tools",
+        "explanation": "Data flow diagrams illustrate how data moves through a system."
+      },
+      {
+        "id": 25,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a sprint in Agile?",
+        "options": [
+          "A long-term project phase",
+          "A short, fixed-length iteration",
+          "A testing cycle",
+          "A deployment phase"
+        ],
+        "correct_answer": "A short, fixed-length iteration",
+        "topic": "Development Models",
+        "explanation": "A sprint is a time-boxed iteration in Agile, typically 2-4 weeks."
+      },
+      {
+        "id": 26,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of a test case?",
+        "options": [
+          "To write code",
+          "To specify test conditions and expected results",
+          "To design the system",
+          "To deploy software"
+        ],
+        "correct_answer": "To specify test conditions and expected results",
+        "topic": "Software Testing",
+        "explanation": "Test cases define the conditions and expected outcomes for testing."
+      },
+      {
+        "id": 27,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a software lifecycle?",
+        "options": [
+          "The coding phase",
+          "The entire process from planning to retirement",
+          "The testing phase",
+          "The deployment phase"
+        ],
+        "correct_answer": "The entire process from planning to retirement",
+        "topic": "SDLC",
+        "explanation": "The software lifecycle covers all phases from planning to retirement."
+      },
+      {
+        "id": 28,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is modularity in software design?",
+        "options": [
+          "Using a single large module",
+          "Dividing a system into independent modules",
+          "Writing complex code",
+          "Testing the system"
+        ],
+        "correct_answer": "Dividing a system into independent modules",
+        "topic": "Software Design",
+        "explanation": "Modularity breaks a system into independent, reusable components."
+      },
+      {
+        "id": 29,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the V-Model in software engineering?",
+        "options": [
+          "A sequential development model",
+          "A testing model aligned with development phases",
+          "An agile methodology",
+          "A prototyping model"
+        ],
+        "correct_answer": "A testing model aligned with development phases",
+        "topic": "Development Models",
+        "explanation": "The V-Model aligns testing phases with development phases for verification and validation."
+      },
+      {
+        "id": 30,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a risk in software project management?",
+        "options": [
+          "A guaranteed success",
+          "A potential issue that could impact the project",
+          "A completed task",
+          "A user requirement"
+        ],
+        "correct_answer": "A potential issue that could impact the project",
+        "topic": "Project Management",
+        "explanation": "Risks are potential issues that could negatively affect project outcomes."
+      },
+      {
+        "id": 31,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of a deployment diagram?",
+        "options": [
+          "To show user interactions",
+          "To model hardware and software distribution",
+          "To design the database",
+          "To test the system"
+        ],
+        "correct_answer": "To model hardware and software distribution",
+        "topic": "Design Tools",
+        "explanation": "Deployment diagrams show the physical deployment of software on hardware."
+      },
+      {
+        "id": 32,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is refactoring?",
+        "options": [
+          "Rewriting the entire system",
+          "Improving code structure without changing functionality",
+          "Testing the software",
+          "Deploying the software"
+        ],
+        "correct_answer": "Improving code structure without changing functionality",
+        "topic": "Software Maintenance",
+        "explanation": "Refactoring improves code readability and structure without altering its behavior."
+      },
+      {
+        "id": 33,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a functional requirement?",
+        "options": [
+          "How the system performs",
+          "What the system does",
+          "The user interface design",
+          "The hardware specification"
+        ],
+        "correct_answer": "What the system does",
+        "topic": "Requirements Analysis",
+        "explanation": "Functional requirements specify the specific behaviors or functions of a system."
+      },
+      {
+        "id": 34,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the role of a product owner in Agile?",
+        "options": [
+          "Writing code",
+          "Managing the product backlog",
+          "Testing the software",
+          "Deploying the system"
+        ],
+        "correct_answer": "Managing the product backlog",
+        "topic": "Development Models",
+        "explanation": "The product owner prioritizes and manages the product backlog in Agile."
+      },
+      {
+        "id": 35,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a bug in software?",
+        "options": [
+          "A new feature",
+          "A defect causing incorrect behavior",
+          "A user requirement",
+          "A design document"
+        ],
+        "correct_answer": "A defect causing incorrect behavior",
+        "topic": "Software Quality",
+        "explanation": "A bug is a defect in the software that causes it to behave incorrectly."
+      },
+      {
+        "id": 36,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of a Gantt chart?",
+        "options": [
+          "To model data flow",
+          "To schedule project tasks",
+          "To design the system",
+          "To test software"
+        ],
+        "correct_answer": "To schedule project tasks",
+        "topic": "Project Management",
+        "explanation": "A Gantt chart visually represents project tasks and their timelines."
+      },
+      {
+        "id": 37,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is black-box testing?",
+        "options": [
+          "Testing with knowledge of code",
+          "Testing without knowledge of code",
+          "Testing hardware",
+          "Testing deployment"
+        ],
+        "correct_answer": "Testing without knowledge of code",
+        "topic": "Software Testing",
+        "explanation": "Black-box testing focuses on inputs and outputs without knowledge of internal code."
+      },
+      {
+        "id": 38,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is a design pattern?",
+        "options": [
+          "A user interface template",
+          "A reusable solution to common problems",
+          "A testing strategy",
+          "A deployment plan"
+        ],
+        "correct_answer": "A reusable solution to common problems",
+        "topic": "Software Design",
+        "explanation": "Design patterns provide reusable solutions to common software design problems."
+      },
+      {
+        "id": 39,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is the purpose of a traceability matrix?",
+        "options": [
+          "To track code changes",
+          "To link requirements to deliverables",
+          "To design the system",
+          "To deploy software"
+        ],
+        "correct_answer": "To link requirements to deliverables",
+        "topic": "Requirements Analysis",
+        "explanation": "A traceability matrix links requirements to their corresponding deliverables."
+      },
+      {
+        "id": 40,
+        "course_code": "SEN 211",
+        "level": 200,
+        "question_text": "What is acceptance testing?",
+        "options": [
+          "Testing individual components",
+          "Testing system integration",
+          "Testing to meet user requirements",
+          "Testing code structure"
+        ],
+        "correct_answer": "Testing to meet user requirements",
+        "topic": "Software Testing",
+        "explanation": "Acceptance testing ensures the software meets user requirements and is ready for use."
+      }
+    ]
+  }

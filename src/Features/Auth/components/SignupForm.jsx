@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PasswordInput from './PasswordInput';
+import { supabase } from '../../../supabaseClient';
+import { toast } from 'react-toastify';      // ✅ Toastify
 
 const SignupForm = ({ onSwitchToLogin }) => {
   const [step, setStep] = useState(1);
@@ -10,11 +12,13 @@ const SignupForm = ({ onSwitchToLogin }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [resent, setResent] = useState(false);
 
-  // Refs for scrolling to fields
+  // refs for smooth scroll
   const departmentRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmRef = useRef(null);
@@ -22,108 +26,138 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
   const isStep1Valid = fullName && email && studentID;
 
+  /* ---------- SIGN‑UP ---------- */
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    // basic validation
     const newErrors = {};
+    const pwdRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!department) newErrors.department = 'Department is required';
+    if (!password) newErrors.passwordEmpty = 'Password cannot be empty';
+    else if (!pwdRegex.test(password)) newErrors.passwordInvalid = 'Must contain 1 uppercase, 1 number, 8+ characters';
+    if (!confirmPassword) newErrors.confirmPasswordEmpty = 'Please confirm your password';
+    if (password && confirmPassword && password !== confirmPassword) newErrors.passwordMatch = 'Passwords do not match';
+    if (!acceptedTerms) newErrors.acceptedTerms = 'You must accept the terms and conditions';
 
-    if (!department) {
-      newErrors.department = 'Department is required';
-    }
-
-    if (!password) {
-      newErrors.passwordEmpty = 'Password cannot be empty';
-    } else if (!passwordRegex.test(password)) {
-      newErrors.passwordInvalid = 'Must contain 1 uppercase, 1 number, and 8+ characters';
-    }
-
-    if (!confirmPassword) {
-      newErrors.confirmPasswordEmpty = 'Please confirm your password';
-    }
-
-    if (password && confirmPassword && password !== confirmPassword) {
-      newErrors.passwordMatch = 'Passwords do not match';
-    }
-
-    if (!acceptedTerms) {
-      newErrors.acceptedTerms = 'You must accept the terms and conditions';
-    }
-
-    if (Object.keys(newErrors).length > 0) {
+    if (Object.keys(newErrors).length) {
       setErrors(newErrors);
-
-      // Auto-scroll to first error
-      if (newErrors.department) departmentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      else if (newErrors.passwordEmpty || newErrors.passwordInvalid) passwordRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      else if (newErrors.confirmPasswordEmpty || newErrors.passwordMatch) confirmRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      else if (newErrors.acceptedTerms) termsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
+      // auto‑scroll to first error
+      if (newErrors.department) departmentRef.current?.scrollIntoView({ behavior: 'smooth' });
+      else if (newErrors.passwordEmpty || newErrors.passwordInvalid) passwordRef.current?.scrollIntoView({ behavior: 'smooth' });
+      else if (newErrors.confirmPasswordEmpty || newErrors.passwordMatch) confirmRef.current?.scrollIntoView({ behavior: 'smooth' });
+      else if (newErrors.acceptedTerms) termsRef.current?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
     setErrors({});
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { fullName, studentID, department } }
+      });
+
+      if (error) {
+        toast.error(error.message);
+        setLoading(false);
+        return;
+      }
+
+      toast.success('🎉 Account created! Check your email to confirm.');
       setLoading(false);
       setSuccess(true);
+
+      // redirect after 10 s
       setTimeout(() => {
         setSuccess(false);
         onSwitchToLogin();
-      }, 1500);
-    }, 1000);
+      }, 10000);
+
+    } catch (err) {
+      console.error(err);
+      toast.error('Something went wrong. Try again.');
+      setLoading(false);
+    }
+  };
+
+  /* ---------- RESEND EMAIL ---------- */
+  const handleResend = async () => {
+    const { error } = await supabase.auth.resend({ type: 'signup', email });
+    if (error) {
+      toast.error('❌ Failed to resend confirmation email.');
+    } else {
+      setResent(true);
+      toast.success('✅ Confirmation email resent!');
+    }
   };
 
   return (
-    <div className="h-screen container justify-center flex items-center px-2 md:px-8 w-full py-20 my-2 md:my-0 md:py-0">
+    <div className="h-screen container flex items-center justify-center px-2 md:px-8 w-full py-20">
       <div className="w-full max-w-lg">
         {success ? (
           <div className="text-center">
             <h2 className="text-3xl font-bold text-green-600 mb-4">🎉 Account Created!</h2>
-            <p className="text-gray-800">Redirecting to login page...</p>
+            <p className="text-gray-800 mb-2">Please confirm your email before logging in.</p>
+            <p className="text-sm text-gray-600 mb-4">
+              A confirmation link was sent to <strong>{email}</strong>.
+            </p>
+
+            {!resent ? (
+              <button
+                className="text-blue-600 underline hover:text-blue-800"
+                onClick={handleResend}
+              >
+                Resend confirmation email
+              </button>
+            ) : (
+              <p className="text-sm text-green-600">Confirmation email resent ✅</p>
+            )}
+
+            <p className="mt-6 text-sm text-gray-500">Redirecting to login...</p>
           </div>
         ) : (
           <>
-            <h2 className="text-4xl font-semibold text-center mb-10 text-[#222831]">Create a new account</h2>
+            <h2 className="text-4xl font-semibold text-center mb-10 text-[#222831]">
+              Create a new account
+            </h2>
+
             <form onSubmit={handleSignup}>
+     
               {step === 1 && (
                 <>
                   <InputField label="Full Name *" value={fullName} onChange={setFullName} placeholder="James Brown" />
                   <InputField label="Email Address *" type="email" value={email} onChange={setEmail} placeholder="you@example.com" />
                   <InputField label="Student ID *" value={studentID} onChange={setStudentID} placeholder="FT23CMP0000" className="uppercase" />
+
                   <button
                     type="button"
-                    onClick={() => setStep(2)}
                     disabled={!isStep1Valid}
+                    onClick={() => setStep(2)}
                     className={`w-full px-4 py-3 mt-4 text-white rounded-lg font-semibold transition ${
                       isStep1Valid ? 'bg-[#222831] hover:bg-[#393E46]' : 'bg-gray-400 cursor-not-allowed'
                     }`}
                   >
                     Next
                   </button>
-                  <p className="text-sm md:text-md text-center mt-5 text-gray-600">
+
+                  <p className="text-sm text-center mt-5 text-gray-600">
                     Already have an account?{' '}
-                    <button
-                      onClick={onSwitchToLogin}
-                      type="button"
-                      className="text-blue-500 font-medium  hover:underline focus:outline-none"
-                    >
+                    <button onClick={onSwitchToLogin} type="button" className="text-blue-500 hover:underline">
                       Login
                     </button>
                   </p>
                 </>
               )}
 
+
               {step === 2 && (
                 <>
                   <div ref={departmentRef}>
-                    <InputField
-                      label="Department *"
-                      value={department}
-                      onChange={setDepartment}
-                      placeholder="Computer Science"
-                    />
+                    <InputField label="Department *" value={department} onChange={setDepartment} placeholder="Computer Science" />
                     {errors.department && <p className="text-sm text-red-600 mt-1">{errors.department}</p>}
                   </div>
 
@@ -153,12 +187,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
                   </div>
 
                   <div className="mb-4 flex items-center" ref={termsRef}>
-                    <input
-                      type="checkbox"
-                      checked={acceptedTerms}
-                      onChange={(e) => setAcceptedTerms(e.target.checked)}
-                      className="mr-2"
-                    />
+                    <input type="checkbox" checked={acceptedTerms} onChange={(e) => setAcceptedTerms(e.target.checked)} className="mr-2" />
                     <span className="text-sm text-gray-600">
                       I agree to Scholari's{' '}
                       <a href="#" className="text-blue-500 hover:underline">Terms and Conditions</a>.
@@ -171,22 +200,14 @@ const SignupForm = ({ onSwitchToLogin }) => {
                     disabled={loading}
                     className="w-full px-4 py-3 text-white bg-[#222831] rounded-lg hover:bg-[#393E46] font-semibold flex justify-center items-center"
                   >
-                    {loading ? (
-                      <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
-                    ) : (
-                      'Register'
-                    )}
+                    {loading
+                      ? <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                      : 'Register'}
                   </button>
 
-                  <p className="text-sm md:text-md text-center mt-5 text-gray-600">
+                  <p className="text-sm text-center mt-5 text-gray-600">
                     Already have an account?{' '}
-                    <button
-                      onClick={onSwitchToLogin}
-                      type="button"
-                      className="text-blue-500 font-medium hover:underline focus:outline-none"
-                    >
-                      Login
-                    </button>
+                    <button onClick={onSwitchToLogin} type="button" className="text-blue-500 hover:underline">Login</button>
                   </p>
                 </>
               )}
@@ -198,6 +219,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
   );
 };
 
+/* ------------------ Reusable Input ------------------ */
 const InputField = ({ label, value, onChange, type = "text", placeholder, className = "" }) => (
   <div className="mb-6">
     <label className="block text-sm font-medium mb-1">{label}</label>
@@ -206,7 +228,7 @@ const InputField = ({ label, value, onChange, type = "text", placeholder, classN
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`form-input block w-full px-4 py-3 border-0 focus:outline-none ${className}`}
+        className={`form-input w-full px-4 py-3 border-0 focus:outline-none ${className}`}
         placeholder={placeholder}
         required
       />

@@ -12,6 +12,9 @@ import GPACalculator from './Features/GPA/GPACalculator'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { NavigationProvider } from './Context/NavigationContext'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 const router = createBrowserRouter([
   { path: '/', element: <AuthPage /> },
   { path: 'signup', element: <Signup /> },
@@ -29,8 +32,13 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <NavigationProvider> 
+    <NavigationProvider>
       <RouterProvider router={router} />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        toastClassName="bg-black text-white font-medium rounded shadow-md"
+      />
     </NavigationProvider>
   </StrictMode>
 );

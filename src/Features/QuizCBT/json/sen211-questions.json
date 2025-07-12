@@ -1,0 +1,552 @@
+[
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 1)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 2)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 3)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 4)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 5)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 6)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 7)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 8)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 9)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 10)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 11)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 12)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 13)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 14)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 15)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 16)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 17)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 18)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 19)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 20)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 21)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 22)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 23)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 24)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 25)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 26)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 27)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 28)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 29)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 30)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 31)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 32)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 33)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 34)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 35)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 36)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 37)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 38)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 39)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 40)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 41)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 42)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 43)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 44)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 45)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 46)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 47)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is a use case in software engineering? (Variant 48)",
+    "options": [
+      "A programming language",
+      "A description of system interactions with users",
+      "A testing framework",
+      "A database schema"
+    ],
+    "correct_answer": 1  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "What is software maintenance? (Variant 49)",
+    "options": [
+      "Creating the initial design",
+      "Writing the first version of code",
+      "Modifying software after delivery",
+      "Deleting unused code"
+    ],
+    "correct_answer": 2  },
+  {
+    "course_code": "SEN 211",
+    "level": 200,
+    "question": "Which model follows a sequential approach in software development? (Variant 50)",
+    "options": [
+      "Agile Model",
+      "Waterfall Model",
+      "Spiral Model",
+      "Iterative Model"
+    ],
+    "correct_answer": 1  }
+]

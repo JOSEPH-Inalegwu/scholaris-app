@@ -1,454 +1,353 @@
-{
-  "questions": [
-    {
-      "id": 1,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is a variable in programming?",
-      "options": ["A storage location", "A function", "A loop", "A condition"],
-      "correct_answer": 0,
-      "difficulty": "easy"
-    },
-    {
-      "id": 2,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of the following is a programming language?",
-      "options": ["HTML", "CSS", "JavaScript", "All of the above"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 3,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which symbol is used for single-line comments in JavaScript?",
-      "options": ["//", "/*", "#", "<!--"],
-      "correct_answer": 0,
-      "difficulty": "easy"
-    },
-    {
-      "id": 4,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which data type is used to store true or false values?",
-      "options": ["String", "Integer", "Boolean", "Float"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 5,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What does 'NaN' stand for in JavaScript?",
-      "options": ["Not a Name", "No assigned Number", "Not a Number", "Null and None"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 6,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which keyword is used to declare a constant in JavaScript?",
-      "options": ["var", "let", "const", "define"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 7,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which one is NOT a looping structure?",
-      "options": ["for", "while", "if", "do...while"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 8,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which function displays a message box in JavaScript?",
-      "options": ["prompt()", "display()", "alert()", "msgBox()"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 9,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the result of 2 + '2' in JavaScript?",
-      "options": ["4", "22", "undefined", "NaN"],
-      "correct_answer": 1,
-      "difficulty": "medium"
-    },
-    {
-      "id": 10,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which HTML tag is used to link a JavaScript file?",
-      "options": ["<js>", "<link>", "<script>", "<style>"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 11,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "How do you define a function in JavaScript?",
-      "options": ["function = myFunc()", "function myFunc()", "def myFunc()", "func myFunc()"],
-      "correct_answer": 1,
-      "difficulty": "medium"
-    },
-    {
-      "id": 12,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the output of typeof null in JavaScript?",
-      "options": ["null", "object", "undefined", "number"],
-      "correct_answer": 1,
-      "difficulty": "hard"
-    },
-    {
-      "id": 13,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of the following is used for strict equality?",
-      "options": ["==", "!=", "===", "="],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 14,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which function is used to convert a string to an integer?",
-      "options": ["parseInt()", "Number()", "toInteger()", "convertToInt()"],
-      "correct_answer": 0,
-      "difficulty": "easy"
-    },
-    {
-      "id": 15,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the default value of an uninitialized variable?",
-      "options": ["null", "0", "undefined", "false"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 16,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of the following is a valid variable name?",
-      "options": ["2name", "_name", "first-name", "var"],
-      "correct_answer": 1,
-      "difficulty": "medium"
-    },
-    {
-      "id": 17,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which symbol is used for assignment in JavaScript?",
-      "options": ["==", "=", "===", "!="],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 18,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "How do you write an array in JavaScript?",
-      "options": ["let arr = {}", "let arr = []", "let arr = ()", "let arr = <>"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 19,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which method is used to add an element to the end of an array?",
-      "options": ["add()", "append()", "push()", "insert()"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 20,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the purpose of the return statement in a function?",
-      "options": ["To stop the function", "To loop through values", "To exit and send a value", "To call another function"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 21,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which one is an input device?",
-      "options": ["Monitor", "Mouse", "Speaker", "Printer"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 22,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the full meaning of CPU?",
-      "options": ["Central Programming Unit", "Central Processing Unit", "Central Print Unit", "Control Processing Unit"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 23,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of these is a volatile memory?",
-      "options": ["ROM", "SSD", "RAM", "Hard Drive"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 24,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is software?",
-      "options": ["The physical parts of a computer", "The screen", "Programs and applications", "Cables and ports"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 25,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which part of the computer performs calculations?",
-      "options": ["Monitor", "Hard Disk", "ALU", "Keyboard"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 26,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of the following is a high-level language?",
-      "options": ["Assembly", "Binary", "Python", "Machine code"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 27,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Who is known as the father of the computer?",
-      "options": ["Bill Gates", "Charles Babbage", "Alan Turing", "Steve Jobs"],
-      "correct_answer": 1,
-      "difficulty": "medium"
-    },
-    {
-      "id": 28,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the purpose of an operating system?",
-      "options": ["To store files", "To manage hardware and software", "To edit documents", "To connect to Wi-Fi"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 29,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of these is not an operating system?",
-      "options": ["Windows", "Linux", "Excel", "macOS"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 30,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which storage device uses magnetic storage?",
-      "options": ["SSD", "RAM", "Hard Disk Drive", "Flash Drive"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    },
-    {
-      "id": 31,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of these is used to style web pages?",
-      "options": ["HTML", "CSS", "JavaScript", "Python"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 32,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which one is NOT a component of a computer system?",
-      "options": ["Hardware", "Software", "Humanware", "Middleware"],
-      "correct_answer": 3,
-      "difficulty": "hard"
-    },
-    {
-      "id": 33,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which tag is used to create a hyperlink in HTML?",
-      "options": ["<link>", "<a>", "<href>", "<hyperlink>"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 34,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "In binary, what is the value of 1010?",
-      "options": ["10", "12", "8", "15"],
-      "correct_answer": 0,
-      "difficulty": "medium"
-    },
-    {
-      "id": 35,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is a loop used for in programming?",
-      "options": ["To store values", "To repeat actions", "To name variables", "To define types"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 36,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What does HTML stand for?",
-      "options": ["HighText Machine Language", "HyperText and Markup Language", "HyperText Markup Language", "None of the above"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 37,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the correct syntax to declare a variable in JavaScript?",
-      "options": ["let myVar;", "dim myVar", "int myVar", "var = myVar"],
-      "correct_answer": 0,
-      "difficulty": "medium"
-    },
-    {
-      "id": 38,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which device is used to store long-term data?",
-      "options": ["Cache", "RAM", "Hard Drive", "CPU"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 39,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which one is a type of network?",
-      "options": ["HTML", "WAN", "CSS", "USB"],
-      "correct_answer": 1,
-      "difficulty": "medium"
-    },
-    {
-      "id": 40,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which part of a computer holds data temporarily?",
-      "options": ["ROM", "CPU", "RAM", "Hard disk"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 41,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which protocol is used to browse websites?",
-      "options": ["HTTP", "FTP", "SMTP", "SSH"],
-      "correct_answer": 0,
-      "difficulty": "medium"
-    },
-    {
-      "id": 42,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which keyword is used to stop a loop in JavaScript?",
-      "options": ["exit", "break", "stop", "end"],
-      "correct_answer": 1,
-      "difficulty": "medium"
-    },
-    {
-      "id": 43,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which HTML tag is used to insert an image?",
-      "options": ["<pic>", "<img>", "<src>", "<image>"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 44,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What type of file is used to run a web page in the browser?",
-      "options": [".doc", ".html", ".exe", ".pdf"],
-      "correct_answer": 1,
-      "difficulty": "easy"
-    },
-    {
-      "id": 45,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What does URL stand for?",
-      "options": ["Uniform Resource Locator", "User Resource Locator", "Universal Record Link", "Unified Resource Line"],
-      "correct_answer": 0,
-      "difficulty": "medium"
-    },
-    {
-      "id": 46,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which one is NOT a valid data type in JavaScript?",
-      "options": ["String", "Number", "Boolean", "Decimal"],
-      "correct_answer": 3,
-      "difficulty": "medium"
-    },
-    {
-      "id": 47,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which of the following is used to handle errors in JavaScript?",
-      "options": ["try...catch", "if...else", "loop", "switch"],
-      "correct_answer": 0,
-      "difficulty": "hard"
-    },
-    {
-      "id": 48,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is the output of 5 > 3 && 2 < 4?",
-      "options": ["true", "false", "undefined", "NaN"],
-      "correct_answer": 0,
-      "difficulty": "easy"
-    },
-    {
-      "id": 49,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "Which one is used to repeat a block of code a known number of times?",
-      "options": ["if", "while", "for", "switch"],
-      "correct_answer": 2,
-      "difficulty": "easy"
-    },
-    {
-      "id": 50,
-      "course_code": "CS101",
-      "level": 100,
-      "question": "What is debugging in programming?",
-      "options": ["Running the program", "Testing code speed", "Finding and fixing errors", "Writing functions"],
-      "correct_answer": 2,
-      "difficulty": "medium"
-    }
-  ]
-}
+[
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is a variable in programming?",
+    "options": ["A storage location", "A function", "A loop", "A condition"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of the following is a programming language?",
+    "options": ["HTML", "CSS", "JavaScript", "All of the above"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which symbol is used for single-line comments in JavaScript?",
+    "options": ["//", "/*", "#", "<!--"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which data type is used to store true or false values?",
+    "options": ["String", "Integer", "Boolean", "Float"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What does 'NaN' stand for in JavaScript?",
+    "options": ["Not a Name", "No assigned Number", "Not a Number", "Null and None"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which keyword is used to declare a constant in JavaScript?",
+    "options": ["var", "let", "const", "define"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which one is NOT a looping structure?",
+    "options": ["for", "while", "if", "do...while"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which function displays a message box in JavaScript?",
+    "options": ["prompt()", "display()", "alert()", "msgBox()"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the result of 2 + '2' in JavaScript?",
+    "options": ["4", "22", "undefined", "NaN"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which HTML tag is used to link a JavaScript file?",
+    "options": ["<js>", "<link>", "<script>", "<style>"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "How do you define a function in JavaScript?",
+    "options": ["function = myFunc()", "function myFunc()", "def myFunc()", "func myFunc()"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the output of typeof null in JavaScript?",
+    "options": ["null", "object", "undefined", "number"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of the following is used for strict equality?",
+    "options": ["==", "!=", "===", "="],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which function is used to convert a string to an integer?",
+    "options": ["parseInt()", "Number()", "toInteger()", "convertToInt()"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the default value of an uninitialized variable?",
+    "options": ["null", "0", "undefined", "false"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of the following is a valid variable name?",
+    "options": ["2name", "_name", "first-name", "var"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which symbol is used for assignment in JavaScript?",
+    "options": ["==", "=", "===", "!="],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "How do you write an array in JavaScript?",
+    "options": ["let arr = {}", "let arr = []", "let arr = ()", "let arr = <>"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which method is used to add an element to the end of an array?",
+    "options": ["add()", "append()", "push()", "insert()"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the purpose of the return statement in a function?",
+    "options": ["To stop the function", "To loop through values", "To exit and send a value", "To call another function"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which one is an input device?",
+    "options": ["Monitor", "Mouse", "Speaker", "Printer"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the full meaning of CPU?",
+    "options": ["Central Programming Unit", "Central Processing Unit", "Central Print Unit", "Control Processing Unit"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of these is a volatile memory?",
+    "options": ["ROM", "SSD", "RAM", "Hard Drive"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is software?",
+    "options": ["The physical parts of a computer", "The screen", "Programs and applications", "Cables and ports"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which part of the computer performs calculations?",
+    "options": ["Monitor", "Hard Disk", "ALU", "Keyboard"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of the following is a high-level language?",
+    "options": ["Assembly", "Binary", "Python", "Machine code"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Who is known as the father of the computer?",
+    "options": ["Bill Gates", "Charles Babbage", "Alan Turing", "Steve Jobs"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the purpose of an operating system?",
+    "options": ["To store files", "To manage hardware and software", "To edit documents", "To connect to Wi-Fi"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of these is not an operating system?",
+    "options": ["Windows", "Linux", "Excel", "macOS"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which storage device uses magnetic storage?",
+    "options": ["SSD", "RAM", "Hard Disk Drive", "Flash Drive"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of these is used to style web pages?",
+    "options": ["HTML", "CSS", "JavaScript", "Python"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which one is NOT a component of a computer system?",
+    "options": ["Hardware", "Software", "Humanware", "Middleware"],
+    "correct_answer": 3  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which tag is used to create a hyperlink in HTML?",
+    "options": ["<link>", "<a>", "<href>", "<hyperlink>"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "In binary, what is the value of 1010?",
+    "options": ["10", "12", "8", "15"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is a loop used for in programming?",
+    "options": ["To store values", "To repeat actions", "To name variables", "To define types"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What does HTML stand for?",
+    "options": ["HighText Machine Language", "HyperText and Markup Language", "HyperText Markup Language", "None of the above"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the correct syntax to declare a variable in JavaScript?",
+    "options": ["let myVar;", "dim myVar", "int myVar", "var = myVar"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which device is used to store long-term data?",
+    "options": ["Cache", "RAM", "Hard Drive", "CPU"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which one is a type of network?",
+    "options": ["HTML", "WAN", "CSS", "USB"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which part of a computer holds data temporarily?",
+    "options": ["ROM", "CPU", "RAM", "Hard disk"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which protocol is used to browse websites?",
+    "options": ["HTTP", "FTP", "SMTP", "SSH"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which keyword is used to stop a loop in JavaScript?",
+    "options": ["exit", "break", "stop", "end"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which HTML tag is used to insert an image?",
+    "options": ["<pic>", "<img>", "<src>", "<image>"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What type of file is used to run a web page in the browser?",
+    "options": [".doc", ".html", ".exe", ".pdf"],
+    "correct_answer": 1  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What does URL stand for?",
+    "options": ["Uniform Resource Locator", "User Resource Locator", "Universal Record Link", "Unified Resource Line"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which one is NOT a valid data type in JavaScript?",
+    "options": ["String", "Number", "Boolean", "Decimal"],
+    "correct_answer": 3  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which of the following is used to handle errors in JavaScript?",
+    "options": ["try...catch", "if...else", "loop", "switch"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is the output of 5 > 3 && 2 < 4?",
+    "options": ["true", "false", "undefined", "NaN"],
+    "correct_answer": 0  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "Which one is used to repeat a block of code a known number of times?",
+    "options": ["if", "while", "for", "switch"],
+    "correct_answer": 2  },
+  {
+    
+    "course_code": "CS101",
+    "level": 100,
+    "question": "What is debugging in programming?",
+    "options": ["Running the program", "Testing code speed", "Finding and fixing errors", "Writing functions"],
+    "correct_answer": 2  }
+]
+

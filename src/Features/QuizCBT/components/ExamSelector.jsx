@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { fetchQuestions } from '../../../Hooks/supabaseQuestionsService';
 
+// Normalize course code by removing spaces and converting to uppercase
+const normalize = str => str.replace(/\s+/g, '').toUpperCase();
+
 // Mock data for course metadata
 const mockData = {
   courses: [
     { department: 'Computer Science', course_code: 'CS101', level: 100, question_count: 50, default_time: 35 },
     { department: 'Computer Science', course_code: 'CS201', level: 200, question_count: 40, default_time: 25 },
     { department: 'Computer Science', course_code: 'MTH211', level: 200, question_count: 40, default_time: 35 },
-    { department: 'Physics', course_code: 'PHY101', level: 100, question_count: 30, default_time: 25 },
+    { department: 'Computer Science', course_code: 'SEN211', level: 200, question_count: 50, default_time: 35 },
   ]
 };
 
@@ -38,7 +41,7 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
       setError('');
 
       const selectedCourse = mockData.courses.find(
-        (c) => c.course_code === course && c.level === Number(level)
+        (c) => normalize(c.course_code) === normalize(course) && c.level === Number(level)
       );
 
       if (!selectedCourse) {
@@ -50,7 +53,7 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
       setQuestionCount(selectedCourse.question_count);
       setTimeLimit(String(selectedCourse.default_time));
 
-      const allQs = await fetchQuestions(course, Number(level));
+      const allQs = await fetchQuestions(normalize(course), Number(level));
       setAvailableQuestions(allQs.length);
 
       if (allQs.length < selectedCourse.question_count) {
@@ -71,7 +74,7 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
       return;
     }
 
-    const allQuestions = await fetchQuestions(course, Number(level));
+    const allQuestions = await fetchQuestions(normalize(course), Number(level));
     const examQuestions = allQuestions.slice(0, questionCount);
 
     onStartExam({

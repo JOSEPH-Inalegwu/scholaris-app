@@ -14,12 +14,14 @@ const LoginForm = ({ onSwitchToSignup }) => {
 
   const navigate = useNavigate();
 
+  /* ------------------- LOGIN ------------------- */
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrors({});
     setShakeEmail(false);
     setShakePassword(false);
 
+    /* Quick client‑side checks */
     if (!email || !password) {
       const newErr = {};
       if (!email) {
@@ -36,30 +38,64 @@ const LoginForm = ({ onSwitchToSignup }) => {
 
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      /* Sign‑in with password */
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    setLoading(false);
+      setLoading(false);
 
-    if (error) {
-      console.error('Login error:', error.message);
+      if (error) {
+        /* Check if it's an email not confirmed error using the correct error code */
+        if (error.code === 'email_not_confirmed') {
+          
+          toast.error('Please confirm your email before logging in.');
+          
+          /* Show inline resend helper */
+          setErrors({
+            supabase: (
+              <div className="text-center">
+                <p className="text-red-600">Email not confirmed.</p>
+                <button
+                  className="mt-2 underline text-blue-600 hover:text-blue-800"
+                  onClick={async () => {
+                    const { error } = await supabase.auth.resend({ type: 'signup', email });
+                    if (error) toast.error('❌ Failed to resend confirmation email.');
+                    else toast.success('✅ Confirmation email resent!');
+                  }}
+                >
+                  Resend confirmation email
+                </button>
+              </div>
+            ),
+          });
+          return;
+        }
+        
+        /* For all other errors (invalid credentials, user doesn't exist, etc.) */
+        console.error('Login error:', error.message);
+        toast.error('Invalid credentials. Please check your email and password.');
+        setShakeEmail(true);
+        setShakePassword(true);
+        return;
+      }
 
-      if (error.message.toLowerCase().includes('email not confirmed')) {
+      const user = data?.user;
+
+      /* Double check if email is verified (fallback) */
+      if (!user?.email_confirmed_at && !user?.confirmed_at) {
+        toast.error('Please confirm your email before logging in.');
+        
+        /* Show inline resend helper */
         setErrors({
           supabase: (
             <div className="text-center">
-              <p className="text-red-600">⚠️ Email not confirmed.</p>
+              <p className="text-red-600">Email not confirmed.</p>
               <button
                 className="mt-2 underline text-blue-600 hover:text-blue-800"
                 onClick={async () => {
-                  const { error } = await supabase.auth.resend({
-                    type: 'signup',
-                    email,
-                  });
-                  if (error) {
-                    toast.error('❌ Failed to resend confirmation email.');
-                  } else {
-                    toast.success('✅ Confirmation email resent!');
-                  }
+                  const { error } = await supabase.auth.resend({ type: 'signup', email });
+                  if (error) toast.error('❌ Failed to resend confirmation email.');
+                  else toast.success('✅ Confirmation email resent!');
                 }}
               >
                 Resend confirmation email
@@ -67,16 +103,20 @@ const LoginForm = ({ onSwitchToSignup }) => {
             </div>
           ),
         });
-      } else {
-        setErrors({ supabase: error.message });
-        toast.error('❌ ' + error.message);
+        
+        /* Sign out the user since email is not confirmed */
+        await supabase.auth.signOut();
+        return;
       }
 
-      setShakeEmail(true);
-      setShakePassword(true);
-    } else {
+      /* 🎉 Email verified → proceed */
       toast.success('✅ Login successful!');
       navigate('/dashboard');
+
+    } catch (err) {
+      console.error('Login error:', err);
+      toast.error('Something went wrong. Please try again.');
+      setLoading(false);
     }
   };
 
@@ -125,8 +165,6 @@ const LoginForm = ({ onSwitchToSignup }) => {
             {errors.password && <p className="text-sm text-red-500 mt-1 ml-2">{errors.password}</p>}
           </div>
 
-          {/* Supabase Error */}
-          {/* {errors.supabase && <p className="text-center text-red-600 mb-4">{errors.supabase}</p>} */}
 
           {/* Submit */}
           <button

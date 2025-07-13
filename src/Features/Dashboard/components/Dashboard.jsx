@@ -1,6 +1,5 @@
-import React from 'react';
-
-const user = { name: 'Joseph' }; 
+import React, { useEffect, useState } from 'react';
+import { supabase } from '../../../supabaseClient';
 
 const features = [
   {
@@ -18,7 +17,7 @@ const features = [
       </svg>
     ),
     title: 'Past Questions',
-    description: 'Access NSUK’s authentic past questions organized by department, course, and level for effective exam preparation.',
+    description: "Access NSUK's authentic past questions organized by department, course, and level for effective exam preparation.",
   },
   {
     icon: (
@@ -66,7 +65,7 @@ const features = [
       </svg>
     ),
     title: 'GPA Calculator',
-    description: 'Accurately calculate your GPA using NSUK’s official grading system.',
+    description: "Accurately calculate your GPA using NSUK's official grading system.",
   },
   {
     icon: (
@@ -106,7 +105,6 @@ const features = [
 const FeatureCard = ({ feature, index }) => {
   const handleClick = () => {
     console.log(`Clicked on ${feature.title}`);
-    // Future: Add navigation or modal logic here
   };
 
   return (
@@ -131,12 +129,89 @@ const FeatureCard = ({ feature, index }) => {
 };
 
 const Dashboard = () => {
+  const [userName, setUserName] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser();
+
+      if (authError || !user) {
+        console.error('Auth error:', authError?.message || 'User not found');
+        setLoading(false);
+        return;
+      }
+
+      // First, try to get the profile from the database
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('username, full_name')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError && profileError.code !== 'PGRST116') {
+        // PGRST116 is "not found" - anything else is a real error
+        console.error('Profile fetch error:', profileError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (profile) {
+        // Profile exists, use it
+        setUserName(profile.username || '');
+        setLoading(false);
+        return;
+      }
+
+      // Profile doesn't exist, create it from metadata
+      const metadata = user.user_metadata;
+      if (metadata?.username && metadata?.fullName) {
+        console.log('Creating profile from metadata...');
+        
+        const { data: newProfile, error: createError } = await supabase
+          .from('profiles')
+          .insert([
+            {
+              id: user.id,
+              username: metadata.username,
+              full_name: metadata.fullName,
+            }
+          ])
+          .select('username')
+          .single();
+
+        if (createError) {
+          console.error('Failed to create profile:', createError.message);
+          // Fallback to metadata
+          setUserName(metadata.username || '');
+        } else {
+          console.log('✅ Profile created successfully');
+          setUserName(newProfile.username || '');
+        }
+      } else {
+        // No metadata available, use fallback
+        console.log('No metadata available for profile creation');
+        setUserName('');
+      }
+
+      setLoading(false);
+    };
+
+    loadUser();
+  }, []);
+
   return (
     <div className="min-h-screen mt-10 bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-
       <div className="mb-12 text-left">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
-          {user ? `Welcome, ${user.name}!` : 'Welcome to Scholaris!'}
+          {loading
+            ? 'Loading...'
+            : userName
+              ? `Welcome, ${userName}!`
+              : 'Welcome to Scholaris!'}
         </h1>
         <p className="text-lg md:text-xl text-gray-600 mt-4 max-w-3xl">
           Your AI-powered academic companion for smarter studying and exam preparation at NSUK.
@@ -148,7 +223,6 @@ const Dashboard = () => {
           <FeatureCard key={index} feature={feature} index={index} />
         ))}
       </div>
-
     </div>
   );
 };

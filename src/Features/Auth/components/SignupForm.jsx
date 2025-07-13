@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import PasswordInput from './PasswordInput';
 import { supabase } from '../../../supabaseClient';
-import { toast } from 'react-toastify';      // ✅ Toastify
+import { toast } from 'react-toastify';
 
 const SignupForm = ({ onSwitchToLogin }) => {
   const [step, setStep] = useState(1);
   const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [studentID, setStudentID] = useState('');
   const [department, setDepartment] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -18,19 +18,16 @@ const SignupForm = ({ onSwitchToLogin }) => {
   const [success, setSuccess] = useState(false);
   const [resent, setResent] = useState(false);
 
-  // refs for smooth scroll
   const departmentRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmRef = useRef(null);
   const termsRef = useRef(null);
 
-  const isStep1Valid = fullName && email && studentID;
+  const isStep1Valid = fullName && email && username;
 
-  /* ---------- SIGN‑UP ---------- */
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    // basic validation
     const newErrors = {};
     const pwdRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
@@ -43,7 +40,6 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
-      // auto‑scroll to first error
       if (newErrors.department) departmentRef.current?.scrollIntoView({ behavior: 'smooth' });
       else if (newErrors.passwordEmpty || newErrors.passwordInvalid) passwordRef.current?.scrollIntoView({ behavior: 'smooth' });
       else if (newErrors.confirmPasswordEmpty || newErrors.passwordMatch) confirmRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -55,10 +51,12 @@ const SignupForm = ({ onSwitchToLogin }) => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { fullName, studentID, department } }
+        options: {
+          data: { fullName, username, department }
+        }
       });
 
       if (error) {
@@ -67,24 +65,22 @@ const SignupForm = ({ onSwitchToLogin }) => {
         return;
       }
 
+      const { user } = data;
       toast.success('🎉 Account created! Check your email to confirm.');
-      setLoading(false);
       setSuccess(true);
+      setLoading(false);
 
-      // redirect after 10 s
       setTimeout(() => {
         setSuccess(false);
         onSwitchToLogin();
-      }, 10000);
-
+      }, 6000);
     } catch (err) {
       console.error(err);
       toast.error('Something went wrong. Try again.');
       setLoading(false);
     }
-  };
+  }; 
 
-  /* ---------- RESEND EMAIL ---------- */
   const handleResend = async () => {
     const { error } = await supabase.auth.resend({ type: 'signup', email });
     if (error) {
@@ -107,10 +103,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
             </p>
 
             {!resent ? (
-              <button
-                className="text-blue-600 underline hover:text-blue-800"
-                onClick={handleResend}
-              >
+              <button className="text-blue-600 underline hover:text-blue-800" onClick={handleResend}>
                 Resend confirmation email
               </button>
             ) : (
@@ -126,12 +119,11 @@ const SignupForm = ({ onSwitchToLogin }) => {
             </h2>
 
             <form onSubmit={handleSignup}>
-     
               {step === 1 && (
                 <>
                   <InputField label="Full Name *" value={fullName} onChange={setFullName} placeholder="James Brown" />
+                  <InputField label="Username *" value={username} onChange={setUsername} placeholder="e.g james123" />
                   <InputField label="Email Address *" type="email" value={email} onChange={setEmail} placeholder="you@example.com" />
-                  <InputField label="Student ID *" value={studentID} onChange={setStudentID} placeholder="FT23CMP0000" className="uppercase" />
 
                   <button
                     type="button"
@@ -152,7 +144,6 @@ const SignupForm = ({ onSwitchToLogin }) => {
                   </p>
                 </>
               )}
-
 
               {step === 2 && (
                 <>
@@ -219,7 +210,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
   );
 };
 
-/* ------------------ Reusable Input ------------------ */
+/* ---- Reusable Input ------- */
 const InputField = ({ label, value, onChange, type = "text", placeholder, className = "" }) => (
   <div className="mb-6">
     <label className="block text-sm font-medium mb-1">{label}</label>

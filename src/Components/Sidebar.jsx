@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import SidebarLink from './SidebarLinks';
+import { handleLogoutLogic } from '../Hooks/logout.js';
 
 import plus from '../assets/icons/plus.svg';
 import minus from '../assets/icons/minus.svg';
@@ -11,15 +13,8 @@ const Sidebar = ({
   handleCloseSidebar, 
   isNavigationDisabled = false 
 }) => {
-  const handleLogout = () => {
-    if (isNavigationDisabled) {
-      alert('Navigation is disabled during the exam. Please complete or submit your exam first.');
-      return;
-    }
-    // Placeholder for logout logic (e.g., clear auth token, redirect to login)
-    console.log('User logged out');
-    // Example: window.location.href = '/login';
-  };
+  // Navigation hook
+  const navigate = useNavigate();
 
   // State to manage dropdown visibility
   const [isCourseOutlineOpen, setIsCourseOutlineOpen] = useState(false);
@@ -276,7 +271,7 @@ const Sidebar = ({
               </div>
               <button
                 type="button"
-                onClick={handleLogout}
+                onClick={()=> handleLogoutLogic(navigate)}
                 className={`w-full px-3 py-3 rounded-md transition duration-300 text-sm ${
                   isNavigationDisabled 
                     ? 'bg-gray-500 text-gray-300 cursor-not-allowed' 

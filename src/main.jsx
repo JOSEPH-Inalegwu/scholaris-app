@@ -1,33 +1,42 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Layout from '../Layout'
-import AuthPage from './Features/Auth/Pages/AuthPage'
-import Dashboard from './Features/Dashboard/components/Dashboard'
-import Signup from './Features/Auth/Pages/Signup'
-import QuizCBT from './Features/QuizCBT/QuizCBT'
-import GPACalculator from './Features/GPA/GPACalculator'
+import './index.css';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { NavigationProvider } from './Context/NavigationContext'
+import Layout from '../Layout';
+import AuthPage from './Features/Auth/Pages/AuthPage';
+import Signup from './Features/Auth/Pages/Signup';
+import Dashboard from './Features/Dashboard/components/Dashboard';
+import QuizCBT from './Features/QuizCBT/QuizCBT';
+import GPACalculator from './Features/GPA/GPACalculator';
 
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import ProtectedLayout from './Hooks/ProtectedLayout';
+import { NavigationProvider } from './Context/NavigationContext';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
+  // Public routes
   { path: '/', element: <AuthPage /> },
-  { path: 'signup', element: <Signup /> },
+  { path: '/signup', element: <Signup /> },
 
+  // Protected routes
   {
-    path: '/dashboard',
-    element: <Layout />,
+    element: <ProtectedLayout />, // ✅ Protect all nested routes below
     children: [
-      { index: true, element: <Dashboard /> },
-      { path: 'exam-mode', element: <QuizCBT /> },
-      { path: 'cgpa-calculator', element: <GPACalculator /> },
-    ]
-  }
+      {
+        path: '/dashboard',
+        element: <Layout />, // Layout wraps dashboard pages
+        children: [
+          { index: true, element: <Dashboard /> },
+          { path: 'exam-mode', element: <QuizCBT /> },
+          { path: 'cgpa-calculator', element: <GPACalculator /> },
+        ],
+      },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(

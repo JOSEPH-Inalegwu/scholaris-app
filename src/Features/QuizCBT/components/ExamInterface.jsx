@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { CheckCircle } from 'lucide-react';
 
-const ExamInterface = ({ examData, onSubmit, onGoBack }) => {
-  /* ---------------- state & helpers (unchanged) ---------------- */
+const ExamInterface = ({ examData, storageKey, onSubmit }) => {
+  /* ---------- STATE ---------- */
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(examData.time_limit * 60);
@@ -11,30 +12,78 @@ const ExamInterface = ({ examData, onSubmit, onGoBack }) => {
   const { questions } = examData;
   const currentQuestion = questions[currentQuestionIndex];
 
+  /* ---------- LOAD SAVED STATE ON MOUNT ---------- */
+  useEffect(() => {
+    // Toast (only once per session)
+    const toastShown = sessionStorage.getItem('examToastShown');
+    if (!toastShown) {
+      toast.info(
+        '📝 You’ve started the exam. Navigation is now disabled until submission.',
+        { position: 'top-center', autoClose: 6000 }
+      );
+      sessionStorage.setItem('examToastShown', 'true');
+    }
+
+    // Load saved data from localStorage
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (saved) {
+      setAnswers(saved.answers || {});
+      setCurrentQuestionIndex(saved.currentQuestionIndex ?? 0);
+      setTimeLeft(saved.timeLeft ?? examData.time_limit * 60);
+    }
+  }, [storageKey, examData.time_limit]);
+
+  /* ----- SAVE STATE ON CHANGE ---- */
+  useEffect(() => {
+    if (!isExamActive) return; // Don't save after submission
+    const stateToSave = { answers, currentQuestionIndex, timeLeft };
+    localStorage.setItem(storageKey, JSON.stringify(stateToSave));
+  }, [answers, currentQuestionIndex, timeLeft, isExamActive, storageKey]);
+
+  /* ---- TIMER ---- */
   useEffect(() => {
     if (!isExamActive) return;
-    if (timeLeft <= 0) { handleSubmit(); return; }
-    const t = setInterval(() => setTimeLeft(s => s - 1), 1000);
+    if (timeLeft <= 0) {
+      handleSubmit();
+      return;
+    }
+    const t = setInterval(() => setTimeLeft((s) => s - 1), 1000);
     return () => clearInterval(t);
   }, [timeLeft, isExamActive]);
 
-  const formatTime = s =>
-    `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+  /* --- HELPERS ---- */
+  const formatTime = (s) =>
+    `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(
+      2,
+      '0'
+    )}`;
 
-  const handleAnswer = o => setAnswers(a => ({ ...a, [currentQuestion.id]: o }));
-  const handlePrevious = () => currentQuestionIndex && setCurrentQuestionIndex(i => i - 1);
+  const handleAnswer = (opt) =>
+    setAnswers((a) => ({ ...a, [currentQuestion.id]: opt }));
+
+  const handlePrevious = () =>
+    currentQuestionIndex > 0 && setCurrentQuestionIndex((i) => i - 1);
+
   const handleNext = () =>
-    currentQuestionIndex < questions.length - 1 && setCurrentQuestionIndex(i => i + 1);
+    currentQuestionIndex < questions.length - 1 &&
+    setCurrentQuestionIndex((i) => i + 1);
+
   const handleSubmit = () => {
     setIsExamActive(false);
-    onSubmit(questions.map(q => ({ question_id: q.id, answer: answers[q.id] || null })));
+    localStorage.removeItem(storageKey); // Clear saved state after submission
+    onSubmit(
+      questions.map((q) => ({
+        question_id: q.id,
+        answer: answers[q.id] || null,
+      }))
+    );
   };
 
   const answeredCount = Object.keys(answers).length;
-  
+
   return (
-    <div className="min-h-screen bg-gray-50 pt-14 sm:pt-20 flex flex-col">
-      {/* ---------- Header ---------- */}
+    <div className="min-h-screen bg-gray-50 pt-12 sm:pt-16 flex flex-col">
+      {/* Header */}
       <header className="bg-white shadow-md px-4 sm:px-6 py-3">
         <div className="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
           <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
@@ -50,7 +99,7 @@ const ExamInterface = ({ examData, onSubmit, onGoBack }) => {
             <button
               onClick={handleSubmit}
               disabled={!isExamActive}
-              className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base px-3 sm:px-4 py-2 rounded-md transition disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base px-3 sm:px-4 py-2 rounded-md transition disabled:opacity-40"
             >
               <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               Submit
@@ -59,37 +108,46 @@ const ExamInterface = ({ examData, onSubmit, onGoBack }) => {
         </div>
       </header>
 
-      {/* ---------- Question ---------- */}
+      {/* Question */}
       <section className="flex-1 px-4 sm:px-6 py-6">
         <div className="max-w-full mx-auto bg-white rounded-lg shadow-lg p-5 sm:p-6">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-5">
             {currentQuestion.question}
           </h2>
 
-          {/* 1‑column on phones, 2‑columns from md upward */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {currentQuestion.options.map((opt, i) => {
               const selected = answers[currentQuestion.id] === opt;
               return (
                 <button
-                  type="button"
                   key={i}
+                  type="button"
                   onClick={() => isExamActive && handleAnswer(opt)}
                   disabled={!isExamActive}
                   className={`text-left p-4 rounded-lg border-2 transition
-                    ${selected
-                      ? 'bg-blue-50 border-blue-500 shadow-md'
-                      : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm'}
+                    ${
+                      selected
+                        ? 'bg-blue-50 border-blue-500 shadow-md'
+                        : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                    }
                     ${!isExamActive && 'opacity-50 cursor-not-allowed'}`}
                 >
                   <span className="flex items-center gap-3">
                     <span
                       className={`w-5 h-5 flex items-center justify-center rounded-full border-2
-                        ${selected ? 'border-blue-500 bg-blue-500' : 'border-gray-300'}`}
+                        ${
+                          selected
+                            ? 'border-blue-500 bg-blue-500'
+                            : 'border-gray-300'
+                        }`}
                     >
-                      {selected && <span className="w-2 h-2 rounded-full bg-white" />}
+                      {selected && (
+                        <span className="w-2 h-2 rounded-full bg-white" />
+                      )}
                     </span>
-                    <span className="text-gray-800 text-base sm:text-lg">{opt}</span>
+                    <span className="text-gray-800 text-base sm:text-lg">
+                      {opt}
+                    </span>
                   </span>
                 </button>
               );
@@ -98,7 +156,7 @@ const ExamInterface = ({ examData, onSubmit, onGoBack }) => {
         </div>
       </section>
 
-      {/* ---------- Footer nav ---------- */}
+      {/* Footer nav */}
       <footer className="bg-gray-100 px-4 sm:px-6 py-4">
         <div className="max-w-md mx-auto flex justify-between items-center rounded-xl border border-gray-200 bg-white shadow-sm px-4 sm:px-6 py-3">
           <button
@@ -123,7 +181,7 @@ const ExamInterface = ({ examData, onSubmit, onGoBack }) => {
         </div>
       </footer>
 
-      {/* ---------- Progress tracker ---------- */}
+      {/* Progress tracker */}
       <div className="hidden sm:block bg-white px-4 sm:px-6 py-5">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-3">
@@ -142,11 +200,13 @@ const ExamInterface = ({ examData, onSubmit, onGoBack }) => {
                 onClick={() => setCurrentQuestionIndex(idx)}
                 disabled={!isExamActive}
                 className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full text-[10px] sm:text-xs font-medium transition
-                  ${idx === currentQuestionIndex
-                    ? 'bg-blue-500 text-white'
-                    : answers[questions[idx].id]
-                    ? 'bg-green-500 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  ${
+                    idx === currentQuestionIndex
+                      ? 'bg-blue-500 text-white'
+                      : answers[questions[idx].id]
+                      ? 'bg-green-500 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
               >
                 {idx + 1}
               </button>

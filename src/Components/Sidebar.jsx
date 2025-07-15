@@ -1,67 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import SidebarLink from './SidebarLinks';
 import { handleLogoutLogic } from '../Hooks/logout.js';
+import { supabase } from '../supabaseClient';
 
 import plus from '../assets/icons/plus.svg';
 import minus from '../assets/icons/minus.svg';
 
-const Sidebar = ({ 
-  isSidebarOpen, 
-  handleSidebarToggle, 
-  handleCloseSidebar, 
-  isNavigationDisabled = false 
+const Sidebar = ({
+  isSidebarOpen,
+  handleSidebarToggle,
+  handleCloseSidebar,
+  isNavigationDisabled = false,
 }) => {
-  // Navigation hook
   const navigate = useNavigate();
 
-  // State to manage dropdown visibility
   const [isCourseOutlineOpen, setIsCourseOutlineOpen] = useState(false);
   const [isPastQuestionsOpen, setIsPastQuestionsOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const handleDropdownToggle = (dropdownType) => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser();
+
+      if (authError || !user) {
+        console.error('Auth error:', authError?.message || 'User not found');
+        setLoading(false);
+        return;
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError && profileError.code !== 'PGRST116') {
+        console.error('Profile fetch error:', profileError.message);
+        setLoading(false);
+        return;
+      }
+
+      if (profile?.username) {
+        setUsername(profile.username);
+      } else {
+        const metadata = user.user_metadata;
+        if (metadata?.username) {
+          setUsername(metadata.username);
+        } else {
+          setUsername('');
+        }
+      }
+
+      setLoading(false);
+    };
+
+    fetchUser();
+  }, []);
+
+  const getInitials = (name) => {
+    if (!name || typeof name !== 'string') return 'U';
+    return name.slice(0, 2).toUpperCase();
+  };
+  
+
+  const handleDropdownToggle = (type) => {
     if (isNavigationDisabled) {
-      alert('Navigation is disabled during the exam. Please complete or submit your exam first.');
+      alert('Navigation is disabled during the exam.');
       return;
     }
-    
-    if (dropdownType === 'courseOutline') {
+
+    if (type === 'courseOutline') {
       setIsCourseOutlineOpen(!isCourseOutlineOpen);
-    } else if (dropdownType === 'pastQuestions') {
+    } else if (type === 'pastQuestions') {
       setIsPastQuestionsOpen(!isPastQuestionsOpen);
     }
   };
 
   const handleSidebarLinkClick = (originalOnClick) => {
     if (isNavigationDisabled) {
-      alert('Navigation is disabled during the exam. Please complete or submit your exam first.');
+      alert('Navigation is disabled during the exam.');
       return;
     }
-    if (originalOnClick) {
-      originalOnClick();
-    }
+    if (originalOnClick) originalOnClick();
   };
 
   return (
     <>
-      <Header 
-        handleSidebarToggle={handleSidebarToggle} 
-        isSidebarOpen={isSidebarOpen} 
+      <Header
+        handleSidebarToggle={handleSidebarToggle}
+        isSidebarOpen={isSidebarOpen}
         isNavigationDisabled={isNavigationDisabled}
         showExamWarning={isNavigationDisabled}
       />
 
-      {/* Sidebar */}
       <div id="containerSidebar" className="z-30">
         <div className="navbar-menu relative z-30">
           <nav
             id="sidebar"
-            className={`fixed left-0 top-[var(--header-height,64px)] h-[calc(100vh-var(--header-height,64px))] w-64 -translate-x-full flex flex-col overflow-y-auto bg-[#222831] border-r border-gray-500 pt-6 pb-8 transition-all duration-300 cubic-bezier(0, 0.77, 0.58, 1) ${
+            className={`fixed left-0 top-[var(--header-height,64px)] h-[calc(100vh-var(--header-height,64px))] w-64 -translate-x-full flex flex-col overflow-y-auto bg-[#222831] border-r border-gray-500 pt-6 pb-8 transition-all duration-300 ${
               isSidebarOpen ? 'translate-x-0' : ''
             }`}
           >
-            {/* Exam Warning in Sidebar */}
             {isNavigationDisabled && (
               <div className="px-4 mb-4 mx-2 py-3 bg-red-900 bg-opacity-50 border border-red-500 rounded-lg">
                 <div className="flex items-center">
@@ -75,180 +120,80 @@ const Sidebar = ({
               </div>
             )}
 
-            {/* Links Section */}
             <div className="px-2 pb-6 border-b border-[#213448] flex-1">
               <ul className="mb-8 text-white text-sm font-medium space-y-4">
                 <li>
-                  <SidebarLink 
-                    to="/dashboard" 
-                    onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                    className={`block py-1 transition-colors ${
-                      isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                    }`}
-                    disabled={isNavigationDisabled}
-                  >
+                  <SidebarLink to="/dashboard" onClick={() => handleSidebarLinkClick(handleCloseSidebar)} disabled={isNavigationDisabled}>
                     Dashboard
                   </SidebarLink>
                 </li>
                 <li>
                   <button
                     onClick={() => handleDropdownToggle('courseOutline')}
-                    className={`font-bold py-2 px-4 w-full text-left transition-colors focus:outline-none flex items-center justify-between ${
-                      isNavigationDisabled 
-                        ? 'text-gray-400 cursor-not-allowed' 
-                        : 'text-white'
+                    className={`font-bold py-2 px-4 w-full text-left flex items-center justify-between ${
+                      isNavigationDisabled ? 'text-gray-400' : 'text-white'
                     }`}
-                    disabled={isNavigationDisabled}
                   >
                     <span>Course Outlines</span>
-                    {isCourseOutlineOpen ? (
-                      <img src={minus} alt="right-arrow" className='w-5' />
-                    ) : (
-                      <img src={plus} alt='down-arrow' className='w-5' />
-                    )}
+                    <img src={isCourseOutlineOpen ? minus : plus} alt="toggle" className="w-5" />
                   </button>
                   {isCourseOutlineOpen && (
-                    <ul className="pl-4 space-y-2 mt-2 animate-fade-in text-gray-500">
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/course-outline/100" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          100 Level
-                        </SidebarLink>
-                      </li>
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/course-outline/200" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          200 Level
-                        </SidebarLink>
-                      </li>
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/course-outline/300" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          300 Level
-                        </SidebarLink>
-                      </li>
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/course-outline/400" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          400 Level
-                        </SidebarLink>
-                      </li>
+                    <ul className="pl-4 space-y-2 mt-2 text-gray-500">
+                      {[100, 200, 300, 400].map((lvl) => (
+                        <li key={lvl}>
+                          <SidebarLink
+                            to={`/dashboard/course-outline/${lvl}`}
+                            onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                            disabled={isNavigationDisabled}
+                          >
+                            {lvl} Level
+                          </SidebarLink>
+                        </li>
+                      ))}
                     </ul>
                   )}
                 </li>
+
                 <li>
                   <button
                     onClick={() => handleDropdownToggle('pastQuestions')}
-                    className={`font-bold py-2 px-4 w-full text-left transition-colors focus:outline-none flex items-center justify-between ${
-                      isNavigationDisabled 
-                        ? 'text-gray-400 cursor-not-allowed' 
-                        : 'text-white'
+                    className={`font-bold py-2 px-4 w-full text-left flex items-center justify-between ${
+                      isNavigationDisabled ? 'text-gray-400' : 'text-white'
                     }`}
-                    disabled={isNavigationDisabled}
                   >
                     <span>Past Questions</span>
-                    {isPastQuestionsOpen ? (
-                      <img src={minus} alt='down-arrow' className='w-5' />
-                    ) : (
-                      <img src={plus} alt='down-arrow' className='w-5' />
-                    )}
+                    <img src={isPastQuestionsOpen ? minus : plus} alt="toggle" className="w-5" />
                   </button>
                   {isPastQuestionsOpen && (
-                    <ul className="pl-4 space-y-2 mt-2 animate-fade-in text-gray-500">
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/past-question/100" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          100 Level
-                        </SidebarLink>
-                      </li>
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/past-question/200" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          200 Level
-                        </SidebarLink>
-                      </li>
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/past-question/300" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          300 Level
-                        </SidebarLink>
-                      </li>
-                      <li>
-                        <SidebarLink 
-                          to="/dashboard/past-question/400" 
-                          onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                          className={`block py-1 transition-colors text-sm ${
-                            isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                          }`}
-                          disabled={isNavigationDisabled}
-                        >
-                          400 Level
-                        </SidebarLink>
-                      </li>
+                    <ul className="pl-4 space-y-2 mt-2 text-gray-500">
+                      {[100, 200, 300, 400].map((lvl) => (
+                        <li key={lvl}>
+                          <SidebarLink
+                            to={`/dashboard/past-question/${lvl}`}
+                            onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                            disabled={isNavigationDisabled}
+                          >
+                            {lvl} Level
+                          </SidebarLink>
+                        </li>
+                      ))}
                     </ul>
                   )}
                 </li>
+
                 <li>
-                  <SidebarLink 
-                    to="/dashboard/exam-mode" 
+                  <SidebarLink
+                    to="/dashboard/exam-mode"
                     onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                    className={`block py-1 transition-colors ${
-                      isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                    }`}
                     disabled={isNavigationDisabled}
                   >
                     Exam Mode
                   </SidebarLink>
                 </li>
                 <li>
-                  <SidebarLink 
-                    to="/dashboard/cgpa-calculator" 
+                  <SidebarLink
+                    to="/dashboard/cgpa-calculator"
                     onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                    className={`block py-1 transition-colors ${
-                      isNavigationDisabled ? 'text-gray-400 cursor-not-allowed' : ''
-                    }`}
                     disabled={isNavigationDisabled}
                   >
                     CGPA Calculator
@@ -257,27 +202,29 @@ const Sidebar = ({
               </ul>
             </div>
 
-            {/* Profile and Logout Section */}
+            {/* 👤 Profile & Logout */}
             <div className="px-4 pt-4 border-t border-gray-500">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-white font-semibold">
-                  JD
+                {/* 🧑 DiceBear avatar */}
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md ring-2 ring-white bg-amber-500"
+                >
+                  {getInitials(username)}
                 </div>
-                <span className={`text-sm ${
-                  isNavigationDisabled ? 'text-gray-400' : 'text-white'
-                }`}>
-                  John Doe
+
+                <span className={`text-sm font-bold ${isNavigationDisabled ? 'text-gray-400' : 'text-white'}`}>
+                  {loading ? 'Loading...' : username || 'User'}
                 </span>
               </div>
+
               <button
                 type="button"
-                onClick={()=> handleLogoutLogic(navigate)}
-                className={`w-full px-3 py-3 rounded-md transition duration-300 text-sm ${
-                  isNavigationDisabled 
-                    ? 'bg-gray-500 text-gray-300 cursor-not-allowed' 
+                onClick={() => handleLogoutLogic(navigate)}
+                className={`w-full px-3 py-3 rounded-md text-sm transition ${
+                  isNavigationDisabled
+                    ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
                     : 'bg-red-500 text-white hover:bg-red-700'
                 }`}
-                aria-label="Logout"
                 disabled={isNavigationDisabled}
               >
                 Logout

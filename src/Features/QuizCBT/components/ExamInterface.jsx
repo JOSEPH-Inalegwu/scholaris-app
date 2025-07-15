@@ -9,6 +9,10 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   const [timeLeft, setTimeLeft] = useState(examData.time_limit * 60);
   const [isExamActive, setIsExamActive] = useState(true);
 
+  /* 🔥 NEW (submit‑overlay state) */
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [countdown, setCountdown] = useState(3)
+
   const { questions } = examData;
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -44,12 +48,26 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   useEffect(() => {
     if (!isExamActive) return;
     if (timeLeft <= 0) {
-      handleSubmit();
+      handleSubmitClick();
       return;
     }
     const t = setInterval(() => setTimeLeft((s) => s - 1), 1000);
     return () => clearInterval(t);
   }, [timeLeft, isExamActive]);
+
+  /* 🔥 NEW countdown side‑effect */
+  useEffect(() => {
+    if (!isSubmitting) return;
+  
+    if (countdown === 0) {
+      // show "Submitted!" for 1s, then finalize
+      const done = setTimeout(finalizeSubmission, 1000);
+      return () => clearTimeout(done);
+    }
+  
+    const t = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [isSubmitting, countdown]);
 
   /* --- HELPERS ---- */
   const formatTime = (s) =>
@@ -68,16 +86,37 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
     currentQuestionIndex < questions.length - 1 &&
     setCurrentQuestionIndex((i) => i + 1);
 
-  const handleSubmit = () => {
-    setIsExamActive(false);
-    localStorage.removeItem(storageKey); // Clear saved state after submission
-    onSubmit(
-      questions.map((q) => ({
-        question_id: q.id,
-        answer: answers[q.id] || null,
-      }))
-    );
+  /* 🔥 when user clicks Submit */
+  const handleSubmitClick = () => {
+    setIsExamActive(false);   // freeze UI
+    setIsSubmitting(true);    // show overlay
+    setCountdown(3);          // reset countdown each time
   };
+
+  /* 🔥 NEW final submit once countdown hits 0 */
+  const finalizeSubmission = () => {
+    setIsSubmitting(false);
+    localStorage.removeItem(storageKey);
+  
+    // Compare each user answer with the correct option index
+    const graded = questions.map((q) => {
+      const userAnswer = answers[q.id] || null;
+      const correctAnswer = q.options[q.correct_answer]; // ✅ get correct option string
+  
+      return {
+        question_id: q.id,
+        question: q.question,
+        options: q.options,
+        userAnswer,
+        correctAnswer,
+        isCorrect: userAnswer === correctAnswer,
+      };
+    });
+  
+    // Give a second for the "Submitted!" to show before firing onSubmit
+    setTimeout(() => onSubmit(graded), 1000);
+  };
+  
 
   const answeredCount = Object.keys(answers).length;
 
@@ -97,7 +136,7 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
             </p>
 
             <button
-              onClick={handleSubmit}
+              onClick={handleSubmitClick}
               disabled={!isExamActive}
               className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base px-3 sm:px-4 py-2 rounded-md transition disabled:opacity-40"
             >
@@ -214,6 +253,18 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
           </div>
         </div>
       </div>
+
+      {/* 🔥 SUBMIT OVERLAY */}
+      {isSubmitting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-transparent">
+          <div
+            className="text-black text-6xl sm:text-7xl font-extrabold"
+            style={{ animation: 'pop 0.4s ease-out' }}
+          >
+            {countdown === 0 ? 'Submitted!' : countdown}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

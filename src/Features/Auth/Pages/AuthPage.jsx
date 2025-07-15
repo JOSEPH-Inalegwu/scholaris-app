@@ -16,8 +16,8 @@ const AuthPage = () => {
         <div className="hidden bg-cover lg:block lg:w-2/4 h-screen">
           <div className="relative flex items-center h-full px-20 overflow-hidden">
             {/* Left section background image */}
-            <div className="absolute inset-0 bg-[url('src/assets/images/gown5.jpg')] bg-cover bg-center filter blur-sm" />
-            <div className="absolute inset-0 bg-[#393E46] opacity-50" />
+            <div className="absolute inset-0 bg-[url('src/assets/images/gown5.jpg')] bg-cover bg-center" />
+            <div className="absolute inset-0 bg-[#000000] opacity-50" />
             <div className="space-y-14 relative z-10">
               <div className="max-w-2xl px-8 py-7 rounded-lg shadow-md bg-[#222831]">
                 <div className="mt-2 space-y-3">

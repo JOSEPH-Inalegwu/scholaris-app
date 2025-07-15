@@ -13,22 +13,21 @@ import GPACalculator from './Features/GPA/GPACalculator';
 
 import ProtectedLayout from './Hooks/ProtectedLayout';
 import { NavigationProvider } from './Context/NavigationContext';
+import { UserProvider } from './Context/UserContext'; 
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
-  // Public routes
   { path: '/', element: <AuthPage /> },
   { path: '/signup', element: <Signup /> },
 
-  // Protected routes
   {
-    element: <ProtectedLayout />, // ✅ Protect all nested routes below
+    element: <ProtectedLayout />,
     children: [
       {
         path: '/dashboard',
-        element: <Layout />, // Layout wraps dashboard pages
+        element: <Layout />,
         children: [
           { index: true, element: <Dashboard /> },
           { path: 'exam-mode', element: <QuizCBT /> },
@@ -41,13 +40,15 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <NavigationProvider>
-      <RouterProvider router={router} />
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        toastClassName="bg-black text-white font-medium rounded shadow-md"
-      />
-    </NavigationProvider>
+    <UserProvider> 
+      <NavigationProvider>
+        <RouterProvider router={router} />
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          toastClassName="bg-black text-white font-medium rounded shadow-md"
+        />
+      </NavigationProvider>
+    </UserProvider>
   </StrictMode>
 );

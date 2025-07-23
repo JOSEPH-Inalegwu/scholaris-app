@@ -47,13 +47,13 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   /* ---- TIMER ---- */
   useEffect(() => {
     if (!isExamActive) return;
-    if (timeLeft <= 0) {
+    if (timeLeft <= 0 && !isSubmitting) {
       handleSubmitClick();
       return;
     }
     const t = setInterval(() => setTimeLeft((s) => s - 1), 1000);
     return () => clearInterval(t);
-  }, [timeLeft, isExamActive]);
+  }, [timeLeft, isExamActive, isSubmitting]);
 
   /* 🔥 NEW countdown side‑effect */
   useEffect(() => {
@@ -129,7 +129,7 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
             {questions[0].course_code} Exam
           </h1>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center justify-between w-full">
             <p className="text-base sm:text-lg font-medium text-gray-700">
               Time&nbsp;Left:
               <span className="ml-1 text-red-500">{formatTime(timeLeft)}</span>
@@ -258,7 +258,7 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
       {isSubmitting && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-transparent">
           <div
-            className="text-black text-6xl sm:text-7xl font-extrabold"
+            className="text-black text-5xl sm:text-6xl font-extrabold"
             style={{ animation: 'pop 0.4s ease-out' }}
           >
             {countdown === 0 ? 'Submitted!' : countdown}

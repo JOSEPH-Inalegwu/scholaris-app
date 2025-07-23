@@ -65,6 +65,15 @@ const QuizCBT = () => {
 
   if (isRestoring) return null;
 
+  const handleGoBack = () => {
+    localStorage.removeItem(STORAGE_KEY); 
+    setStage('selection');
+    setExamData(null);
+    setResults(null);
+    setIsNavigationDisabled(false);
+  };
+  
+
   return (
     <div className="min-h-screen bg-white">
       {stage === 'selection' && (
@@ -80,7 +89,7 @@ const QuizCBT = () => {
       )}
 
       {stage === 'results' && results && (
-        <ExamResults results={results} studentName={studentName} />
+        <ExamResults results={results} studentName={studentName} handleRestart={handleGoBack} />
       )}
     </div>
   );

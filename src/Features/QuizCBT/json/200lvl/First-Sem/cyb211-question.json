@@ -1,0 +1,345 @@
+[
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does CIA in cybersecurity typically stand for?",
+    "options": ["Confidentiality, Integrity, Availability", "Control, Identification, Authorization", "Compliance, Inspection, Audit", "Confidentiality, Inspection, Access"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which type of attack attempts to make a machine or network resource unavailable?",
+    "options": ["Phishing", "Brute force", "DDoS", "Spoofing"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the primary purpose of a firewall?",
+    "options": ["Encrypt data at rest", "Control network traffic", "Authenticate users", "Scan for malware"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What kind of malware replicates itself to spread to other computers?",
+    "options": ["Trojan", "Virus", "Ransomware", "Spyware"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What defines a strong password?",
+    "options": ["Contains personal info", "Short and simple", "Mix of letters, numbers, symbols", "Only lowercase letters"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which protocol is used to securely transfer files over the internet?",
+    "options": ["HTTP", "FTP", "SSH", "SMTP"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does phishing typically target?",
+    "options": ["Network vulnerabilities", "User credentials", "Software bugs", "Hardware failure"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which is considered a form of two-factor authentication (2FA)?",
+    "options": ["Password + security question", "Username + password", "Password + SMS code", "Username + PIN"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does SSL/TLS provide?",
+    "options": ["Data encryption over network", "Secure file storage", "Malware detection", "Identity theft prevention"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is social engineering?",
+    "options": ["Network scanning", "Software-based hacking", "Manipulating people", "Cryptographic method"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which device isolates two networks and inspects packets?",
+    "options": ["Router", "Modem", "Intrusion detection system", "Bridge"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is ransomware?",
+    "options": ["Adware", "Encrypts files and demands payment", "Password stealer", "Rootkit"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which is an example of a brute-force attack?",
+    "options": ["Trying all password combinations", "Sending malicious email", "Exploiting SQL queries", "Intercepting network packets"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the OSI model layer responsible for end-to-end communication?",
+    "options": ["Physical", "Network", "Transport", "Session"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is SQL injection?",
+    "options": ["Malware injection", "Database attack via input fields", "Injection molding attack", "Physical tampering"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does VPN stand for?",
+    "options": ["Virtual Private Network", "Verified Public Network", "Virtual Public Node", "Validated Private Network"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the main goal of penetration testing?",
+    "options": ["Patching software", "Finding vulnerabilities", "User training", "Encrypting traffic"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is a zero-day vulnerability?",
+    "options": ["A vulnerability with no patch yet", "Known and patched bug", "Malware signature", "Old security standard"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the primary purpose of antivirus software?",
+    "options": ["Encrypt data", "Detect and remove malware", "Authenticate users", "Backup files"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is a Trojan horse?",
+    "options": ["Self-replicating virus", "Malicious code disguised as legitimate", "Network firewall", "Spam tool"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the role of intrusion detection system (IDS)?",
+    "options": ["Block traffic", "Detect suspicious activity", "Encrypt network", "Store logs"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is multi-factor authentication?",
+    "options": ["Using multiple passwords", "Two or more verification factors", "Single strong password", "Encrypted password store"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What kind of attack is a man-in-the-middle?",
+    "options": ["Interception of communication", "Brute force", "Phishing", "DDoS"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which term refers to sending unsolicited bulk messages?",
+    "options": ["Phishing", "Spam", "Spoofing", "Smishing"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does 'spoofing' refer to?",
+    "options": ["Imitating a legitimate source", "Breaking encryption", "Brute-forcing a password", "Installing a virus"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which is a hardware security module?",
+    "options": ["HSM", "IDS", "VPN", "SMTP"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What type of attack exploits buffer overflows?",
+    "options": ["SQL injection", "Buffer overflow attack", "Brute force", "Phishing"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the principle of least privilege?",
+    "options": ["Admin access for all", "Only necessary access", "No user permissions", "Public access enabled"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does hashing ensure?",
+    "options": ["Data confidentiality", "Data integrity", "Data availability", "User authentication"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is a digital certificate used for?",
+    "options": ["Encrypting files", "Verifying identity", "Scanning malware", "Backing up data"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is public key cryptography?",
+    "options": ["Symmetric key system", "Asymmetric key system", "Hashing technique", "One-time pad"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is a Certificate Authority (CA)?",
+    "options": ["Malware source", "Trusted entity issuing certificates", "Firewall appliance", "Type of virus"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which encryption is symmetric?",
+    "options": ["RSA", "AES", "ECC", "DSA"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which is an example of two-step verification involving biometrics?",
+    "options": ["Password + fingerprint", "Password + password", "Username + PIN", "Token + security question"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is phishing via SMS also called?",
+    "options": ["Pharming", "Vishing", "Smishing", "Whaling"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which is a best practice for network security?",
+    "options": ["Open all ports", "Use default passwords", "Segment the network", "Disable firewall"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is threat modeling?",
+    "options": ["Creating malware", "Identifying threats and vulnerabilities", "Encrypting messages", "Deploying firewalls"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does UTM refer to in cybersecurity?",
+    "options": ["Unified Threat Management", "Unauthorized Threat Mitigation", "User Transport Module", "Universal Threat Model"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is MFA?",
+    "options": ["Multi-Flow Authentication", "Multi-Factor Authentication", "Manual File Access", "Master File Assignment"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which best describes a honeypot?",
+    "options": ["Decoy system to trap attackers", "Strong password", "Encryption tool", "Firewall component"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is keylogging?",
+    "options": ["Recording keystrokes", "Locking encryption keys", "Logging in securely", "Backing up keys"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which is a web security vulnerability?",
+    "options": ["Cross-site scripting", "Buffer overflow", "Trojan", "Spoofing"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is phishing targeting high-level executives called?",
+    "options": ["Smishing", "Whaling", "Vishing", "Baiting"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the purpose of a DMZ in network security?",
+    "options": ["Secure area between internal & external networks", "Backup storage zone", "Malware sandbox", "User data zone"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What does PKI stand for?",
+    "options": ["Public Key Infrastructure", "Private Key Interface", "Personal Key Identification", "Protected Key Integrity"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the function of a vulnerability scanner?",
+    "options": ["Encrypts data", "Finds security holes", "Authenticates users", "Detects spam"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which is an example of endpoint protection?",
+    "options": ["Antivirus software", "Network router", "SSL certificate", "DMZ"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "What is the term for disguising malicious email as from a trusted source?",
+    "options": ["Spamming", "Spoofing", "Phishing", "Whaling"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "CYB211",
+    "level": 200,
+    "question": "Which best describes data encryption at rest?",
+    "options": ["Encrypting data on disk", "Encrypting data in transit", "Authenticating users", "Logging access"],
+    "correct_answer": 0
+  }
+]

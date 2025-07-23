@@ -1,0 +1,331 @@
+[
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is the primary purpose of a compiler in programming?",
+    "options": ["Execute code line by line", "Convert source code to machine code", "Store data", "Encrypt files"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these is a high-level programming language?",
+    "options": ["Assembly", "C++", "Binary", "Machine Code"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What does IDE stand for in programming?",
+    "options": ["Internal Device Editor", "Integrated Development Environment", "Interactive Debugging Engine", "Input Data Executor"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which symbol is used to indicate a single-line comment in most languages?",
+    "options": ["//", "/*", "--", "#"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of the following is a control structure?",
+    "options": ["Variable", "Array", "Loop", "Constant"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is an algorithm?",
+    "options": ["A programming language", "A software", "A set of instructions to solve a problem", "A compiler"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which data type is best for storing true/false values?",
+    "options": ["String", "Integer", "Boolean", "Char"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "In C-like languages, which symbol is used to end a statement?",
+    "options": ["Colon", "Semicolon", "Comma", "Period"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What does 'syntax error' mean?",
+    "options": ["Wrong logic", "Hardware failure", "Code structure violation", "Security issue"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of the following is not a valid loop type?",
+    "options": ["for", "repeat", "while", "if"],
+    "correct_answer": 3
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is the output of 3 + 4 * 2 in most programming languages?",
+    "options": ["14", "11", "10", "16"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which function is commonly used to print output in Python?",
+    "options": ["echo()", "console.log()", "print()", "printf()"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which data structure uses key-value pairs?",
+    "options": ["List", "Array", "Dictionary", "Stack"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What does DRY stand for in programming?",
+    "options": ["Don't Repeat Yourself", "Do Right Yourself", "Develop Robust YAML", "Double Recursion Yield"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What keyword defines a function in Python?",
+    "options": ["def", "func", "function", "define"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is recursion?",
+    "options": ["A loop inside a loop", "A function calling itself", "A constant assignment", "Memory allocation"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of the following is not a data type?",
+    "options": ["int", "float", "loop", "string"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which keyword is used for decision-making?",
+    "options": ["if", "loop", "print", "int"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which language is primarily used for web page styling?",
+    "options": ["HTML", "CSS", "Python", "Java"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which error occurs at runtime due to invalid operation?",
+    "options": ["Syntax error", "Logic error", "Runtime error", "Compiler error"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is a variable?",
+    "options": ["A fixed value", "A type of function", "A named storage location", "A hardware component"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which operator is used for equality in many languages?",
+    "options": ["=", "==", "!=", "==="],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is the result of '5' + '6' in JavaScript?",
+    "options": ["11", "56", "Error", "NaN"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which keyword creates a class in Java?",
+    "options": ["object", "define", "new", "class"],
+    "correct_answer": 3
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is the purpose of comments in code?",
+    "options": ["To execute faster", "To confuse hackers", "To explain code to humans", "To prevent compilation"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these is a valid variable name?",
+    "options": ["1total", "_total", "total-1", "total%"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these is not a loop structure?",
+    "options": ["for", "while", "do-while", "int"],
+    "correct_answer": 3
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What does 'break' do in a loop?",
+    "options": ["Pauses the loop", "Ends the loop", "Restarts the loop", "Skips one iteration"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which file extension is used for Python files?",
+    "options": [".java", ".py", ".html", ".cpp"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these is a logical operator?",
+    "options": ["+", "&&", "%", "--"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is a function parameter?",
+    "options": ["Return value", "Variable passed to a function", "Output of a function", "Error message"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these defines an array?",
+    "options": ["Collection of variables", "Single variable", "Function", "Loop"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which keyword exits a function?",
+    "options": ["exit", "end", "stop", "return"],
+    "correct_answer": 3
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which data type stores a single character?",
+    "options": ["int", "char", "float", "string"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is the purpose of indentation in Python?",
+    "options": ["Decoration", "Required syntax", "Optional formatting", "Error suppression"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which is not a programming paradigm?",
+    "options": ["Procedural", "Functional", "Object-Oriented", "Dimensional"],
+    "correct_answer": 3
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which is a unary operator?",
+    "options": ["+", "++", "+=", "%"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is the main advantage of functions?",
+    "options": ["Increase errors", "Avoid repetition", "Reduce speed", "Limit reuse"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What does a return statement do?",
+    "options": ["Exit loop", "End program", "Pass control", "Give output from function"],
+    "correct_answer": 3
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is a nested loop?",
+    "options": ["Loop with no exit", "Loop inside another loop", "Infinite loop", "Conditional loop"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these is an assignment operator?",
+    "options": ["==", "=", "++", "+"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What does 'float' represent in programming?",
+    "options": ["Decimal number", "Character", "Logical value", "String"],
+    "correct_answer": 0
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which is used to import libraries in Python?",
+    "options": ["include", "import", "require", "attach"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these is not a valid conditional?",
+    "options": ["if", "else", "elseif", "loop"],
+    "correct_answer": 3
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What is the result of 9 % 4?",
+    "options": ["2", "3", "1", "5"],
+    "correct_answer": 1
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "Which of these stores multiple values of the same type?",
+    "options": ["Function", "Variable", "Array", "Loop"],
+    "correct_answer": 2
+  },
+  {
+    "course_code": "COS211",
+    "level": 200,
+    "question": "What does 'debugging' mean?",
+    "options": ["Adding bugs", "Removing errors", "Writing code", "Encrypting data"],
+    "correct_answer": 1
+  }
+]

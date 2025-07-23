@@ -11,6 +11,8 @@ const mockData = {
     { department: 'Computer Science', course_code: 'CS201', level: 200, question_count: 40, default_time: 25 },
     { department: 'Computer Science', course_code: 'MTH211', level: 200, question_count: 40, default_time: 35 },
     { department: 'Computer Science', course_code: 'SEN211', level: 200, question_count: 50, default_time: 35 },
+    { department: 'Computer Science', course_code: 'CYB211', level: 200, question_count: 50, default_time: 35 },
+    { department: 'Computer Science', course_code: 'COS211', level: 200, question_count: 50, default_time: 35 },
   ]
 };
 

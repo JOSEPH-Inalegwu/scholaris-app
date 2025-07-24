@@ -19,7 +19,7 @@ const Layout = () => {
         isNavigationDisabled={isNavigationDisabled}
       />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1">
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           handleSidebarToggle={handleSidebarToggle}

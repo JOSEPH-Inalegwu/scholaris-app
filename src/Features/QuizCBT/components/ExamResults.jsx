@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useUser } from '../../../Context/UserContext';
 
 const getRemarkAndMessage = (percentage, studentName = 'Student') => {
@@ -35,13 +35,31 @@ const getRemarkAndMessage = (percentage, studentName = 'Student') => {
   };
 };
 
-const ExamResults = ({ results, handleRestart }) => {
+/**
+ * @param {Array} graded - Array from ExamInterface: {isCorrect, question, userAnswer, correctAnswer, ...}
+ * @param {function} handleRestart - Restart exam handler
+ * @param {function} onReview - Review answers handler
+ */
+const ExamResults = ({ graded = [], handleRestart, onReview }) => {
   const { userName } = useUser();
   const studentName = userName || 'Student';
 
-  const { score, total, answeredCount } = results;
+  // ✅ Compute score & stats
+  const { score, total, answeredCount } = useMemo(() => {
+    const total = graded.length;
+    let score = 0;
+    let answered = 0;
+
+    graded.forEach((q) => {
+      if (q.userAnswer) answered++;
+      if (q.isCorrect) score++;
+    });
+
+    return { score, total, answeredCount: answered };
+  }, [graded]);
+
   const unanswered = total - answeredCount;
-  const percentage = ((score / total) * 100).toFixed(2);
+  const percentage = total > 0 ? ((score / total) * 100).toFixed(2) : 0;
   const { remark, message } = getRemarkAndMessage(percentage, studentName);
   const progressWidth = Math.min(percentage, 100);
 
@@ -119,14 +137,14 @@ const ExamResults = ({ results, handleRestart }) => {
               <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-black rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
 
-            <button
-              onClick={() => {
-                console.log('Review answers functionality would go here');
-              }}
-              className="group bg-white hover:bg-gray-50 text-black px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold border-2 border-black transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-            >
-              Review Answers
-            </button>
+            {onReview && (
+              <button
+                onClick={() => onReview(graded)}
+                className="group bg-white hover:bg-gray-50 text-black px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold border-2 border-black transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+              >
+                Review Answers
+              </button>
+            )}
           </div>
         </div>
 

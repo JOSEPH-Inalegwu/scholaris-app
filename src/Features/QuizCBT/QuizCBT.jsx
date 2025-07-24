@@ -2,8 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import ExamSelector from './components/ExamSelector';
 import ExamInterface from './components/ExamInterface';
 import ExamResults from './components/ExamResults';
+import ReviewAnswers from './components/ReviewAnswers';
 import { NavigationContext } from '../../Context/NavigationContext';
-import { useUser } from '../../Context/UserContext'; 
+import { useUser } from '../../Context/UserContext';
 
 const STORAGE_KEY = 'quizCBTState';
 
@@ -12,7 +13,7 @@ const generateRandomId = () =>
 
 const QuizCBT = () => {
   const { setIsNavigationDisabled } = useContext(NavigationContext);
-  const { userName: studentName = 'Student' } = useUser(); 
+  const { userName: studentName = 'Student' } = useUser();
 
   const [stage, setStage] = useState('selection');
   const [examData, setExamData] = useState(null);
@@ -35,6 +36,12 @@ const QuizCBT = () => {
     const save = { stage, examData, results };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
   }, [stage, examData, results, isRestoring]);
+
+  useEffect(() => {
+    console.log('🔄 stage changed ->', stage);
+  }, [stage]);
+
+  console.log('👀 render stage:', stage);
 
   const handleStartExam = (data) => {
     const exam_id = data.exam_id || generateRandomId();
@@ -63,36 +70,68 @@ const QuizCBT = () => {
     setIsNavigationDisabled(false);
   };
 
-  if (isRestoring) return null;
-
   const handleGoBack = () => {
-    localStorage.removeItem(STORAGE_KEY); 
+    localStorage.removeItem(STORAGE_KEY);
     setStage('selection');
     setExamData(null);
     setResults(null);
     setIsNavigationDisabled(false);
   };
-  
 
-  return (
-    <div className="min-h-screen bg-white">
-      {stage === 'selection' && (
-        <ExamSelector onStartExam={handleStartExam} />
-      )}
+  if (isRestoring) return null;
 
-      {stage === 'exam' && examData && (
-        <ExamInterface
-          examData={examData}
-          storageKey={`examState-${examData.exam_id}`}
-          onSubmit={handleSubmitExam}
-        />
-      )}
+  switch (stage) {
+    case 'selection':
+      return (
+        <div className="min-h-screen bg-white">
+          <ExamSelector onStartExam={handleStartExam} />
+        </div>
+      );
 
-      {stage === 'results' && results && (
-        <ExamResults results={results} studentName={studentName} handleRestart={handleGoBack} />
-      )}
-    </div>
-  );
+    case 'exam':
+      return (
+        <div className="min-h-screen bg-white">
+          {examData && (
+            <ExamInterface
+              examData={examData}
+              storageKey={`examState-${examData.exam_id}`}
+              onSubmit={handleSubmitExam}
+            />
+          )}
+        </div>
+      );
+
+    case 'results':
+      return (
+        <div className="min-h-screen bg-white">
+          {results && (
+            <ExamResults
+              graded={results.breakdown}
+              handleRestart={handleGoBack}
+              onReview={() => {
+                console.log('✅ Review clicked!');
+                setStage('review');
+              }}
+            />
+          )}
+        </div>
+      );
+
+    case 'review':
+      return (
+        <div className="min-h-screen bg-white">
+          {results && (
+            <ReviewAnswers
+              graded={results.breakdown}
+              onBack={() => setStage('results')}
+            />
+          )}
+        </div>
+      );
+
+    default:
+      return null;
+  }
 };
 
 export default QuizCBT;

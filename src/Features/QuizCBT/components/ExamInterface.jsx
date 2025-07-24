@@ -1,8 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { CheckCircle } from 'lucide-react';
 
 const ExamInterface = ({ examData, storageKey, onSubmit }) => {
+  /* ---------- ADAPTER (make Supabase rows look like your UI expects) ---------- */
+  // ✅ Map DB fields (option_a..d, correct_option) -> { options:[], correct_answer:index }
+  const questions = useMemo(() => {
+    const mapLetterToIndex = { A: 0, B: 1, C: 2, D: 3 };
+    return examData.questions.map(q => ({
+      ...q,
+      options: [q.option_a, q.option_b, q.option_c, q.option_d],
+      correct_answer: mapLetterToIndex[q.correct_option], // index 0-3
+    }));
+  }, [examData.questions]);
+
+  // ✅ Optional: pass course meta from ExamSelector (recommended)
+  // examData.course = { id, code, name } or fallbacks
+  const courseCode =
+    examData?.course?.code ??
+    examData?.course_code ?? // if you still pass this
+    `COURSE-${examData?.course_id ?? ''}`;
+
   /* ---------- STATE ---------- */
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -11,14 +29,12 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
 
   /* 🔥 NEW (submit‑overlay state) */
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [countdown, setCountdown] = useState(3)
+  const [countdown, setCountdown] = useState(3);
 
-  const { questions } = examData;
   const currentQuestion = questions[currentQuestionIndex];
 
   /* ---------- LOAD SAVED STATE ON MOUNT ---------- */
   useEffect(() => {
-    // Toast (only once per session)
     const toastShown = sessionStorage.getItem('examToastShown');
     if (!toastShown) {
       toast.info(
@@ -28,18 +44,18 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
       sessionStorage.setItem('examToastShown', 'true');
     }
 
-    // Load saved data from localStorage
     const saved = JSON.parse(localStorage.getItem(storageKey));
     if (saved) {
       setAnswers(saved.answers || {});
       setCurrentQuestionIndex(saved.currentQuestionIndex ?? 0);
       setTimeLeft(saved.timeLeft ?? examData.time_limit * 60);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey, examData.time_limit]);
 
   /* ----- SAVE STATE ON CHANGE ---- */
   useEffect(() => {
-    if (!isExamActive) return; // Don't save after submission
+    if (!isExamActive) return;
     const stateToSave = { answers, currentQuestionIndex, timeLeft };
     localStorage.setItem(storageKey, JSON.stringify(stateToSave));
   }, [answers, currentQuestionIndex, timeLeft, isExamActive, storageKey]);
@@ -58,13 +74,12 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   /* 🔥 NEW countdown side‑effect */
   useEffect(() => {
     if (!isSubmitting) return;
-  
+
     if (countdown === 0) {
-      // show "Submitted!" for 1s, then finalize
       const done = setTimeout(finalizeSubmission, 1000);
       return () => clearTimeout(done);
     }
-  
+
     const t = setTimeout(() => setCountdown((c) => c - 1), 1000);
     return () => clearTimeout(t);
   }, [isSubmitting, countdown]);
@@ -86,23 +101,20 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
     currentQuestionIndex < questions.length - 1 &&
     setCurrentQuestionIndex((i) => i + 1);
 
-  /* 🔥 when user clicks Submit */
   const handleSubmitClick = () => {
-    setIsExamActive(false);   // freeze UI
-    setIsSubmitting(true);    // show overlay
-    setCountdown(3);          // reset countdown each time
+    setIsExamActive(false);
+    setIsSubmitting(true);
+    setCountdown(3);
   };
 
-  /* 🔥 NEW final submit once countdown hits 0 */
   const finalizeSubmission = () => {
     setIsSubmitting(false);
     localStorage.removeItem(storageKey);
-  
-    // Compare each user answer with the correct option index
+
     const graded = questions.map((q) => {
       const userAnswer = answers[q.id] || null;
-      const correctAnswer = q.options[q.correct_answer]; // ✅ get correct option string
-  
+      const correctAnswer = q.options[q.correct_answer]; 
+
       return {
         question_id: q.id,
         question: q.question,
@@ -112,11 +124,9 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
         isCorrect: userAnswer === correctAnswer,
       };
     });
-  
-    // Give a second for the "Submitted!" to show before firing onSubmit
+
     setTimeout(() => onSubmit(graded), 1000);
   };
-  
 
   const answeredCount = Object.keys(answers).length;
 
@@ -126,11 +136,11 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
       <header className="bg-white shadow-md px-4 sm:px-6 py-3">
         <div className="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
           <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
-            {questions[0].course_code} Exam
+            {courseCode} Exam
           </h1>
 
           <div className="flex items-center justify-between w-full">
-            <p className="text-base sm:text-lg font-medium text-gray-700">
+          <p className="text-base sm:text-lg font-medium text-gray-700">
               Time&nbsp;Left:
               <span className="ml-1 text-red-500">{formatTime(timeLeft)}</span>
             </p>

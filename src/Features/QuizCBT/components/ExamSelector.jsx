@@ -1,103 +1,154 @@
 import React, { useState, useEffect } from 'react';
-import { fetchQuestions } from '../../../Hooks/supabaseQuestionsService';
+import {
+  getDepartments,
+  getLevels,
+  getSemesters,
+  getCourses,
+  fetchQuestions as fetchQuestionsByCourse
+} from '../../../Hooks/supabaseQuestionsService';
+import ExamInterface from './ExamInterface';
+import ExamResults from './ExamResults';
 
-// Normalize course code by removing spaces and converting to uppercase
-const normalize = str => str.replace(/\s+/g, '').toUpperCase();
-
-// Mock data for course metadata
-const mockData = {
-  courses: [
-    { department: 'Computer Science', course_code: 'CS101', level: 100, question_count: 50, default_time: 35 },
-    { department: 'Computer Science', course_code: 'CS201', level: 200, question_count: 40, default_time: 25 },
-    { department: 'Computer Science', course_code: 'MTH211', level: 200, question_count: 40, default_time: 35 },
-    { department: 'Computer Science', course_code: 'SEN211', level: 200, question_count: 50, default_time: 35 },
-    { department: 'Computer Science', course_code: 'CYB211', level: 200, question_count: 50, default_time: 35 },
-    { department: 'Computer Science', course_code: 'COS211', level: 200, question_count: 50, default_time: 35 },
-  ]
-};
-
-const ExamSelector = ({ onStartExam = () => {} }) => {
+const ExamSelector = () => {
   const [department, setDepartment] = useState('');
-  const [course, setCourse] = useState('');
   const [level, setLevel] = useState('');
+  const [semester, setSemester] = useState('');
+  const [courseId, setCourseId] = useState(null);
   const [timeLimit, setTimeLimit] = useState('');
+
+  const [departments, setDepartments] = useState([]);
+  const [levels, setLevels] = useState([]);
+  const [semesters, setSemesters] = useState([]);
+  const [courses, setCourses] = useState([]);
+
   const [questionCount, setQuestionCount] = useState(null);
   const [availableQuestions, setAvailableQuestions] = useState(0);
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const departments = [...new Set(mockData.courses.map(c => c.department))];
-  const levels = [...new Set(mockData.courses.map(c => c.level))];
-  const filteredCourses = mockData.courses.filter(c => c.department === department);
+  // Phase management
+  const [phase, setPhase] = useState('select'); // 'select' | 'exam' | 'results'
+  const [examData, setExamData] = useState(null);
+  const [graded, setGraded] = useState([]);
+
+  useEffect(() => {
+    const bootstrap = async () => {
+      setLoading(true);
+      const [deps, lvls, sems] = await Promise.all([
+        getDepartments(),
+        getLevels(),
+        getSemesters()
+      ]);
+      setDepartments(deps);
+      setLevels(lvls);
+      setSemesters(sems);
+      setLoading(false);
+    };
+    bootstrap();
+  }, []);
+
+  useEffect(() => {
+    const run = async () => {
+      setCourses([]);
+      setCourseId(null);
+      setQuestionCount(null);
+      setAvailableQuestions(0);
+      setError('');
+      if (!department || !level || !semester) return;
+
+      setLoading(true);
+      const foundCourses = await getCourses(Number(department), Number(level), Number(semester));
+      setCourses(foundCourses);
+      setLoading(false);
+    };
+    run();
+  }, [department, level, semester]);
 
   useEffect(() => {
     const validate = async () => {
-      if (!course || !level) {
-        setQuestionCount(null);
-        setAvailableQuestions(0);
-        setError('');
-        return;
-      }
-
-      setLoading(true);
+      setQuestionCount(null);
+      setAvailableQuestions(0);
       setError('');
 
-      const selectedCourse = mockData.courses.find(
-        (c) => normalize(c.course_code) === normalize(course) && c.level === Number(level)
-      );
+      if (!courseId) return;
 
-      if (!selectedCourse) {
-        setError('Course not found in mock metadata');
-        setLoading(false);
-        return;
-      }
-
-      setQuestionCount(selectedCourse.question_count);
-      setTimeLimit(String(selectedCourse.default_time));
-
-      const allQs = await fetchQuestions(normalize(course), Number(level));
+      setLoading(true);
+      const allQs = await fetchQuestionsByCourse(Number(courseId));
       setAvailableQuestions(allQs.length);
 
-      if (allQs.length < selectedCourse.question_count) {
-        setError(
-          `Not enough questions for ${course} (${allQs.length}/${selectedCourse.question_count})`
-        );
-      }
-
+      const defaultCount = Math.min(allQs.length, 50);
+      setQuestionCount(defaultCount);
       setLoading(false);
     };
-
     validate();
-  }, [course, level]);
+  }, [courseId]);
 
   const handleStartExam = async () => {
-    if (!department || !course || !level || !timeLimit || error) {
+    if (!department || !level || !semester || !courseId || !timeLimit || error) {
       setError('Please complete all fields and resolve any errors.');
       return;
     }
 
-    const allQuestions = await fetchQuestions(normalize(course), Number(level));
-    const examQuestions = allQuestions.slice(0, questionCount);
+    const allQuestions = await fetchQuestionsByCourse(Number(courseId), questionCount);
+    const selectedCourse = courses.find(c => c.id === Number(courseId));
 
-    onStartExam({
-      course_code: course,
+    const examPayload = {
+      course_id: Number(courseId),
+      course: selectedCourse,
       level: Number(level),
+      semester: Number(semester),
       time_limit: Number(timeLimit),
-      questions: examQuestions,
-    });
+      questions: allQuestions.slice(0, questionCount),
+    };
+
+    setExamData(examPayload);
+    setPhase('exam');
   };
 
   const handleQuickStart = () => {
-    const firstCourse = mockData.courses[0];
-    setDepartment(firstCourse.department);
-    setCourse(firstCourse.course_code);
-    setLevel(firstCourse.level.toString());
-    setTimeLimit(firstCourse.default_time.toString());
+    if (!departments.length || !levels.length || !semesters.length) return;
+    setDepartment(departments[0].id.toString());
+    setLevel(levels[0].id.toString());
+    setSemester(semesters[0].id.toString());
   };
 
+  // ✅ PHASE: EXAM
+  if (phase === 'exam' && examData) {
+    return (
+      <ExamInterface
+        examData={examData}
+        storageKey={`exam_${examData.course_id}`}
+        onSubmit={(gradedArray) => {
+          setGraded(gradedArray);
+          setPhase('results');
+        }}
+      />
+    );
+  }
+
+  // ✅ PHASE: RESULTS
+  if (phase === 'results') {
+    return (
+      <ExamResults
+        graded={graded}
+        handleRestart={() => {
+          setPhase('select');
+          setExamData(null);
+          setGraded([]);
+        }}
+        onReview={(g) => {
+          console.log('Review clicked!', g);
+          // setPhase('review') if you want a ReviewAnswers page next
+        }}
+      />
+    );
+  }
+
+  // ✅ PHASE: SELECTION
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center mt-12">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md py-6">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">CBT Exam</h1>
           <p className="text-gray-600">Configure your exam settings</p>
@@ -112,30 +163,13 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
                 value={department}
                 onChange={(e) => {
                   setDepartment(e.target.value);
-                  setCourse('');
-                  setLevel('');
+                  setCourseId(null);
                 }}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg"
               >
                 <option value="">Select Department</option>
                 {departments.map((dept) => (
-                  <option key={dept} value={dept}>{dept}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Course */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Course Code</label>
-              <select
-                value={course}
-                onChange={(e) => setCourse(e.target.value)}
-                disabled={!department}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-              >
-                <option value="">Select Course</option>
-                {filteredCourses.map((c) => (
-                  <option key={c.course_code} value={c.course_code}>{c.course_code}</option>
+                  <option key={dept.id} value={dept.id}>{dept.name}</option>
                 ))}
               </select>
             </div>
@@ -151,7 +185,39 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
               >
                 <option value="">Select Level</option>
                 {levels.map((lvl) => (
-                  <option key={lvl} value={lvl}>Level {lvl}</option>
+                  <option key={lvl.id} value={lvl.id}>{lvl.name}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Semester */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Semester</label>
+              <select
+                value={semester}
+                onChange={(e) => setSemester(e.target.value)}
+                disabled={!department || !level}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+              >
+                <option value="">Select Semester</option>
+                {semesters.map((sem) => (
+                  <option key={sem.id} value={sem.id}>{sem.name}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Course */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Course</label>
+              <select
+                value={courseId ?? ''}
+                onChange={(e) => setCourseId(e.target.value)}
+                disabled={!department || !level || !semester}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+              >
+                <option value="">Select Course</option>
+                {courses.map((c) => (
+                  <option key={c.id} value={c.id}>{c.code} — {c.name}</option>
                 ))}
               </select>
             </div>
@@ -162,7 +228,7 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
               <select
                 value={timeLimit}
                 onChange={(e) => setTimeLimit(e.target.value)}
-                disabled={!course}
+                disabled={!courseId}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg"
               >
                 <option value="">Select Duration</option>
@@ -171,8 +237,8 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
               </select>
             </div>
 
-            {/* Info Box */}
-            {questionCount && (
+            {/* Info */}
+            {questionCount !== null && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-800">
                   This exam contains <span className="font-semibold">{questionCount}</span> questions
@@ -188,7 +254,7 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
             {/* Loading */}
             {loading && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <p className="text-sm text-yellow-800">Validating questions...</p>
+                <p className="text-sm text-yellow-800">Loading data...</p>
               </div>
             )}
 
@@ -211,7 +277,7 @@ const ExamSelector = ({ onStartExam = () => {} }) => {
               <button
                 onClick={handleStartExam}
                 className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex-1 sm:flex-initial"
-                disabled={!department || !course || !level || !timeLimit || error || loading}
+                disabled={!department || !level || !semester || !courseId || !timeLimit || error || loading}
               >
                 {loading ? 'Validating...' : 'Start Exam'}
               </button>

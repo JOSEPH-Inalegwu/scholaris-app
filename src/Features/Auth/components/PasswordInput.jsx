@@ -6,7 +6,7 @@ const PasswordInput = ({ value, onChange, placeholder, id, error }) => {
 
   return (
     <div className={`flex items-center border rounded-lg ${error ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300 focus-within:border-[#948979] focus-within:ring-1 focus-within:ring-[#222831]'}`}>
-      <img src="src/assets/icons/lock.svg" alt="" className='w-5 h-5 mx-3' />
+      <img src="/icons/lock.svg" alt="" className='w-5 h-5 mx-3' />
       <input
         type={showPassword ? 'text' : 'password'}
         value={value}
@@ -22,7 +22,7 @@ const PasswordInput = ({ value, onChange, placeholder, id, error }) => {
         aria-label={showPassword ? 'Hide password' : 'Show password'}
       >
         <img
-          src={showPassword ? "src/assets/icons/eye-open.svg" : "src/assets/icons/eye-closed.svg"}
+          src={showPassword ? "/icons/eye-open.svg" : "/icons/eye-closed.svg"}
           alt=""
           className='w-6 h-6'
         />

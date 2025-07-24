@@ -5,8 +5,8 @@ import SidebarLink from './SidebarLinks';
 import { handleLogoutLogic } from '../Hooks/logout.js';
 import { supabase } from '../supabaseClient';
 
-import plus from '../assets/icons/plus.svg';
-import minus from '../assets/icons/minus.svg';
+import plus from '../../public/icons/plus.svg';
+import minus from '../../public/icons/minus.svg';
 
 const Sidebar = ({
   isSidebarOpen,

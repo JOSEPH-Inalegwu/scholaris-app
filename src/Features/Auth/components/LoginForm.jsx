@@ -139,7 +139,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
                   : 'border-gray-300 focus-within:border-[#948979] focus-within:ring-1 focus-within:ring-[#222831]'
               } ${shakeEmail ? 'shake' : ''}`}
             >
-              <img src="src/assets/icons/user.svg" alt="" className="w-5 h-5 mx-3" />
+              <img src="/icons/user.svg" alt="" className="w-5 h-5 mx-3" />
               <input
                 type="email"
                 placeholder="you@example.com"

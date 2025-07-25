@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useUser } from '../../../Context/UserContext';
+import { useExamStats } from '../../../Hooks/useExamStats';
 
 const getRemarkAndMessage = (percentage, studentName = 'Student') => {
   const percent = parseFloat(percentage);
@@ -35,31 +36,11 @@ const getRemarkAndMessage = (percentage, studentName = 'Student') => {
   };
 };
 
-/**
- * @param {Array} graded - Array from ExamInterface: {isCorrect, question, userAnswer, correctAnswer, ...}
- * @param {function} handleRestart - Restart exam handler
- * @param {function} onReview - Review answers handler
- */
 const ExamResults = ({ graded = [], handleRestart, onReview }) => {
   const { userName } = useUser();
   const studentName = userName || 'Student';
 
-  // ✅ Compute score & stats
-  const { score, total, answeredCount } = useMemo(() => {
-    const total = graded.length;
-    let score = 0;
-    let answered = 0;
-
-    graded.forEach((q) => {
-      if (q.userAnswer) answered++;
-      if (q.isCorrect) score++;
-    });
-
-    return { score, total, answeredCount: answered };
-  }, [graded]);
-
-  const unanswered = total - answeredCount;
-  const percentage = total > 0 ? ((score / total) * 100).toFixed(2) : 0;
+  const { score, total, answered, unanswered, percentage } = useExamStats(graded);
   const { remark, message } = getRemarkAndMessage(percentage, studentName);
   const progressWidth = Math.min(percentage, 100);
 
@@ -108,7 +89,7 @@ const ExamResults = ({ graded = [], handleRestart, onReview }) => {
           {/* Stats */}
           <div className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6">
             <div className="bg-gray-50 rounded-xl p-3 sm:p-4 md:p-6 text-center border border-gray-200">
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1">{answeredCount}</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1">{answered}</div>
               <div className="text-xs sm:text-sm text-gray-600 uppercase tracking-wide">Answered</div>
             </div>
             <div className="bg-gray-50 rounded-xl p-3 sm:p-4 md:p-6 text-center border border-gray-200">

@@ -6,10 +6,8 @@ import {
   getCourses,
   fetchQuestions as fetchQuestionsByCourse
 } from '../../../Hooks/supabaseQuestionsService';
-import ExamInterface from './ExamInterface';
-import ExamResults from './ExamResults';
 
-const ExamSelector = () => {
+const ExamSelector = ({ onStartExam }) => {
   const [department, setDepartment] = useState('');
   const [level, setLevel] = useState('');
   const [semester, setSemester] = useState('');
@@ -26,11 +24,6 @@ const ExamSelector = () => {
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Phase management
-  const [phase, setPhase] = useState('select'); // 'select' | 'exam' | 'results'
-  const [examData, setExamData] = useState(null);
-  const [graded, setGraded] = useState([]);
 
   useEffect(() => {
     const bootstrap = async () => {
@@ -102,8 +95,11 @@ const ExamSelector = () => {
       questions: allQuestions.slice(0, questionCount),
     };
 
-    setExamData(examPayload);
-    setPhase('exam');
+    if (onStartExam) {
+      onStartExam(examPayload);
+    } else {
+      console.error('onStartExam not provided');
+    }
   };
 
   const handleQuickStart = () => {
@@ -113,39 +109,6 @@ const ExamSelector = () => {
     setSemester(semesters[0].id.toString());
   };
 
-  // ✅ PHASE: EXAM
-  if (phase === 'exam' && examData) {
-    return (
-      <ExamInterface
-        examData={examData}
-        storageKey={`exam_${examData.course_id}`}
-        onSubmit={(gradedArray) => {
-          setGraded(gradedArray);
-          setPhase('results');
-        }}
-      />
-    );
-  }
-
-  // ✅ PHASE: RESULTS
-  if (phase === 'results') {
-    return (
-      <ExamResults
-        graded={graded}
-        handleRestart={() => {
-          setPhase('select');
-          setExamData(null);
-          setGraded([]);
-        }}
-        onReview={(g) => {
-          console.log('Review clicked!', g);
-          // setPhase('review') if you want a ReviewAnswers page next
-        }}
-      />
-    );
-  }
-
-  // ✅ PHASE: SELECTION
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center mt-12">
       <div className="w-full max-w-md py-6">

@@ -15,34 +15,39 @@ const QuizCBT = () => {
   const { setIsNavigationDisabled } = useContext(NavigationContext);
   const { userName: studentName = 'Student' } = useUser();
 
-  const [stage, setStage] = useState('selection');
+  const [stage, setStage] = useState('selection'); // selection | exam | results | review
   const [examData, setExamData] = useState(null);
   const [results, setResults] = useState(null);
+  const [reviewData, setReviewData] = useState([]); 
   const [isRestoring, setIsRestoring] = useState(true);
 
+  // Restore from localStorage
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (saved) {
       setStage(saved.stage);
       setExamData(saved.examData);
       setResults(saved.results);
+      setReviewData(saved.reviewData || []);
       if (saved.stage === 'exam') setIsNavigationDisabled(true);
     }
     setIsRestoring(false);
   }, [setIsNavigationDisabled]);
 
+  // Persist to localStorage
   useEffect(() => {
     if (isRestoring) return;
-    const save = { stage, examData, results };
+    const save = { stage, examData, results, reviewData };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
-  }, [stage, examData, results, isRestoring]);
+  }, [stage, examData, results, reviewData, isRestoring]);
 
+  // Debug logs
   useEffect(() => {
-    console.log('🔄 stage changed ->', stage);
-  }, [stage]);
+    console.log('🔄 QuizCBT - stage changed ->', stage);
+    console.log('📊 Current results:', results);
+  }, [stage, results]);
 
-  console.log('👀 render stage:', stage);
-
+  // Start exam
   const handleStartExam = (data) => {
     const exam_id = data.exam_id || generateRandomId();
     setExamData({ ...data, exam_id });
@@ -50,7 +55,13 @@ const QuizCBT = () => {
     setIsNavigationDisabled(true);
   };
 
+  // Submit exam
   const handleSubmitExam = (gradedArray) => {
+    if (!Array.isArray(gradedArray)) {
+      console.error('❌ gradedArray is not an array:', gradedArray);
+      return;
+    }
+
     const total = gradedArray.length;
     const correctCount = gradedArray.filter((g) => g.isCorrect).length;
     const answeredCount = gradedArray.filter(
@@ -70,16 +81,41 @@ const QuizCBT = () => {
     setIsNavigationDisabled(false);
   };
 
+  // Restart exam / Go back to selection
   const handleGoBack = () => {
     localStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem('examToastShown'); // reset toast flag
     setStage('selection');
     setExamData(null);
     setResults(null);
+    setReviewData([]);
     setIsNavigationDisabled(false);
+  };
+
+  // Review answers
+  const handleReviewAnswers = (gradedData) => {
+    console.log('✅ QuizCBT - Review clicked!');
+    const dataToReview = gradedData || results?.breakdown;
+
+    if (!dataToReview || !Array.isArray(dataToReview) || dataToReview.length === 0) {
+      console.error('❌ Invalid results data for review:', dataToReview);
+      alert('Unable to review answers. No valid exam data found.');
+      return;
+    }
+
+    setReviewData(dataToReview);
+    setStage('review');
+  };
+
+  // Back to results from review
+  const handleBackToResults = () => {
+    console.log('🔙 Back to results clicked');
+    setStage('results');
   };
 
   if (isRestoring) return null;
 
+  // Stage Rendering
   switch (stage) {
     case 'selection':
       return (
@@ -108,10 +144,7 @@ const QuizCBT = () => {
             <ExamResults
               graded={results.breakdown}
               handleRestart={handleGoBack}
-              onReview={() => {
-                console.log('✅ Review clicked!');
-                setStage('review');
-              }}
+              onReview={handleReviewAnswers}
             />
           )}
         </div>
@@ -120,17 +153,30 @@ const QuizCBT = () => {
     case 'review':
       return (
         <div className="min-h-screen bg-white">
-          {results && (
+          {reviewData && reviewData.length > 0 && (
             <ReviewAnswers
-              graded={results.breakdown}
-              onBack={() => setStage('results')}
+              graded={reviewData}
+              onBack={handleBackToResults}
             />
           )}
         </div>
       );
 
     default:
-      return null;
+      return (
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Unknown State</h2>
+            <p className="text-gray-600 mb-4">Current stage: {stage}</p>
+            <button
+              onClick={handleGoBack}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Go Back to Start
+            </button>
+          </div>
+        </div>
+      );
   }
 };
 

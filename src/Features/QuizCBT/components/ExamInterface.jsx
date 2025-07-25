@@ -4,32 +4,37 @@ import { toast } from 'react-toastify';
 import { CheckCircle } from 'lucide-react';
 
 const ExamInterface = ({ examData, storageKey, onSubmit }) => {
-
-  // Disable navigation during exam
-  // This will prevent any navigation actions while the exam is active
   const { setIsNavigationDisabled } = useContext(NavigationContext);
 
   useEffect(() => {
     setIsNavigationDisabled(true);
     return () => setIsNavigationDisabled(false);
-  }, [setIsNavigationDisabled])
+  }, [setIsNavigationDisabled]);
 
- 
-  // ✅ Map DB fields (option_a..d, correct_option) -> { options:[], correct_answer:index }
+  // ✅ Shuffle function
+  const shuffleArray = (array) => {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
+
+  // ✅ Map and shuffle questions
   const questions = useMemo(() => {
     const mapLetterToIndex = { A: 0, B: 1, C: 2, D: 3 };
-    return examData.questions.map(q => ({
+    const mappedQuestions = examData.questions.map((q) => ({
       ...q,
       options: [q.option_a, q.option_b, q.option_c, q.option_d],
-      correct_answer: mapLetterToIndex[q.correct_option], // index 0-3
+      correct_answer: mapLetterToIndex[q.correct_option],
     }));
+    return shuffleArray(mappedQuestions);
   }, [examData.questions]);
 
-
-  // examData.course = { id, code, name } or fallbacks
   const courseCode =
     examData?.course?.code ??
-    examData?.course_code ?? // if you still pass this
+    examData?.course_code ??
     `COURSE-${examData?.course_id ?? ''}`;
 
   /* ---------- STATE ---------- */
@@ -38,7 +43,6 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   const [timeLeft, setTimeLeft] = useState(examData.time_limit * 60);
   const [isExamActive, setIsExamActive] = useState(true);
 
-  /* 🔥 NEW (submit‑overlay state) */
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [countdown, setCountdown] = useState(3);
 
@@ -118,13 +122,13 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   };
 
   const finalizeSubmission = () => {
-    setIsNavigationDisabled(false); // Re-enable navigation after submission
+    setIsNavigationDisabled(false);
     setIsSubmitting(false);
     localStorage.removeItem(storageKey);
 
     const graded = questions.map((q) => {
       const userAnswer = answers[q.id] || null;
-      const correctAnswer = q.options[q.correct_answer]; 
+      const correctAnswer = q.options[q.correct_answer];
 
       return {
         question_id: q.id,
@@ -151,7 +155,7 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
           </h1>
 
           <div className="flex items-center justify-between w-full">
-          <p className="text-base sm:text-lg font-medium text-gray-700">
+            <p className="text-base sm:text-lg font-medium text-gray-700">
               Time&nbsp;Left:
               <span className="ml-1 text-red-500">{formatTime(timeLeft)}</span>
             </p>

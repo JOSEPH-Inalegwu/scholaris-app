@@ -93,7 +93,7 @@ const GPACalculator = () => {
   };
 
   return (
-    <div className="min-h-screen py-18 px-2">
+    <div className="min-h-screen py-18">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">

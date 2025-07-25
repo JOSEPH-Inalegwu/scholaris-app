@@ -32,12 +32,12 @@ const ReviewAnswers = ({ graded = [], onBack }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 sm:py-12 px-4 sm:px-6">
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8">
+    <div className="min-h-screen bg-gray-50 py-14 sm:py-12">
+      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+          <h1 className="text-xl sm:text-3xl font-bold text-gray-800">
             Review Answers
           </h1>
           <button

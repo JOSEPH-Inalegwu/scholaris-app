@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { NavigationContext } from '../Context/NavigationContext';
 
 const Header = ({ 
   handleSidebarToggle, 
   isSidebarOpen, 
-  isNavigationDisabled = false, 
+  // isNavigationDisabled = false, 
 }) => {
+  const { isNavigationDisabled } = useContext(NavigationContext)
   
   const handleToggleClick = () => {
     if (isNavigationDisabled) {

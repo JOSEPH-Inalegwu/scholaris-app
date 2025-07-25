@@ -1,9 +1,20 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { NavigationContext } from '../../../Context/NavigationContext';
 import { toast } from 'react-toastify';
 import { CheckCircle } from 'lucide-react';
 
 const ExamInterface = ({ examData, storageKey, onSubmit }) => {
-  /* ---------- ADAPTER (make Supabase rows look like your UI expects) ---------- */
+
+  // Disable navigation during exam
+  // This will prevent any navigation actions while the exam is active
+  const { setIsNavigationDisabled } = useContext(NavigationContext);
+
+  useEffect(() => {
+    setIsNavigationDisabled(true);
+    return () => setIsNavigationDisabled(false);
+  }, [setIsNavigationDisabled])
+
+ 
   // ✅ Map DB fields (option_a..d, correct_option) -> { options:[], correct_answer:index }
   const questions = useMemo(() => {
     const mapLetterToIndex = { A: 0, B: 1, C: 2, D: 3 };
@@ -14,7 +25,7 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
     }));
   }, [examData.questions]);
 
-  // ✅ Optional: pass course meta from ExamSelector (recommended)
+
   // examData.course = { id, code, name } or fallbacks
   const courseCode =
     examData?.course?.code ??
@@ -50,7 +61,6 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
       setCurrentQuestionIndex(saved.currentQuestionIndex ?? 0);
       setTimeLeft(saved.timeLeft ?? examData.time_limit * 60);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey, examData.time_limit]);
 
   /* ----- SAVE STATE ON CHANGE ---- */
@@ -108,6 +118,7 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   };
 
   const finalizeSubmission = () => {
+    setIsNavigationDisabled(false); // Re-enable navigation after submission
     setIsSubmitting(false);
     localStorage.removeItem(storageKey);
 

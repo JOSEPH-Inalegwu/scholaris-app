@@ -11,11 +11,11 @@ const highlightText = (text) => {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
 
-    // Headings (## Heading)
-    .replace(/^## (.*$)/gim, '<h2 class="text-lg font-bold text-black mt-4 mb-2">$1</h2>')
+    // Headings (### Heading)
+    .replace(/^### (.*$)/gim, '<h2 class="text-lg font-bold text-black mt-4 mb-2">$1</h2>')
 
     // Unordered lists (- item)
-    .replace(/^- (.*$)/gim, '<li class="ml-5 list-disc">$1</li>')
+    .replace(/^- (.*$)/gim, '<li class="ml-5 list- mb-2.5 leading-relaxed">$1</li>')
 
     // Bold (**text**)
     .replace(/\*\*(.*?)\*\*/g, '<strong class="text-yellow-600 font-semibold">$1</strong>')

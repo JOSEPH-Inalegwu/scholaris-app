@@ -1,5 +1,42 @@
 import React, { useState, useRef } from 'react';
 import { Send, Paperclip, FileText, X, Copy, Download } from 'lucide-react';
+import { askScholarisAI } from '../Services/scholarisApi';
+import { isAcademicPrompt } from '../Services/filterPrompt';
+
+
+const highlightText = (text) => {
+  let html = text
+    // Escape HTML first (optional, depending on API trust level)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+
+    // Headings (## Heading)
+    .replace(/^## (.*$)/gim, '<h2 class="text-lg font-bold text-black mt-4 mb-2">$1</h2>')
+
+    // Unordered lists (- item)
+    .replace(/^- (.*$)/gim, '<li class="ml-5 list-disc">$1</li>')
+
+    // Bold (**text**)
+    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-yellow-600 font-semibold">$1</strong>')
+
+    // Inline code (`code`)
+    .replace(/`(.*?)`/g, '<code class="bg-gray-200 text-red-600 px-1 py-0.5 rounded">$1</code>')
+
+    // Line breaks to paragraphs or divs
+    .replace(/\n{2,}/g, '</p><p class="mt-3">') // paragraph break
+    .replace(/\n/g, '<br />'); // single line break
+
+  // Wrap in paragraph if not already in one
+  html = `<p class="mt-2">${html}</p>`;
+
+  // Ensure <ul> wraps around <li> elements
+  html = html.replace(/(<li[\s\S]*?<\/li>)/gim, '<ul class="mb-2">$1</ul>');
+
+  return html;
+};
+
+
 
 const ScholarisAI = () => {
   const [messages, setMessages] = useState([]);
@@ -9,7 +46,7 @@ const ScholarisAI = () => {
   const [copiedMessageId, setCopiedMessageId] = useState(null);
   const fileInputRef = useRef(null);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim() || selectedFile) {
       const newMessage = {
         id: Date.now(),
@@ -22,16 +59,52 @@ const ScholarisAI = () => {
       setInputValue('');
       setSelectedFile(null);
       setIsTyping(true);
-      
-      setTimeout(() => {
-        setIsTyping(false);
+
+    //   Blocks innapropriate or off-topic prompts
+      if (!isAcademicPrompt(inputValue)) {
         const aiResponse = {
           id: Date.now() + 1,
-          text: "I've received your message. How can I help you with your academic work today?",
+          text: 'Your prompt contains restricted content. Please ask academic-related questions only.',
           sender: 'ai'
         };
         setMessages(prev => [...prev, aiResponse]);
-      }, 2000);
+        setIsTyping(false);
+        return;
+      }
+
+    //   Whenever users ask about the AI name or identity, respond with a predefined message
+      const lower = inputValue.toLowerCase();
+      const isNameQuery =
+      lower.includes("your name") ||
+      lower.includes("what's your name") ||
+      lower.includes("who are you") ||
+      lower.includes("what are you") ||
+      lower.includes("tell me about yourself") ||
+      lower.includes("tell me your name") ||
+      lower.includes("tell me your name");
+
+      if (isNameQuery) {
+        const aiResponse = {
+        id: Date.now() + 1,
+        text: "I'm Scholaris, a project by INALEGWU Joseph Jonah. I'm here to assist you with academic work like summarizing notes, explaining concepts, and preparing for exams.",
+        sender: 'ai'
+      };
+      setMessages(prev => [...prev, aiResponse]);
+        setIsTyping(false);
+        return;
+    }
+
+      try {
+        const aiReply = await askScholarisAI(inputValue);
+        const aiResponse = {
+            id: Date.now() + 1,
+            text: aiReply,
+            sender: 'ai'
+        };
+        setMessages(prev => [...prev, aiResponse]);
+      } finally {
+        setIsTyping(false);
+      }
     }
   };
 
@@ -109,7 +182,7 @@ const ScholarisAI = () => {
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up px-2`}
           >
             <div
-              className={`max-w-full sm:max-w-xs lg:max-w-lg px-4 py-3 rounded-md shadow-lg transition-all duration-300 hover:shadow-xl group relative ${
+              className={`max-w-full px-4 py-3 rounded-md shadow-lg transition-all duration-300 hover:shadow-xl group relative ${
                 message.sender === 'user'
                   ? 'bg-slate-800 text-white shadow-black/20'
                   : 'bg-white text-black border border-gray-300 shadow-gray/20'
@@ -121,7 +194,12 @@ const ScholarisAI = () => {
                   <span className="truncate">{message.file.name}</span>
                 </div>
               )}
-              <p className="text-sm leading-relaxed break-words">{message.text}</p>
+                <div
+                className="leading-relaxed break-words space-y-3"
+                dangerouslySetInnerHTML={{ __html: highlightText(message.text) }}
+                />
+
+
               
               {/* AI Response Actions */}
               {message.sender === 'ai' && (

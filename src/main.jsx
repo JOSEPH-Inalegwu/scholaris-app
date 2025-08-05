@@ -10,6 +10,7 @@ import Signup from './Features/Auth/Pages/Signup';
 import Dashboard from './Features/Dashboard/components/Dashboard';
 import QuizCBT from './Features/QuizCBT/QuizCBT';
 import GPACalculator from './Features/GPA/GPACalculator';
+import ScholarisAI from './Features/ScholarisAI/ScholarisAI';
 
 import ProtectedLayout from './Hooks/ProtectedLayout';
 import { NavigationProvider } from './Context/NavigationContext';
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
           { index: true, element: <Dashboard /> },
           { path: 'exam-mode', element: <QuizCBT /> },
           { path: 'cgpa-calculator', element: <GPACalculator /> },
+          { path: 'scholaris-ai', element: <ScholarisAI /> },
         ],
       },
     ],

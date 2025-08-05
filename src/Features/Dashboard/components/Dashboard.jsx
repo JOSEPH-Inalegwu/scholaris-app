@@ -204,7 +204,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen mt-10 bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen mt-10 md:mt-0 bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="mb-12 text-left">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
           {loading

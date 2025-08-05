@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FiPlus, FiTrash2, FiRotateCcw } from 'react-icons/fi';
 import { MdCalculate } from 'react-icons/md';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const GPACalculator = () => {
   const [courses, setCourses] = useState([
@@ -95,6 +95,10 @@ const GPACalculator = () => {
   return (
     <div className="min-h-screen py-18">
       <div className="max-w-6xl mx-auto">
+        
+        {/* Toast Container for erros */}
+         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2">

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import SidebarLink from './SidebarLinks';
+
+// Import utilities
+import { useUserProfile, getInitials } from '../Utils/ProfileUtils.js';
 import { handleLogoutLogic } from '../Hooks/logout.js';
-import { supabase } from '../supabaseClient';
 
 import plus from '../../public/icons/plus.svg';
 import minus from '../../public/icons/minus.svg';
@@ -20,55 +22,34 @@ const Sidebar = ({
   const [isCourseOutlineOpen, setIsCourseOutlineOpen] = useState(false);
   const [isPastQuestionsOpen, setIsPastQuestionsOpen] = useState(false);
   const [username, setUsername] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
+
+  // Use profile utility
+  const { fetchUserProfile } = useUserProfile();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error: authError,
-      } = await supabase.auth.getUser();
-
-      if (authError || !user) {
-        console.error('Auth error:', authError?.message || 'User not found');
-        setLoading(false);
-        return;
-      }
-
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', user.id)
-        .single();
-
-      if (profileError && profileError.code !== 'PGRST116') {
-        console.error('Profile fetch error:', profileError.message);
-        setLoading(false);
-        return;
-      }
-
-      if (profile?.username) {
-        setUsername(profile.username);
-      } else {
-        const metadata = user.user_metadata;
-        if (metadata?.username) {
-          setUsername(metadata.username);
-        } else {
-          setUsername('');
-        }
-      }
-
-      setLoading(false);
+    const loadUserProfile = async () => {
+      setLoading(true);
+      const { 
+        username: fetchedUsername, 
+        profilePicture: fetchedProfilePicture, 
+        loading: profileLoading 
+      } = await fetchUserProfile();
+      
+      setUsername(fetchedUsername);
+      setProfilePicture(fetchedProfilePicture);
+      setLoading(profileLoading);
     };
 
-    fetchUser();
+    loadUserProfile();
   }, []);
 
-  const getInitials = (name) => {
-    if (!name || typeof name !== 'string') return 'U';
-    return name.slice(0, 2).toUpperCase();
+  const handleImageError = () => {
+    setImageError(true);
   };
-  
+
   const handleDropdownToggle = (type) => {
     if (isNavigationDisabled) {
       alert('Navigation is disabled during the exam.');
@@ -88,6 +69,21 @@ const Sidebar = ({
       return;
     }
     if (originalOnClick) originalOnClick();
+  };
+
+  const handleLogoutClick = () => {
+    if (isNavigationDisabled) {
+      // Show confirmation dialog for exam mode
+      const confirmLogout = window.confirm(
+        'Are you sure you want to logout? This will end your current exam session and you may lose progress.'
+      );
+      
+      if (!confirmLogout) {
+        return;
+      }
+    }
+    
+    handleLogoutLogic(navigate);
   };
 
   return (
@@ -245,11 +241,20 @@ const Sidebar = ({
             {/* 👤 Profile & Logout */}
             <div className="px-4 pt-4 border-t border-gray-500">
               <div className="flex items-center space-x-3 mb-6">
-                {/* 🧑 DiceBear avatar */}
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md ring-2 ring-white bg-amber-500"
-                >
-                  {getInitials(username)}
+                {/* 🧑 Avatar with profile picture or initials */}
+                <div className="relative w-10 h-10">
+                  {profilePicture && !imageError ? (
+                    <img
+                      src={profilePicture}
+                      alt={`${username}'s profile`}
+                      className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-md"
+                      onError={handleImageError}
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md ring-2 ring-white bg-amber-500">
+                      {getInitials(username)}
+                    </div>
+                  )}
                 </div>
 
                 <span className={`text-sm font-bold ${isNavigationDisabled ? 'text-gray-400' : 'text-white'}`}>
@@ -259,7 +264,7 @@ const Sidebar = ({
 
               <button
                 type="button"
-                onClick={() => handleLogoutLogic(navigate)}
+                onClick={handleLogoutClick}
                 className={`w-full px-3 py-3 rounded-md text-sm transition ${
                   isNavigationDisabled
                     ? 'bg-gray-500 text-gray-300 cursor-not-allowed'

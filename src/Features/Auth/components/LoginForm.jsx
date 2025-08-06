@@ -179,13 +179,16 @@ const LoginForm = ({ onSwitchToSignup }) => {
             )}
           </button>
 
-          {/* Google Login */}
+          {/* Google Login  */}
           <button
             type="button"
             onClick={async () => {
               try {
                 const { error } = await supabase.auth.signInWithOAuth({
                   provider: 'google',
+                  options: {
+                    redirectTo: `${window.location.origin}/dashboard`
+                  }
                 });
 
                 if (error) {

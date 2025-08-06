@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../../../supabaseClient';
+import { useUserProfile } from '../../../Utils/ProfileUtils';
 
 const features = [
   {
@@ -130,77 +130,32 @@ const FeatureCard = ({ feature, index }) => {
 
 const Dashboard = () => {
   const [userName, setUserName] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Use the same profile utility as Sidebar
+  const { fetchUserProfile } = useUserProfile();
+
   useEffect(() => {
-    const loadUser = async () => {
-      const {
-        data: { user },
-        error: authError,
-      } = await supabase.auth.getUser();
-
-      if (authError || !user) {
-        console.error('Auth error:', authError?.message || 'User not found');
-        setLoading(false);
-        return;
+    const loadUserProfile = async () => {
+      setLoading(true);
+      const { 
+        username: fetchedUsername, 
+        profilePicture: fetchedProfilePicture, 
+        loading: profileLoading,
+        error 
+      } = await fetchUserProfile();
+      
+      if (error) {
+        console.error('Dashboard profile error:', error);
       }
-
-      // First, try to get the profile from the database
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('username, full_name')
-        .eq('id', user.id)
-        .single();
-
-      if (profileError && profileError.code !== 'PGRST116') {
-        // PGRST116 is "not found" - anything else is a real error
-        console.error('Profile fetch error:', profileError.message);
-        setLoading(false);
-        return;
-      }
-
-      if (profile) {
-        // Profile exists, use it
-        setUserName(profile.username || '');
-        setLoading(false);
-        return;
-      }
-
-      // Profile doesn't exist, create it from metadata
-      const metadata = user.user_metadata;
-      if (metadata?.username && metadata?.fullName) {
-        console.log('Creating profile from metadata...');
-        
-        const { data: newProfile, error: createError } = await supabase
-          .from('profiles')
-          .insert([
-            {
-              id: user.id,
-              username: metadata.username,
-              full_name: metadata.fullName,
-            }
-          ])
-          .select('username')
-          .single();
-
-        if (createError) {
-          console.error('Failed to create profile:', createError.message);
-          // Fallback to metadata
-          setUserName(metadata.username || '');
-        } else {
-          console.log('✅ Profile created successfully');
-          setUserName(newProfile.username || '');
-        }
-      } else {
-        // No metadata available, use fallback
-        console.log('No metadata available for profile creation');
-        setUserName('');
-      }
-
-      setLoading(false);
+      
+      setUserName(fetchedUsername);
+      setProfilePicture(fetchedProfilePicture);
+      setLoading(profileLoading);
     };
 
-    loadUser();
+    loadUserProfile();
   }, []);
 
   return (

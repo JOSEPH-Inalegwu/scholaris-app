@@ -17,6 +17,9 @@ const highlightText = (text) => {
     // Unordered lists (- item)
     .replace(/^- (.*$)/gim, '<li class="ml-5 list- mb-2.5 leading-relaxed">$1</li>')
 
+    // Bullet list items
+    .replace(/^\* (.*$)/gim, '<li class="ml-5 list-disc">$1</li>')
+
     // Bold (**text**)
     .replace(/\*\*(.*?)\*\*/g, '<strong class="text-yellow-600 font-semibold">$1</strong>')
 

@@ -8,7 +8,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [department, setDepartment] = useState('');
+  // const [department, setDepartment] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -18,7 +18,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
   const [success, setSuccess] = useState(false);
   const [resent, setResent] = useState(false);
 
-  const departmentRef = useRef(null);
+  // const departmentRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmRef = useRef(null);
   const termsRef = useRef(null);
@@ -31,7 +31,7 @@ const SignupForm = ({ onSwitchToLogin }) => {
     const newErrors = {};
     const pwdRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-    if (!department) newErrors.department = 'Department is required';
+    // if (!department) newErrors.department = 'Department is required';
     if (!password) newErrors.passwordEmpty = 'Password cannot be empty';
     else if (!pwdRegex.test(password)) newErrors.passwordInvalid = 'Must contain 1 uppercase, 1 number, 8+ characters';
     if (!confirmPassword) newErrors.confirmPasswordEmpty = 'Please confirm your password';
@@ -40,8 +40,8 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
-      if (newErrors.department) departmentRef.current?.scrollIntoView({ behavior: 'smooth' });
-      else if (newErrors.passwordEmpty || newErrors.passwordInvalid) passwordRef.current?.scrollIntoView({ behavior: 'smooth' });
+      // if (newErrors.department) departmentRef.current?.scrollIntoView({ behavior: 'smooth' });
+      if (newErrors.passwordEmpty || newErrors.passwordInvalid) passwordRef.current?.scrollIntoView({ behavior: 'smooth' });
       else if (newErrors.confirmPasswordEmpty || newErrors.passwordMatch) confirmRef.current?.scrollIntoView({ behavior: 'smooth' });
       else if (newErrors.acceptedTerms) termsRef.current?.scrollIntoView({ behavior: 'smooth' });
       return;
@@ -147,10 +147,10 @@ const SignupForm = ({ onSwitchToLogin }) => {
 
               {step === 2 && (
                 <>
-                  <div ref={departmentRef}>
+                  {/* <div ref={departmentRef}>
                     <InputField label="Department *" value={department} onChange={setDepartment} placeholder="Computer Science" />
                     {errors.department && <p className="text-sm text-red-600 mt-1">{errors.department}</p>}
-                  </div>
+                  </div> */}
 
                   <div className="mb-6" ref={passwordRef}>
                     <label className="block text-sm font-medium mb-1">Password *</label>

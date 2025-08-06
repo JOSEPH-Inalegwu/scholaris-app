@@ -178,6 +178,31 @@ const LoginForm = ({ onSwitchToSignup }) => {
               'Login'
             )}
           </button>
+
+          {/* Google Login */}
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                const { error } = await supabase.auth.signInWithOAuth({
+                  provider: 'google',
+                });
+
+                if (error) {
+                  toast.error('❌ Google login failed');
+                  console.error(error.message);
+                }
+              } catch (err) {
+                console.error('Google login error:', err);
+                toast.error('An unexpected error occurred');
+              }
+            }}
+            className="mt-4 w-full rounded-sm px-4 py-3 font-semibold tracking-wide text-[#222831] bg-white border border-gray-300 flex items-center justify-center gap-2 hover:bg-gray-100 transition"
+          >
+            <img src="/icons/google.svg" alt="Google" className="w-5 h-5" />
+            Continue with Google
+          </button>
+
         </form>
 
         <p className="text-sm text-center mt-10 text-gray-500">

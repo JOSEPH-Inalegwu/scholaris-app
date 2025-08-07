@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import PasswordInput from './PasswordInput';
 import { supabase } from '../../../supabaseClient';
 
-import CookiePolicyModal from '../../../Components/CookiePolicyModal';
+import PolicyModal from '../../../Components/PolicyModal'
 
 const LoginForm = ({ onSwitchToSignup }) => {
   const [email, setEmail] = useState('');
@@ -13,7 +13,9 @@ const LoginForm = ({ onSwitchToSignup }) => {
   const [loading, setLoading] = useState(false);
   const [shakeEmail, setShakeEmail] = useState(false);
   const [shakePassword, setShakePassword] = useState(false);
-   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [policyType, setPolicyType] = useState('');
+
 
   const navigate = useNavigate();
 
@@ -202,15 +204,35 @@ const LoginForm = ({ onSwitchToSignup }) => {
         </p>
 
         {/* Cookie + Privacy Policy Notice */}
-        <p className="text-xs text-center text-gray-500 mt-6">
+        <p className="text-xs text-center text-gray-500 mt-7">
           By continuing, you agree to our{' '}
           <button
-          onClick={() => setIsModalOpen(true)}
-          className='text-blue-600 underline hover:text-blue-800 cursor-pointer'>
+            onClick={() => {
+              setPolicyType('cookie');
+              setIsModalOpen(true);
+            }}
+            className="text-blue-600 underline hover:text-blue-800 cursor-pointer"
+          >
             Cookie Policy
+          </button>{' '}
+          and{' '}
+          <button
+            onClick={() => {
+              setPolicyType('privacy');
+              setIsModalOpen(true);
+            }}
+            className="text-blue-600 underline hover:text-blue-800 cursor-pointer"
+          >
+            Privacy Policy
           </button>
         </p>
-        <CookiePolicyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+        <PolicyModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          policyType={policyType}
+        />
+
       </div>
     </div>
   );

@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
-const CookiePolicyModal = ({ isOpen, onClose }) => {
+const PolicyModal = ({ isOpen, onClose, policyType }) => {
   const [htmlContent, setHtmlContent] = useState('');
 
   useEffect(() => {
-    if (isOpen) {
-      fetch('/cookie-policy.html')
+    if (isOpen && policyType) {
+      const fileMap = {
+        cookie: '/cookie-policy.html',
+        privacy: '/privacy-policy.html'
+      };
+
+      fetch(fileMap[policyType])
         .then((res) => res.text())
         .then((html) => setHtmlContent(html))
-        .catch((err) => console.error('Failed to load cookie policy:', err));
+        .catch((err) => console.error(`Failed to load ${policyType} policy:`, err));
     }
-  }, [isOpen]);
+  }, [isOpen, policyType]);
 
   if (!isOpen) return null;
 
@@ -32,4 +37,4 @@ const CookiePolicyModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default CookiePolicyModal;
+export default PolicyModal;

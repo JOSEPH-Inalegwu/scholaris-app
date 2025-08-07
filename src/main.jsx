@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './index.css';
 import CPolicy from './Components/CPolicy';
+import PPolicy from './Components/PPolicy';
 
 import Layout from '../Layout';
 import AuthPage from './Features/Auth/Pages/AuthPage';
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
   { path: '/', element: <AuthPage /> },
   { path: '/signup', element: <Signup /> },
   { path: '/cookie-policy', element: <CPolicy /> },
+  {  path: '/privacy-policy', element: <PPolicy /> },
 
   {
     element: <ProtectedLayout />,

@@ -14,14 +14,12 @@ const LoginForm = ({ onSwitchToSignup }) => {
 
   const navigate = useNavigate();
 
-  /* ------------------- LOGIN ------------------- */
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrors({});
     setShakeEmail(false);
     setShakePassword(false);
 
-    /* Quick client‑side checks */
     if (!email || !password) {
       const newErr = {};
       if (!email) {
@@ -39,18 +37,13 @@ const LoginForm = ({ onSwitchToSignup }) => {
     setLoading(true);
 
     try {
-      /* Sign‑in with password */
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
       setLoading(false);
 
       if (error) {
-        /* Check if it's an email not confirmed error using the correct error code */
         if (error.code === 'email_not_confirmed') {
-          
           toast.error('Please confirm your email before logging in.');
-          
-          /* Show inline resend helper */
           setErrors({
             supabase: (
               <div className="text-center">
@@ -70,9 +63,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
           });
           return;
         }
-        
-        /* For all other errors (invalid credentials, user doesn't exist, etc.) */
-        console.error('Login error:', error.message);
+
         toast.error('Invalid credentials. Please check your email and password.');
         setShakeEmail(true);
         setShakePassword(true);
@@ -81,11 +72,8 @@ const LoginForm = ({ onSwitchToSignup }) => {
 
       const user = data?.user;
 
-      /* Double check if email is verified (fallback) */
       if (!user?.email_confirmed_at && !user?.confirmed_at) {
         toast.error('Please confirm your email before logging in.');
-        
-        /* Show inline resend helper */
         setErrors({
           supabase: (
             <div className="text-center">
@@ -103,16 +91,12 @@ const LoginForm = ({ onSwitchToSignup }) => {
             </div>
           ),
         });
-        
-        /* Sign out the user since email is not confirmed */
         await supabase.auth.signOut();
         return;
       }
 
-      /* 🎉 Email verified → proceed */
       toast.success('✅ Login successful!');
       navigate('/dashboard');
-
     } catch (err) {
       console.error('Login error:', err);
       toast.error('Something went wrong. Please try again.');
@@ -129,7 +113,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
         </div>
 
         <form onSubmit={handleLogin} className="mt-6">
-          {/* Email Field */}
+          {/* Email */}
           <div className="relative mb-6">
             <label className="block mb-2 text-sm text-gray-800 mx-3">Email</label>
             <div
@@ -151,7 +135,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
             {errors.email && <p className="text-sm text-red-500 mt-1 ml-2">{errors.email}</p>}
           </div>
 
-          {/* Password Field */}
+          {/* Password */}
           <div className="mb-10">
             <label className="block mb-2 text-sm text-gray-800 mx-3">Password</label>
             <div className={shakePassword ? 'shake' : ''}>
@@ -164,7 +148,6 @@ const LoginForm = ({ onSwitchToSignup }) => {
             </div>
             {errors.password && <p className="text-sm text-red-500 mt-1 ml-2">{errors.password}</p>}
           </div>
-
 
           {/* Submit */}
           <button
@@ -179,7 +162,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
             )}
           </button>
 
-          {/* Google Login  */}
+          {/* Google Login */}
           <button
             type="button"
             onClick={async () => {
@@ -187,8 +170,8 @@ const LoginForm = ({ onSwitchToSignup }) => {
                 const { error } = await supabase.auth.signInWithOAuth({
                   provider: 'google',
                   options: {
-                    redirectTo: `${window.location.origin}/dashboard`
-                  }
+                    redirectTo: `${window.location.origin}/dashboard`,
+                  },
                 });
 
                 if (error) {
@@ -205,14 +188,36 @@ const LoginForm = ({ onSwitchToSignup }) => {
             <img src="/icons/google.svg" alt="Google" className="w-5 h-5" />
             Continue with Google
           </button>
-
         </form>
 
+        {/* Sign up switch */}
         <p className="text-sm text-center mt-10 text-gray-500">
           Don&#x27;t have an account?{' '}
           <button className="text-blue-500 font-medium hover:underline" onClick={onSwitchToSignup}>
             Sign up
           </button>
+        </p>
+
+        {/* Cookie + Privacy Policy Notice */}
+        <p className="text-xs text-center text-gray-500 mt-6">
+          By continuing, you agree to our{' '}
+          <a
+            href="/cookie-policy.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline hover:text-blue-800"
+          >
+            Cookie Policy
+          </a>{' '}
+          and{' '}
+          <a
+            href="/privacy-policy.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline hover:text-blue-800"
+          >
+            Privacy Policy
+          </a>.
         </p>
       </div>
     </div>

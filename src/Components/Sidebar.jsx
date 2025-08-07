@@ -239,7 +239,7 @@ const Sidebar = ({
             </div>
 
             {/* 👤 Profile & Logout */}
-            <div className="px-4 pt-4 border-t border-gray-500">
+            <div className="px-4 py-5 pt-4 border-t border-gray-500">
               <div className="flex items-center space-x-3 mb-6">
                 {/* 🧑 Avatar with profile picture or initials */}
                 <div className="relative w-10 h-10">

@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import PasswordInput from './PasswordInput';
 import { supabase } from '../../../supabaseClient';
 
+import CookiePolicyModal from '../../../Components/CookiePolicyModal';
+
 const LoginForm = ({ onSwitchToSignup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,6 +13,7 @@ const LoginForm = ({ onSwitchToSignup }) => {
   const [loading, setLoading] = useState(false);
   const [shakeEmail, setShakeEmail] = useState(false);
   const [shakePassword, setShakePassword] = useState(false);
+   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -201,24 +204,13 @@ const LoginForm = ({ onSwitchToSignup }) => {
         {/* Cookie + Privacy Policy Notice */}
         <p className="text-xs text-center text-gray-500 mt-6">
           By continuing, you agree to our{' '}
-          <a
-            href="/cookie-policy.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 underline hover:text-blue-800"
-          >
+          <button
+          onClick={() => setIsModalOpen(true)}
+          className='text-blue-600 underline hover:text-blue-800 cursor-pointer'>
             Cookie Policy
-          </a>{' '}
-          and{' '}
-          <a
-            href="/privacy-policy.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 underline hover:text-blue-800"
-          >
-            Privacy Policy
-          </a>.
+          </button>
         </p>
+        <CookiePolicyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </div>
     </div>
   );

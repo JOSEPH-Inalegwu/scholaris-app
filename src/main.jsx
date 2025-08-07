@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './index.css';
+import CPolicy from './Components/CPolicy';
 
 import Layout from '../Layout';
 import AuthPage from './Features/Auth/Pages/AuthPage';
@@ -22,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const router = createBrowserRouter([
   { path: '/', element: <AuthPage /> },
   { path: '/signup', element: <Signup /> },
+  { path: '/cookie-policy', element: <CPolicy /> },
 
   {
     element: <ProtectedLayout />,

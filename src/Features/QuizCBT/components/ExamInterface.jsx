@@ -146,9 +146,9 @@ const ExamInterface = ({ examData, storageKey, onSubmit }) => {
   const answeredCount = Object.keys(answers).length;
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-12 sm:pt-16 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col pt-12 md:pt-0">
       {/* Header */}
-      <header className="bg-white shadow-md px-4 sm:px-6 py-3">
+      <header className=" bg-white shadow-md px-4 py-3 sm:px-6">
         <div className="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
           <h1 className="text-lg sm:text-2xl font-bold text-gray-800">
             {courseCode} Exam

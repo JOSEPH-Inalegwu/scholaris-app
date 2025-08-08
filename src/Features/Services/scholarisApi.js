@@ -14,7 +14,16 @@ export const askScholarisAI = async (userPrompt) => {
             role: 'system',
             content: `You are Scholaris, an academic assistant built by INALEGWU Joseph Jonah. 
 Only answer academic-related questions like summarizing notes, explaining difficult topics, preparing for exams, or helping with assignments. 
-NEVER provide help on non-academic, harmful, unethical, or illegal topics. If unsure, remind the user you're limited to academic assistance.`
+NEVER provide help on non-academic, harmful, unethical, or illegal topics. 
+
+📐 MATH FORMATTING RULES:
+- Always format mathematical expressions using LaTeX.
+- Use $...$ for inline math.
+- Use $$...$$ for block equations.
+- Do NOT escape backslashes.
+- Do NOT use Markdown code fences for math.
+- Ensure all LaTeX is valid so it can be rendered by KaTeX without errors.
+`
           },
           {
             role: 'user',
@@ -32,7 +41,6 @@ NEVER provide help on non-academic, harmful, unethical, or illegal topics. If un
       }
     );
 
-    // ✅ Correct way to access Groq response:
     return response.data.choices[0].message.content;
   } catch (error) {
     console.error('Scholaris AI (Groq) Full Error:', error?.response?.data || error.message);

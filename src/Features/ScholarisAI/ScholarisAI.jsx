@@ -1,44 +1,11 @@
 import React, { useState, useRef } from 'react';
+import katex from 'katex';
+import 'katex/dist/katex.min.css'; // KaTeX CSS
 import { Send, Paperclip, FileText, X, Copy, Download } from 'lucide-react';
 import { askScholarisAI } from '../Services/scholarisApi';
 import { isAcademicPrompt } from '../Services/filterPrompt';
-
-
-const highlightText = (text) => {
-  let html = text
-    // Escape HTML first (optional, depending on API trust level)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-
-    // Headings (### Heading)
-    .replace(/^### (.*$)/gim, '<h2 class="text-lg font-bold text-black mt-4 mb-2">$1</h2>')
-
-    // Unordered lists (- item)
-    .replace(/^- (.*$)/gim, '<li class="ml-5 list- mb-2.5 leading-relaxed">$1</li>')
-
-    // Bullet list items
-    .replace(/^\* (.*$)/gim, '<li class="ml-5 list-disc">$1</li>')
-
-    // Bold (**text**)
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-yellow-600 font-semibold">$1</strong>')
-
-    // Inline code (`code`)
-    .replace(/`(.*?)`/g, '<code class="bg-gray-200 text-red-600 px-1 py-0.5 rounded">$1</code>')
-
-    // Line breaks to paragraphs or divs
-    .replace(/\n{2,}/g, '</p><p class="mt-3">') // paragraph break
-    .replace(/\n/g, '<br />'); // single line break
-
-  // Wrap in paragraph if not already in one
-  html = `<p class="mt-2">${html}</p>`;
-
-  // Ensure <ul> wraps around <li> elements
-  html = html.replace(/(<li[\s\S]*?<\/li>)/gim, '<ul class="mb-2">$1</ul>');
-
-  return html;
-};
-
+import { renderMathInText } from '../../Utils/renderMathInText';
+import { highlightText } from '../../Utils/highlightText';
 
 
 const ScholarisAI = () => {
@@ -55,56 +22,53 @@ const ScholarisAI = () => {
         id: Date.now(),
         text: inputValue,
         file: selectedFile,
-        sender: 'user'
+        sender: 'user',
       };
-      
-      setMessages([...messages, newMessage]);
+
+      setMessages((prev) => [...prev, newMessage]);
       setInputValue('');
       setSelectedFile(null);
       setIsTyping(true);
 
-    //   Blocks innapropriate or off-topic prompts
       if (!isAcademicPrompt(inputValue)) {
         const aiResponse = {
           id: Date.now() + 1,
           text: 'Your prompt contains restricted content. Please ask academic-related questions only.',
-          sender: 'ai'
+          sender: 'ai',
         };
-        setMessages(prev => [...prev, aiResponse]);
+        setMessages((prev) => [...prev, aiResponse]);
         setIsTyping(false);
         return;
       }
 
-    //   Whenever users ask about the AI name or identity, respond with a predefined message
       const lower = inputValue.toLowerCase();
       const isNameQuery =
-      lower.includes("your name") ||
-      lower.includes("what's your name") ||
-      lower.includes("who are you") ||
-      lower.includes("what are you") ||
-      lower.includes("tell me about yourself") ||
-      lower.includes("tell me your name") ||
-      lower.includes("tell me your name");
+        lower.includes('your name') ||
+        lower.includes("what's your name") ||
+        lower.includes('who are you') ||
+        lower.includes('what are you') ||
+        lower.includes('tell me about yourself') ||
+        lower.includes('tell me your name');
 
       if (isNameQuery) {
         const aiResponse = {
-        id: Date.now() + 1,
-        text: "I'm Scholaris, a project by INALEGWU Joseph Jonah. I'm here to assist you with academic work like summarizing notes, explaining concepts, and preparing for exams.",
-        sender: 'ai'
-      };
-      setMessages(prev => [...prev, aiResponse]);
+          id: Date.now() + 1,
+          text: "I'm Scholaris, a project by INALEGWU Joseph Jonah. I'm here to assist you with academic work like summarizing notes, explaining concepts, and preparing for exams.",
+          sender: 'ai',
+        };
+        setMessages((prev) => [...prev, aiResponse]);
         setIsTyping(false);
         return;
-    }
+      }
 
       try {
         const aiReply = await askScholarisAI(inputValue);
         const aiResponse = {
-            id: Date.now() + 1,
-            text: aiReply,
-            sender: 'ai'
+          id: Date.now() + 1,
+          text: aiReply,
+          sender: 'ai',
         };
-        setMessages(prev => [...prev, aiResponse]);
+        setMessages((prev) => [...prev, aiResponse]);
       } finally {
         setIsTyping(false);
       }
@@ -161,24 +125,24 @@ const ScholarisAI = () => {
             <div className="text-center animate-fade-in">
               <div className="bg-white rounded-xl shadow-xl p-6 sm:p-8 max-w-sm sm:max-w-md mx-auto border border-gray-100">
                 <div>
-                    <div className="flex justify-center items-center space-x-6 mb-6">
+                  <div className="flex justify-center items-center space-x-6 mb-6">
                     {/* Left Eye */}
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-black rounded-sm relative animate-blink" />
-                    
+
                     {/* Right Eye */}
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-black rounded-sm relative animate-blink" />
-                    </div>
-                </div>
+                  </div>
 
-                <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Welcome to Scholaris AI</h3>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                  Start a conversation or upload your academic materials to get personalized help with your studies.
-                </p>
+                  <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Welcome to Scholaris AI</h3>
+                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                    Start a conversation or upload your academic materials to get personalized help with your studies.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         )}
-        
+
         {messages.map((message) => (
           <div
             key={message.id}
@@ -197,13 +161,20 @@ const ScholarisAI = () => {
                   <span className="truncate">{message.file.name}</span>
                 </div>
               )}
+
+              {/* Render AI messages with KaTeX math */}
+              {message.sender === 'ai' ? (
                 <div
-                className="leading-relaxed break-words space-y-3"
-                dangerouslySetInnerHTML={{ __html: highlightText(message.text) }}
+                  className="leading-relaxed break-words space-y-3 scholaris-ai-response"
+                  dangerouslySetInnerHTML={{ __html: renderMathInText(highlightText(message.text)) }}
                 />
+              ) : (
+                <div
+                  className="leading-relaxed break-words space-y-3"
+                  dangerouslySetInnerHTML={{ __html: highlightText(message.text) }}
+                />
+              )}
 
-
-              
               {/* AI Response Actions */}
               {message.sender === 'ai' && (
                 <div className="flex items-center gap-2 mt-3 pt-2 border-t border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -217,7 +188,7 @@ const ScholarisAI = () => {
                       {copiedMessageId === message.id ? 'Copied!' : 'Copy'}
                     </span>
                   </button>
-                  
+
                   <button
                     onClick={() => downloadAsText(message.text, message.id)}
                     className="p-1.5 hover:bg-gray-900 rounded-md transition-colors duration-200 flex items-center gap-1"
@@ -237,8 +208,8 @@ const ScholarisAI = () => {
             <div className="bg-white text-black px-4 py-3 rounded-md shadow-lg border border-gray-300 max-w-xs">
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
               </div>
             </div>
           </div>
@@ -246,11 +217,12 @@ const ScholarisAI = () => {
       </div>
 
       {/* Input Area */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-50 to-gray-100 z-0 px-4 transition-all duration-300"
-      style={{ width: '100%', paddingLeft: window.innerWidth >= 1024 ? '16rem' : '1rem' }}>
+      <div
+        className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-50 to-gray-100 z-0 px-4 transition-all duration-300"
+        style={{ width: '100%', paddingLeft: window.innerWidth >= 1024 ? '16rem' : '1rem' }}
+      >
         <div className="p-3 sm:p-4">
           <div className="bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 focus-within:ring-2 focus-within:ring-black focus-within:border-transparent">
-            
             {/* File Preview */}
             {selectedFile && (
               <div className="px-3 py-2 border-b border-gray-200 animate-slide-down">
@@ -268,7 +240,7 @@ const ScholarisAI = () => {
                 </div>
               </div>
             )}
-            
+
             {/* Text Input */}
             <div className="p-3">
               <textarea
@@ -280,7 +252,7 @@ const ScholarisAI = () => {
                 rows="2"
               />
             </div>
-            
+
             {/* Action Buttons */}
             <div className="flex items-center justify-end gap-4 px-3 py-2 border-t border-gray-200 bg-gray-50/50">
               <input
@@ -290,7 +262,7 @@ const ScholarisAI = () => {
                 className="hidden"
                 accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg"
               />
-              
+
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 border border-gray-300"
@@ -298,7 +270,7 @@ const ScholarisAI = () => {
               >
                 <Paperclip className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button>
-              
+
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() && !selectedFile}
@@ -310,7 +282,6 @@ const ScholarisAI = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

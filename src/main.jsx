@@ -2,6 +2,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+// KaText Import for rendering maths eqns
+import 'katex/dist/katex.min.css';
+
 import './index.css';
 import CPolicy from './Components/CPolicy';
 import PPolicy from './Components/PPolicy';

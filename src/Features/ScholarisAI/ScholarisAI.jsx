@@ -119,7 +119,7 @@ const ScholarisAI = () => {
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-10 md:pt-0">
       {/* Chat Messages */}
-      <div className="flex-1 px-4 py-6 space-y-4 overflow-y-auto no-scrollbar pb-40">
+      <div className="flex-1 py-6 space-y-4 overflow-y-auto no-scrollbar pb-40">
         {messages.length === 0 && (
           <div className="flex justify-center items-center min-h-full px-4">
             <div className="text-center animate-fade-in">

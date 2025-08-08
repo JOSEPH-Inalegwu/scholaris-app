@@ -16,6 +16,7 @@ import Dashboard from './Features/Dashboard/components/Dashboard';
 import QuizCBT from './Features/QuizCBT/QuizCBT';
 import GPACalculator from './Features/GPA/GPACalculator';
 import ScholarisAI from './Features/ScholarisAI/ScholarisAI';
+import NotFoundPage from './Pages/NotFoundPage';
 
 import ProtectedLayout from './Hooks/ProtectedLayout';
 import { NavigationProvider } from './Context/NavigationContext';
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {  path: '*', element: <NotFoundPage /> },
 ]);
 
 createRoot(document.getElementById('root')).render(

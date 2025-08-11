@@ -155,57 +155,23 @@ const Sidebar = ({
                   </SidebarLink>
                 </li>
                 <li>
-                  <button
-                    onClick={() => handleDropdownToggle('courseOutline')}
-                    className={`font-bold py-2 px-4 w-full text-left flex items-center justify-between ${
-                      isNavigationDisabled ? 'text-gray-400' : 'text-white'
-                    }`}
+                  <SidebarLink
+                    to="/dashboard/smart-study-planner"
+                    onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                    disabled={isNavigationDisabled}
                   >
-                    <span>Course Outlines</span>
-                    <img src={isCourseOutlineOpen ? minus : plus} alt="toggle" className="w-5" />
-                  </button>
-                  {isCourseOutlineOpen && (
-                    <ul className="pl-4 space-y-2 mt-2 text-gray-500">
-                      {[100, 200, 300, 400].map((lvl) => (
-                        <li key={lvl}>
-                          <SidebarLink
-                            to={`/dashboard/course-outline/${lvl}`}
-                            onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                            disabled={isNavigationDisabled}
-                          >
-                            {lvl} Level
-                          </SidebarLink>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                    Smart Study Planner
+                  </SidebarLink>
                 </li>
 
                 <li>
-                  <button
-                    onClick={() => handleDropdownToggle('pastQuestions')}
-                    className={`font-bold py-2 px-4 w-full text-left flex items-center justify-between ${
-                      isNavigationDisabled ? 'text-gray-400' : 'text-white'
-                    }`}
+                  <SidebarLink
+                    to="/dashboard/grade-predictor"
+                    onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
+                    disabled={isNavigationDisabled} 
                   >
-                    <span>Past Questions</span>
-                    <img src={isPastQuestionsOpen ? minus : plus} alt="toggle" className="w-5" />
-                  </button>
-                  {isPastQuestionsOpen && (
-                    <ul className="pl-4 space-y-2 mt-2 text-gray-500">
-                      {[100, 200, 300, 400].map((lvl) => (
-                        <li key={lvl}>
-                          <SidebarLink
-                            to={`/dashboard/past-question/${lvl}`}
-                            onClick={() => handleSidebarLinkClick(handleCloseSidebar)}
-                            disabled={isNavigationDisabled}
-                          >
-                            {lvl} Level
-                          </SidebarLink>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                    Grade Predictor
+                  </SidebarLink>
                 </li>
 
                 <li>

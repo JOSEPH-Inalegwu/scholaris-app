@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Add this import
 import { useUserProfile } from '../../../Utils/ProfileUtils';
 import { Features, getActiveFeatures } from '../Features';
 
 const FeatureCard = ({ feature, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate(); // Add this hook
 
   const handleClick = () => {
     console.log(`Clicked on ${feature.title}`);
-    // You can add navigation logic here
-    // Example: navigate(feature.route);
+    // Navigate to the feature's route
+    if (feature.route) {
+      navigate(feature.route);
+    }
   };
 
   return (

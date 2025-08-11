@@ -3,7 +3,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 
 const NotFoundPage = () => {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col space-y-6">
       {/* Marquee */}
       <div className="bg-amber-400 text-black py-10 overflow-hidden whitespace-nowrap relative">
         <div
@@ -20,13 +20,14 @@ const NotFoundPage = () => {
         <div className="text-center max-w-xl">
           {/* Illustration */}
           <img
-            src="https://undraw.co/api/illustrations/undraw_page_not_found_su7k.svg"
+            src="pageNotFound.png"
             alt="Page Not Found Illustration"
-            className="mx-auto mb-8 w-64 md:w-96 animate-fadeIn"
+            className="mx-auto mb-0 w-64 md:w-96 animate-fadeIn"
             style={{ animationDuration: '1.5s' }}
           />
+          <a href="https://www.flaticon.com/free-icons/page-not-found" title="page-not-found icons" className='text-sm  text-gray-400'>Page-not-found icons created by Roundicons Premium - Flaticon</a>
 
-          <h1 className="text-7xl md:text-9xl font-bold text-black mb-4 opacity-0 animate-fadeIn" style={{animationDelay: '0.2s'}}>
+          <h1 className="text-7xl md:text-9xl font-bold text-black my-4 opacity-0 animate-fadeIn" style={{animationDelay: '0.2s'}}>
             404
           </h1>
           <h2 className="text-2xl md:text-3xl font-semibold text-black mb-6 opacity-0 animate-fadeIn" style={{animationDelay: '0.4s'}}>

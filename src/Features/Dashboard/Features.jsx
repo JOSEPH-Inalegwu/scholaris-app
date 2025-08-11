@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Features = [
   {
-    id: 'past-questions',
+    id: 'smart-study-planner',
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -12,16 +12,16 @@ export const Features = [
         stroke="currentColor"
         strokeWidth="2"
       >
-        <path d="M4 19.5A2.5 2.5 0 006.5 22h11a2.5 2.5 0 002.5-2.5v-15A2.5 2.5 0 0017.5 2h-11A2.5 2.5 0 004 4.5v15z" />
-        <path d="M4 6h16" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10h-2m-2 4h4" />
       </svg>
     ),
-    title: 'Past Questions',
-    description: "Access NSUK's authentic past questions organized by department, course, and level for effective exam preparation.",
+    title: 'Smart Study Planner',
+    description: 'AI-powered personalized study schedules based on your courses, exam dates, and learning patterns for optimal preparation.',
     gradient: 'from-indigo-500 to-purple-600',
     hoverColor: 'group-hover:text-indigo-600',
-    badge: null,
-    route: '/past-questions',
+    badge: 'AI Powered',
+    route: '/study-planner',
     isActive: true,
   },
   {
@@ -65,7 +65,7 @@ export const Features = [
     gradient: 'from-purple-500 to-pink-600',
     hoverColor: 'group-hover:text-purple-600',
     badge: 'Smart Analysis',
-    route: '/cbt-simulation',
+    route: 'exam-mode',
     isActive: true,
   },
   {
@@ -87,7 +87,7 @@ export const Features = [
     gradient: 'from-cyan-500 to-teal-600',
     hoverColor: 'group-hover:text-cyan-600',
     badge: null,
-    route: '/gpa-calculator',
+    route: 'cgpa-calculator',
     isActive: true,
   },
   {
@@ -109,11 +109,11 @@ export const Features = [
     gradient: 'from-emerald-500 to-green-600',
     hoverColor: 'group-hover:text-emerald-600',
     badge: 'Live',
-    route: '/ai-assistant',
+    route: 'scholaris-ai',
     isActive: true,
   },
   {
-    id: 'performance-analytics',
+    id: 'grade-predictor',
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -123,15 +123,16 @@ export const Features = [
         stroke="currentColor"
         strokeWidth="2"
       >
-        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
-    title: 'Performance Analytics',
-    description: 'Track your progress with detailed analytics, performance trends, and AI-generated study recommendations.',
+    title: 'Grade Predictor',
+    description: 'Predict your likely grades and get AI insights on academic performance trends and improvement recommendations.',
     gradient: 'from-rose-500 to-red-600',
     hoverColor: 'group-hover:text-rose-600',
-    badge: 'Advanced',
-    route: '/analytics',
+    badge: 'Smart Insights',
+    route: '/grade-predictor',
     isActive: true,
   },
 ];
@@ -140,11 +141,11 @@ export const Features = [
 export const featureCategories = {
   study: {
     title: 'Study Tools',
-    features: ['past-questions', 'quiz-mode', 'ai-study-assistant']
+    features: ['smart-study-planner', 'quiz-mode', 'ai-study-assistant']
   },
   assessment: {
     title: 'Assessment & Testing',
-    features: ['cbt-simulations', 'performance-analytics']
+    features: ['cbt-simulations', 'grade-predictor']
   },
   utilities: {
     title: 'Academic Utilities',

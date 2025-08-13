@@ -66,7 +66,7 @@ createRoot(document.getElementById('root')).render(
       <NavigationProvider>
         <RouterProvider router={router} />
         <ToastContainer
-          position="top-center"
+          position="top-right"
           autoClose={3000}
           toastClassName="bg-black text-white font-medium rounded shadow-md"
         />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { FiZap, FiSettings } from 'react-icons/fi';
@@ -222,18 +223,20 @@ const AIGenerator = ({ onNext, onBack }) => {
         )}
       </button>
 
-        <button
-          onClick={skipAI}
-          className="p-8 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 border-2 border-dashed border-gray-300 transition-all"
-        >
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <FiSettings size={24} />
-            Create Basic Plan
-          </div>
-          <p className="text-sm">
-            Skip AI and create a simple schedule manually
-          </p>
-        </button>
+<button
+  onClick={() => toast.error("🚧 This feature is still in development!")}
+  className="p-8 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 border-2 border-dashed border-gray-300 transition-all"
+>
+  <div className="flex items-center justify-center gap-2 mb-2">
+    <FiSettings size={24} />
+    Create Basic Plan
+  </div>
+  <p className="text-sm">
+    Skip AI and create a simple schedule manually
+  </p>
+</button>
+
+
       </div>
 
       {/* Navigation */}

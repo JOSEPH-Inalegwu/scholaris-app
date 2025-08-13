@@ -21,7 +21,7 @@ export const Features = [
     gradient: 'from-indigo-500 to-purple-600',
     hoverColor: 'group-hover:text-indigo-600',
     badge: 'AI Powered',
-    route: '/study-planner',
+    route: 'smart-study-planner',
     isActive: true,
   },
   {

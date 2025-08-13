@@ -20,7 +20,7 @@ const NotFoundPage = () => {
         <div className="text-center max-w-xl">
           {/* Illustration */}
           <img
-            src="pageNotFound.png"
+            src="/pageNotFound.png"
             alt="Page Not Found Illustration"
             className="mx-auto mb-0 w-64 md:w-96 animate-fadeIn"
             style={{ animationDuration: '1.5s' }}

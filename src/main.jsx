@@ -2,10 +2,10 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-// KaText Import for rendering maths eqns
+// Your existing imports
 import 'katex/dist/katex.min.css';
-
 import './index.css';
+
 import CPolicy from './Components/CPolicy';
 import PPolicy from './Components/PPolicy';
 
@@ -16,6 +16,7 @@ import Dashboard from './Features/Dashboard/components/Dashboard';
 import QuizCBT from './Features/QuizCBT/QuizCBT';
 import GPACalculator from './Features/GPA/GPACalculator';
 import ScholarisAI from './Features/ScholarisAI/ScholarisAI';
+import SmartStudyPlanner from './Features/SmartStudyPlanner/SmartStudyPlanner';
 import NotFoundPage from './Pages/NotFoundPage';
 
 import ProtectedLayout from './Hooks/ProtectedLayout';
@@ -25,11 +26,13 @@ import { UserProvider } from './Context/UserContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { StudyPlanProvider } from './Features/SmartStudyPlanner/StudyPlanContext';  // <-- import your provider
+
 const router = createBrowserRouter([
   { path: '/', element: <AuthPage /> },
   { path: '/signup', element: <Signup /> },
   { path: '/cookie-policy', element: <CPolicy /> },
-  {  path: '/privacy-policy', element: <PPolicy /> },
+  { path: '/privacy-policy', element: <PPolicy /> },
 
   {
     element: <ProtectedLayout />,
@@ -39,6 +42,14 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [
           { index: true, element: <Dashboard /> },
+          { 
+            path: 'smart-study-planner', 
+            element: (
+              <StudyPlanProvider>
+                <SmartStudyPlanner />
+              </StudyPlanProvider>
+            ), 
+          },
           { path: 'exam-mode', element: <QuizCBT /> },
           { path: 'cgpa-calculator', element: <GPACalculator /> },
           { path: 'scholaris-ai', element: <ScholarisAI /> },
@@ -46,7 +57,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {  path: '*', element: <NotFoundPage /> },
+  { path: '*', element: <NotFoundPage /> },
 ]);
 
 createRoot(document.getElementById('root')).render(

@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Add this import
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { useNavigate } from 'react-router-dom'; 
 import { useUserProfile } from '../../../Utils/ProfileUtils';
 import { Features, getActiveFeatures } from '../Features';
 
+const FeatureCardSkeleton = () => (
+  <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-md">
+    <div className="flex items-start justify-between mb-4">
+      <div className="flex items-center gap-4">
+        <Skeleton height={40} width={40} borderRadius={12} />
+        <Skeleton height={24} width={120} />
+      </div>
+      <Skeleton height={20} width={60} borderRadius={20} />
+    </div>
+    <div className="space-y-2">
+      <Skeleton height={16} width="100%" />
+      <Skeleton height={16} width="80%" />
+    </div>
+  </div>
+);
+
 const FeatureCard = ({ feature, index }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate(); // Add this hook
+  const navigate = useNavigate();
 
   const handleClick = () => {
     console.log(`Clicked on ${feature.title}`);
-    // Navigate to the feature's route
     if (feature.route) {
       navigate(feature.route);
     }
@@ -31,12 +48,10 @@ const FeatureCard = ({ feature, index }) => {
       onMouseLeave={() => setIsHovered(false)}
       aria-label={`Feature: ${feature.title}`}
     >
-      {/* Animated background gradient overlay */}
       <div 
         className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}
       />
       
-      {/* Floating particles effect */}
       {isHovered && (
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(5)].map((_, i) => (
@@ -76,7 +91,6 @@ const FeatureCard = ({ feature, index }) => {
           {feature.description}
         </p>
         
-        {/* Animated bottom border */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
       </div>
     </div>
@@ -89,10 +103,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Use the same profile utility as Sidebar
   const { fetchUserProfile } = useUserProfile();
-
-  // Get active features
   const activeFeatures = getActiveFeatures();
 
   useEffect(() => {
@@ -116,7 +127,6 @@ const Dashboard = () => {
 
     loadUserProfile();
 
-    // Update time every minute
     const timeInterval = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000);
@@ -143,52 +153,62 @@ const Dashboard = () => {
       <div className="relative z-10">
         <div className="mb-12 text-left">
           <div className="flex items-center gap-4 mb-4">
-            {/* {profilePicture && (
-              <img
-                src={profilePicture}
-                alt="Profile"
-                className="hidden w-16 h-16 rounded-full border-4 border-white shadow-lg transition-transform duration-300 transform hover:scale-110"
-              />
-            )} */}
             <div>
-              <p className="text-sm text-gray-500 font-medium">
-                {getGreeting()}, it's {currentTime.toLocaleDateString('en-US', { 
-                  weekday: 'long', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </p>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight animate-fade-in-up">
-                {loading
-                  ? (
-                    <span className="inline-flex items-center gap-3">
-                      Loading
-                      <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                      </div>
-                    </span>
-                  )
-                  : userName
-                    ? `Welcome back, ${userName}! 👋`
-                    : 'Welcome to Scholaris! 🚀'}
-              </h1>
+              {loading ? (
+                <SkeletonTheme baseColor="#f3f4f6" highlightColor="#e5e7eb">
+                  <div className="space-y-3">
+                    <Skeleton height={20} width={300} />
+                    <Skeleton height={40} width={400} />
+                  </div>
+                </SkeletonTheme>
+              ) : (
+                <>
+                  <p className="text-sm text-gray-500 font-medium">
+                    {getGreeting()}, it's {currentTime.toLocaleDateString('en-US', { 
+                      weekday: 'long', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </p>
+                  <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight animate-fade-in-up">
+                    {userName
+                      ? `Welcome back, ${userName}! 👋`
+                      : 'Welcome to Scholaris! 🚀'}
+                  </h1>
+                </>
+              )}
             </div>
           </div>
           
-          <p className="text-lg md:text-xl text-gray-600 mt-4 max-w-3xl animate-fade-in-up animation-delay-300">
-            Your AI-powered academic companion for smarter studying and exam preparation at NSUK.
-          </p>
+          {loading ? (
+            <SkeletonTheme baseColor="#f3f4f6" highlightColor="#e5e7eb">
+              <div className="space-y-2">
+                <Skeleton height={24} width="60%" />
+                <Skeleton height={24} width="40%" />
+              </div>
+            </SkeletonTheme>
+          ) : (
+            <p className="text-lg md:text-xl text-gray-600 mt-4 max-w-3xl animate-fade-in-up animation-delay-300">
+              Your AI-powered academic companion for smarter studying and exam preparation at NSUK.
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {activeFeatures.map((feature, index) => (
-            <FeatureCard key={feature.id} feature={feature} index={index} />
-          ))}
+          {loading ? (
+            <SkeletonTheme baseColor="#f9fafb" highlightColor="#f3f4f6">
+              {/* Show skeleton cards while loading */}
+              {[...Array(6)].map((_, index) => (
+                <FeatureCardSkeleton key={index} />
+              ))}
+            </SkeletonTheme>
+          ) : (
+            activeFeatures.map((feature, index) => (
+              <FeatureCard key={feature.id} feature={feature} index={index} />
+            ))
+          )}
         </div>
       </div>
-      
     </div>
   );
 };
